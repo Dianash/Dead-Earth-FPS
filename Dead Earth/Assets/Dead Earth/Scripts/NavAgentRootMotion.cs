@@ -11,6 +11,7 @@ public class NavAgentRootMotion : MonoBehaviour
     public bool pathStale = false;
     public NavMeshPathStatus pathStatus = NavMeshPathStatus.PathInvalid;
     public AnimationCurve jumpCurve = new AnimationCurve();
+    public bool mixedMode = true;
 
     private NavMeshAgent navAgent = null;
     private Animator animator = null;
@@ -74,8 +75,11 @@ public class NavAgentRootMotion : MonoBehaviour
 
         if (navAgent.desiredVelocity.sqrMagnitude > Mathf.Epsilon)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(navAgent.desiredVelocity, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5.0f * Time.deltaTime);
+            if (!mixedMode || (mixedMode && Mathf.Abs(angle) < 80.0f && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Locomotion")))
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(navAgent.desiredVelocity, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5.0f * Time.deltaTime);
+            }
         }
 
         if ((navAgent.remainingDistance <= navAgent.stoppingDistance && !pathPending) || pathStatus == NavMeshPathStatus.PathInvalid)
@@ -90,7 +94,8 @@ public class NavAgentRootMotion : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        //transform.rotation = animator.rootRotation;
+        if (!mixedMode && !animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Locomotion"))
+            transform.rotation = animator.rootRotation;
         navAgent.velocity = animator.deltaPosition / Time.deltaTime;
     }
 }
