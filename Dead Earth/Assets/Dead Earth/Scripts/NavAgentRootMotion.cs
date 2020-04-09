@@ -72,6 +72,12 @@ public class NavAgentRootMotion : MonoBehaviour
         animator.SetFloat("Angle", smoothAngle);
         animator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
 
+        if (navAgent.desiredVelocity.sqrMagnitude > Mathf.Epsilon)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(navAgent.desiredVelocity, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5.0f * Time.deltaTime);
+        }
+
         if ((navAgent.remainingDistance <= navAgent.stoppingDistance && !pathPending) || pathStatus == NavMeshPathStatus.PathInvalid)
         {
             SetNextDestination(true);
@@ -84,7 +90,7 @@ public class NavAgentRootMotion : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        transform.rotation = animator.rootRotation;
+        //transform.rotation = animator.rootRotation;
         navAgent.velocity = animator.deltaPosition / Time.deltaTime;
     }
 }
