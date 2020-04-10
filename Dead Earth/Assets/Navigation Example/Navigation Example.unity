@@ -6656,7 +6656,7 @@ GameObject:
   - component: {fileID: 2058556685}
   - component: {fileID: 8296172668452520768}
   - component: {fileID: 8296172668452520767}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AI Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
