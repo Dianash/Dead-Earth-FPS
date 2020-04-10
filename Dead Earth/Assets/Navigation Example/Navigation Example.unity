@@ -6653,7 +6653,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5006512735550976301}
   - component: {fileID: 3166231813159427159}
-  - component: {fileID: 8296172668452520767}
   - component: {fileID: 2058556685}
   m_Layer: 0
   m_Name: jill
@@ -6662,31 +6661,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8296172668452520767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8296172668452520766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f54d912cf1901342848f480080067f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypointNetwork: {fileID: 1915876150}
-  currentIndex: 0
-  hasPath: 0
-  pathPending: 0
-  pathStale: 0
-  pathStatus: 2
-  jumpCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  mixedMode: 0
 --- !u!4 &8471817553533271359
 Transform:
   m_ObjectHideFlags: 0
