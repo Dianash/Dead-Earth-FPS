@@ -6807,6 +6807,7 @@ GameObject:
   - component: {fileID: 2058556685}
   - component: {fileID: 8296172668452520768}
   - component: {fileID: 8296172668452520767}
+  - component: {fileID: 8296172668452520769}
   m_Layer: 8
   m_Name: AI Entity
   m_TagString: Untagged
@@ -6844,6 +6845,22 @@ CapsuleCollider:
   m_Height: 1.84
   m_Direction: 1
   m_Center: {x: 0, y: 0.87, z: 0}
+--- !u!114 &8296172668452520769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668452520766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2201129b04e05b448f420c8cf069060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStateType: 1
+  targetTrigger: {fileID: 0}
+  sensorTrigger: {fileID: 0}
+  stoppingDistance: 1
 --- !u!4 &8471817553533271359
 Transform:
   m_ObjectHideFlags: 0
