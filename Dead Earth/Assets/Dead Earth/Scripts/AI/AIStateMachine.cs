@@ -54,6 +54,9 @@ public struct AITarget
         set => distance = value;
     }
 
+    /// <summary>
+    /// Sets the target data
+    /// </summary>
     public void Set(AITargetType type, Collider collider, Vector3 position, float distance)
     {
         this.type = type;
@@ -64,6 +67,9 @@ public struct AITarget
         time = UnityEngine.Time.time;
     }
 
+    /// <summary>
+    /// Clears the target data
+    /// </summary>
     public void Clear()
     {
         type = AITargetType.None;
@@ -82,6 +88,9 @@ public abstract class AIStateMachine : MonoBehaviour
     public AITarget visualThreat = new AITarget();
     public AITarget audioThreat = new AITarget();
 
+    public Animator Animator { get => animator; }
+    public NavMeshAgent NavAgent { get => navAgent; }
+
     protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
     protected AITarget target = new AITarget();
     protected AIState currentState = null;
@@ -99,17 +108,18 @@ public abstract class AIStateMachine : MonoBehaviour
     [Range(0, 15)]
     protected float stoppingDistance = 1.0f;
 
-    //Component cache
+    // Component cache
     protected Animator animator = null;
     protected NavMeshAgent navAgent = null;
     protected Collider objectCollider = null;
     protected Transform objectTransform = null;
 
-    public Animator Animator { get => animator; }
-    public NavMeshAgent NavAgent { get => navAgent; }
-
+    /// <summary>
+    /// Caches Components
+    /// </summary>
     protected virtual void Awake()
     {
+        // Cache all frequently accessed components
         objectTransform = transform;
         animator = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
@@ -118,7 +128,7 @@ public abstract class AIStateMachine : MonoBehaviour
 
     protected virtual void Start()
     {
-        //Fetch all states on this game object
+        // Fetch all states on this game object
         AIState[] AIstates = GetComponents<AIState>();
 
         foreach (AIState state in AIstates)
@@ -141,10 +151,15 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the current target and configures the target trigger
+    /// </summary>
     public void SetTarget(AITargetType type, Collider collider, Vector3 position, float distance)
     {
         target.Set(type, collider, position, distance);
 
+        // Configure and enable the target trigger at the correct
+        // position and with the correct radius
         if (targetTrigger != null)
         {
             targetTrigger.radius = stoppingDistance;
@@ -153,6 +168,10 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the current target and configures the target trigger.
+    /// This method allows specifying a custom stopping distance.
+    /// </summary>
     public void SetTarget(AITargetType type, Collider collider, Vector3 position, float distance, float stoppingDistance)
     {
         target.Set(type, collider, position, distance);
@@ -165,6 +184,9 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the current target and configures the target trigger
+    /// </summary>
     public void SetTarget(AITarget type)
     {
         target = type;
@@ -178,9 +200,8 @@ public abstract class AIStateMachine : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Clears the current target
     /// </summary>
-    /// <param name="type"></param>
     public void Clear()
     {
         target.Clear();
@@ -191,6 +212,9 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clears the audio and visual threats each update and	re-calculates the distance to the current target
+    /// </summary>
     protected virtual void FixedUpdate()
     {
         visualThreat.Clear();
@@ -202,6 +226,9 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gives the current state a chance to update itself and perform transitions.
+    /// </summary>
     protected virtual void Update()
     {
         if (currentState == null)
