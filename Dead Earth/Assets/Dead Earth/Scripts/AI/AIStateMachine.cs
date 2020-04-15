@@ -264,4 +264,31 @@ public abstract class AIStateMachine : MonoBehaviour
         }
         currentStateType = newStateType;
     }
+
+    /// <summary>
+    /// Called by Physics system when the AI`s Main collider enters its trigger, that allows state 
+    /// to know when it has entered the sphere of influence of a waypoint or last player sighted position
+    /// </summary>
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (targetTrigger == null || other != targetTrigger)
+            return;
+
+        // Notify Child State
+        if (currentState)
+            currentState.OnDestinationtReached(true);
+    }
+
+    /// <summary>
+    /// Informs the child state that the AI entity is no longer at its destination 
+    /// (typically true when a new target has been set by the child)
+    /// </summary>
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        if (targetTrigger == null || other != targetTrigger)
+            return;
+
+        if (currentState)
+            currentState.OnDestinationtReached(false);
+    }
 }
