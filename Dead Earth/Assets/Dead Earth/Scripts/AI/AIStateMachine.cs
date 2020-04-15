@@ -137,6 +137,16 @@ public abstract class AIStateMachine : MonoBehaviour
 
     protected virtual void Start()
     {
+        if (sensorTrigger != null)
+        {
+            AISensor AISensor = sensorTrigger.GetComponent<AISensor>();
+
+            if (AISensor != null)
+            {
+                AISensor.ParentStateMachine = this;
+            }
+        }
+
         // Fetch all states on this game object
         AIState[] AIstates = GetComponents<AIState>();
 
