@@ -6,7 +6,25 @@ public class AISensor : MonoBehaviour
 
     public AIStateMachine ParentStateMachine
     {
-        get => parentStateMachine;
         set => parentStateMachine = value;
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (parentStateMachine != null)
+            parentStateMachine.OnTriggerEvent(AITriggerEventType.Enter, collider);
+    }
+
+    private void OnTriggerStay(Collider collider)
+    {
+        if (parentStateMachine != null)
+            parentStateMachine.OnTriggerEvent(AITriggerEventType.Stay, collider);
+
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (parentStateMachine != null)
+            parentStateMachine.OnTriggerEvent(AITriggerEventType.Exit, collider);
     }
 }

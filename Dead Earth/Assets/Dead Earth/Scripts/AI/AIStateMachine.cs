@@ -91,6 +91,35 @@ public abstract class AIStateMachine : MonoBehaviour
     public Animator Animator { get => animator; }
     public NavMeshAgent NavAgent { get => navAgent; }
 
+    public Vector3 SensorPosition
+    {
+        get
+        {
+            if (sensorTrigger == null)
+                return Vector3.zero;
+
+            Vector3 point = sensorTrigger.transform.position;
+            point.x += sensorTrigger.center.x * sensorTrigger.transform.lossyScale.x;
+            point.y += sensorTrigger.center.y * sensorTrigger.transform.lossyScale.y;
+            point.z += sensorTrigger.center.z * sensorTrigger.transform.lossyScale.z;
+            return point;
+        }
+    }
+
+    public float SensorRadius
+    {
+        get
+        {
+            if (sensorTrigger == null)
+                return 0.0f;
+
+            float radius = Mathf.Max(sensorTrigger.radius * sensorTrigger.transform.lossyScale.x,
+                                     sensorTrigger.radius * sensorTrigger.transform.lossyScale.y);
+
+            return Mathf.Max(radius, sensorTrigger.radius * sensorTrigger.transform.lossyScale.z);
+        }
+    }
+
     protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
     protected AITarget target = new AITarget();
     protected AIState currentState = null;
