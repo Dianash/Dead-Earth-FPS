@@ -291,4 +291,10 @@ public abstract class AIStateMachine : MonoBehaviour
         if (currentState)
             currentState.OnDestinationtReached(false);
     }
+
+    public virtual void OnTriggerEvent(AITriggerEventType type, Collider other)
+    {
+        if (currentState)
+            currentState.OnTriggerEvent(type, other);
+    }
 }
