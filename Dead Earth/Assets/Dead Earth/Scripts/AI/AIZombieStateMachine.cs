@@ -20,6 +20,15 @@ public class AIZombieStateMachine : AIStateMachine
 
     #endregion
 
+    #region Hashes
+
+    private int speedHash = Animator.StringToHash("Speed");
+    private int seekingHash = Animator.StringToHash("Seeking");
+    private int feedingHash = Animator.StringToHash("Feeding");
+    private int attackHash = Animator.StringToHash("Attack");
+
+    #endregion
+
     #region Public properties
 
     public float Fov { get => fov; }
@@ -34,7 +43,7 @@ public class AIZombieStateMachine : AIStateMachine
 
     public bool Feeding { get; set; } = false;
 
-    public int AtackType { get; set; } = 0;
+    public int AttackType { get; set; } = 0;
 
     public int Seeking { get; set; } = 0;
 
@@ -70,4 +79,20 @@ public class AIZombieStateMachine : AIStateMachine
     }
 
     #endregion
+
+    /// <summary>
+    /// Refreshes the animator with up-to-date values for its parameters 
+    /// </summary>
+    protected override void Update()
+    {
+        base.Update();
+
+        if (animator != null)
+        {
+            animator.SetFloat(speedHash, navAgent.speed);
+            animator.SetBool(feedingHash, Feeding);
+            animator.SetInteger(seekingHash, Seeking);
+            animator.SetInteger(attackHash, AttackType);
+        }
+    }
 }
