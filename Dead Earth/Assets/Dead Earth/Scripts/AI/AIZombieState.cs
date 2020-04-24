@@ -1,18 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AIZombieState : MonoBehaviour
+public abstract class AIZombieState : AIState
 {
-    // Start is called before the first frame update
-    void Start()
+    public virtual void OnTriggerEvent(AITriggerEventType eventType, Collider other)
     {
-        
-    }
+        if (stateMachine == null)
+            return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (eventType != AITriggerEventType.Exit)
+        {
+            AITargetType currentType = stateMachine.visualThreat.Type;
+
+            if (other.CompareTag("Player"))
+            {
+                float distance = Vector3.Distance(stateMachine.SensorPosition, other.transform.position);
+
+                if (currentType != AITargetType.VisualPlayer || (currentType == AITargetType.VisualPlayer &&
+                    distance < stateMachine.visualThreat.Distance))
+                {
+
+                }
+            }
+        }
     }
 }
