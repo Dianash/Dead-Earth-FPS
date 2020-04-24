@@ -6789,9 +6789,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentStateType: 1
-  targetTrigger: {fileID: 0}
-  sensorTrigger: {fileID: 0}
+  targetTrigger: {fileID: 666575034}
+  sensorTrigger: {fileID: 192556843}
   stoppingDistance: 1
+  fov: 50
+  sight: 0.5
+  hearing: 50
+  aggression: 0.5
+  health: 100
+  intelligence: 0.5
+  satisfaction: 1
 --- !u!4 &8471817553533271359
 Transform:
   m_ObjectHideFlags: 0
