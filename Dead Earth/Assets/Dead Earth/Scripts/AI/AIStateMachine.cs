@@ -120,9 +120,28 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    public bool UseRootPosition
+    {
+        get
+        {
+            return rootPositionRefCount > 0;
+        }
+    }
+
+    public bool UseRootRotation
+    {
+        get
+        {
+            return rootRotationRefCount > 0;
+        }
+    }
+
     protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
     protected AITarget target = new AITarget();
     protected AIState currentState = null;
+
+    protected int rootPositionRefCount = 0;
+    protected int rootRotationRefCount = 0;
 
     [SerializeField]
     protected AIStateType currentStateType = AIStateType.Idle;
@@ -356,5 +375,11 @@ public abstract class AIStateMachine : MonoBehaviour
             navAgent.updatePosition = positionUpdate;
             navAgent.updateRotation = rotationUpdate;
         }
+    }
+
+    public void AddRootMotionRequest(int rootPosition, int rootRotation)
+    {
+        rootPositionRefCount += rootPosition;
+        rootRotationRefCount += rootRotation;
     }
 }
