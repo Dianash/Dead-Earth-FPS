@@ -5,7 +5,10 @@
 /// </summary>
 public abstract class AIState : MonoBehaviour
 {
-    public void SetStateMachine(AIStateMachine stateMachine)
+    /// <summary>
+    /// Called by the parent state machine to assign its reference
+    /// </summary>
+    public virtual void SetStateMachine(AIStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
     }
