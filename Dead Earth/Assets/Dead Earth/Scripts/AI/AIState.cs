@@ -37,4 +37,29 @@ public abstract class AIState : MonoBehaviour
     public abstract AIStateType OnUpdate();
 
     protected AIStateMachine stateMachine;
+
+    /// <summary>
+    /// Converts the passed sphere collider`s position and radius into world space taking into acount
+    /// hierarchical scaling.
+    /// </summary>
+    public static void ConvertSphereColliderToWorldSpace(SphereCollider collider, out Vector3 position, out float radius)
+    {
+        position = Vector3.zero;
+        radius = 0.0f;
+
+        if (collider == null) return;
+
+        // Calculate world space position of sphere center
+        position = collider.transform.position;
+
+        position.x += collider.center.x * collider.transform.lossyScale.x;
+        position.y += collider.center.y * collider.transform.lossyScale.y;
+        position.z += collider.center.z * collider.transform.lossyScale.z;
+
+        // Calculate world space radius of sphere
+        radius = Mathf.Max(collider.radius * collider.transform.lossyScale.x,
+                                  collider.radius * collider.transform.lossyScale.y);
+
+        radius = Mathf.Max(radius, collider.radius * collider.transform.lossyScale.z);
+    }
 }
