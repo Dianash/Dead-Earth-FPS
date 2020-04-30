@@ -202,7 +202,7 @@ public abstract class AIStateMachine : MonoBehaviour
         {
             if (state != null && !states.ContainsKey(state.GetStateType()))
             {
-                AIstates[(int)state.GetStateType()] = state;
+                states[state.GetStateType()] = state;
                 state.SetStateMachine(this);
             }
         }
@@ -221,7 +221,7 @@ public abstract class AIStateMachine : MonoBehaviour
         {
             AIStateMachineLink[] scripts = animator.GetBehaviours<AIStateMachineLink>();
 
-            foreach(AIStateMachineLink script in scripts)
+            foreach (AIStateMachineLink script in scripts)
             {
                 script.StateMachine = this;
             }
