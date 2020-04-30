@@ -47,6 +47,8 @@ public class AIZombieStateMachine : AIStateMachine
 
     public int Seeking { get; set; } = 0;
 
+    public float Speed { get; set; } = 0.0f;
+
     public float Satisfaction
     {
         get => satisfaction;
@@ -65,19 +67,6 @@ public class AIZombieStateMachine : AIStateMachine
         set => health = value;
     }
 
-    public float Speed
-    {
-        get
-        {
-            return navAgent != null ? navAgent.speed : 0.0f;
-        }
-        set
-        {
-            if (navAgent != null)
-                navAgent.speed = value;
-        }
-    }
-
     #endregion
 
     /// <summary>
@@ -89,7 +78,7 @@ public class AIZombieStateMachine : AIStateMachine
 
         if (animator != null)
         {
-            animator.SetFloat(speedHash, navAgent.speed);
+            animator.SetFloat(speedHash, Speed);
             animator.SetBool(feedingHash, Feeding);
             animator.SetInteger(seekingHash, Seeking);
             animator.SetInteger(attackHash, AttackType);
