@@ -7013,6 +7013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2efb7dce3c28ad4f9537b2e4460da9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idleTimeRange: {x: 5, y: 10}
 --- !u!4 &8471817553533271359
 Transform:
   m_ObjectHideFlags: 0
