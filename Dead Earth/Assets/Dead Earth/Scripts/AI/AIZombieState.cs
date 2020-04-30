@@ -7,6 +7,7 @@ public abstract class AIZombieState : AIState
 {
     protected int playerLayerMask = -1;
     protected int bodyPartLayer = -1;
+    protected int visualLayerMask = -1;
     protected AIZombieStateMachine zombieStateMachine = null;
 
     /// <summary>
@@ -15,6 +16,7 @@ public abstract class AIZombieState : AIState
     private void Awake()
     {
         playerLayerMask = LayerMask.GetMask("Player", "AI Body Part") + 1;
+        visualLayerMask = LayerMask.GetMask("Player", "AI Body Part", "Visual Aggravator") + 1;
 
         bodyPartLayer = LayerMask.NameToLayer("AI Body Part");
     }
@@ -92,8 +94,21 @@ public abstract class AIZombieState : AIState
                 {
                     zombieStateMachine.audioThreat.Set(AITargetType.Audio, other, soundPos, distanceToThreat);
                 }
+            }
+            else if (other.CompareTag("AI Food") && currentType != AITargetType.VisualPlayer && currentType != AITargetType.VisualLight
+                    && zombieStateMachine.Satisfaction <= 0.9f && zombieStateMachine.audioThreat.Type == AITargetType.None)
+            {
+                float distanceToThreat = Vector3.Distance(other.transform.position, zombieStateMachine.SensorPosition);
 
+                if (distanceToThreat < zombieStateMachine.visualThreat.Distance)
+                {
+                    RaycastHit hitInfo;
 
+                    if (ColliderIsVisible(other, out hitInfo, visualLayerMask))
+                    {
+                        zombieStateMachine.visualThreat.Set(AITargetType.VisualFood, other, other.transform.position, distanceToThreat);
+                    }
+                }
             }
         }
     }
