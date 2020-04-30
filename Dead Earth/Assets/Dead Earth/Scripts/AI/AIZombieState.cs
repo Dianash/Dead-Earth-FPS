@@ -68,6 +68,33 @@ public abstract class AIZombieState : AIState
                     zombieStateMachine.visualThreat.Set(AITargetType.VisualLight, other, other.transform.position, distanceToThreat);
                 }
             }
+            else if (other.CompareTag("AI Sound Emitter"))
+            {
+                SphereCollider soundTrigger = (SphereCollider)other;
+                if (soundTrigger == null) return;
+
+                Vector3 agentSensorPosition = zombieStateMachine.SensorPosition;
+
+                Vector3 soundPos;
+                float soundRadius;
+
+                ConvertSphereColliderToWorldSpace(soundTrigger, out soundPos, out soundRadius);
+
+                float distanceToThreat = (soundPos - agentSensorPosition).magnitude;
+                float distanceFactor = distanceToThreat / soundRadius;
+
+                // Bias the factor based on hearing ability of Agent
+                distanceFactor += distanceToThreat * (1.0f - zombieStateMachine.Hearing);
+
+                if (distanceFactor > 1.0f) return;
+
+                if (distanceToThreat < zombieStateMachine.audioThreat.Distance)
+                {
+                    zombieStateMachine.audioThreat.Set(AITargetType.Audio, other, soundPos, distanceToThreat);
+                }
+
+
+            }
         }
     }
 
