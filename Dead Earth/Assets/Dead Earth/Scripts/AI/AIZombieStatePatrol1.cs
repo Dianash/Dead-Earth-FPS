@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Generic patrolling behavior.
@@ -8,6 +9,8 @@ public class AIZombieStatePatrol1 : AIZombieState
     [SerializeField] AIWaypointNetwork waypointNetwork = null;
     [SerializeField] bool randomPatrol = false;
     [SerializeField] int currentWaypoint = 0;
+    [SerializeField] float turnOnSpotThreshold = 80.0f;
+    [SerializeField] float slerpSpeed = 5.0f;
     [SerializeField] [Range(0.0f, 3.0f)] float speed = 1.0f;
 
     /// <summary>
@@ -43,7 +46,7 @@ public class AIZombieStatePatrol1 : AIZombieState
             {
                 if (randomPatrol)
                 {
-                    currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count - 1);
+                    currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
                 }
 
                 if (currentWaypoint < waypointNetwork.waypoints.Count)
@@ -52,8 +55,10 @@ public class AIZombieStatePatrol1 : AIZombieState
 
                     if (waypoint != null)
                     {
-                        zombieStateMachine.SetTarget(AITargetType.Waypoint, null, waypoint.position,
-                            Vector3.Distance(zombieStateMachine.transform.position, waypoint.position));
+                        zombieStateMachine.SetTarget(AITargetType.Waypoint,
+                                                     null,
+                                                     waypoint.position,
+                                                     Vector3.Distance(zombieStateMachine.transform.position, waypoint.position));
 
                         zombieStateMachine.NavAgent.SetDestination(waypoint.position);
                     }
@@ -95,6 +100,29 @@ public class AIZombieStatePatrol1 : AIZombieState
             }
         }
 
+        float angle = Vector3.Angle(zombieStateMachine.transform.forward,
+            zombieStateMachine.NavAgent.steeringTarget - zombieStateMachine.transform.position);
+
+        if (angle > turnOnSpotThreshold)
+        {
+            return AIStateType.Alerted;
+        }
+
+        if (!zombieStateMachine.UseRootRotation)
+        {
+            Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
+
+            zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation,
+                                                                     newRot,
+                                                                     Time.deltaTime * slerpSpeed);
+        }
+
+        if (zombieStateMachine.NavAgent.isPathStale || !zombieStateMachine.NavAgent.hasPath
+            || zombieStateMachine.NavAgent.pathStatus != NavMeshPathStatus.PathComplete)
+        {
+            NextWaipoint();
+        }
+
         return AIStateType.Patrol;
-    }
+    }   
 }
