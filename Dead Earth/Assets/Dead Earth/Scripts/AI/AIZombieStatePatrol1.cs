@@ -124,5 +124,32 @@ public class AIZombieStatePatrol1 : AIZombieState
         }
 
         return AIStateType.Patrol;
-    }   
+    }
+
+    private void NextWaipoint()
+    {
+        if (randomPatrol && waypointNetwork.waypoints.Count > 1)
+        {
+            int oldWaypoint = currentWaypoint;
+            while (currentWaypoint == oldWaypoint)
+            {
+                currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
+            }
+        }
+        else
+            currentWaypoint = currentWaypoint == waypointNetwork.waypoints.Count - 1 ? 0 : currentWaypoint + 1;
+
+        if (waypointNetwork.waypoints[currentWaypoint] != null)
+        {
+            Transform newWayoint = waypointNetwork.waypoints[currentWaypoint];
+
+            zombieStateMachine.SetTarget(AITargetType.Waypoint,
+                                         null,
+                                         newWayoint.position,
+                                         Vector3.Distance(newWayoint.position,
+                                         zombieStateMachine.transform.position));
+
+            zombieStateMachine.NavAgent.SetDestination(newWayoint.position);
+        }
+    }    
 }
