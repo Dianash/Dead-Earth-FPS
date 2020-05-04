@@ -58,6 +58,14 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    public AITargetType TargetType
+    {
+        get
+        {
+            return target.Type;
+        }
+    }
+
     protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
     protected AITarget target = new AITarget();
     protected AIState currentState = null;
