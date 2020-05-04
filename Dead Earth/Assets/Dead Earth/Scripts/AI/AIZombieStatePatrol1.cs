@@ -69,6 +69,32 @@ public class AIZombieStatePatrol1 : AIZombieState
     /// </summary>
     public override AIStateType OnUpdate()
     {
+        if (zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer)
+        {
+            zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
+            return AIStateType.Pursuit;
+        }
+        if (zombieStateMachine.visualThreat.Type == AITargetType.VisualLight)
+        {
+            zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
+            return AIStateType.Alerted;
+        }
+        if (zombieStateMachine.audioThreat.Type == AITargetType.Audio)
+        {
+            zombieStateMachine.SetTarget(zombieStateMachine.audioThreat);
+            return AIStateType.Alerted;
+        }
+
+        // Dead body case
+        if (zombieStateMachine.visualThreat.Type == AITargetType.VisualFood)
+        {
+            if ((1.0f - zombieStateMachine.Satisfaction) > (zombieStateMachine.visualThreat.Distance / zombieStateMachine.SensorRadius))
+            {
+                zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
+                return AIStateType.Pursuit;
+            }
+        }
+
         return AIStateType.Patrol;
     }
 }
