@@ -151,5 +151,14 @@ public class AIZombieStatePatrol1 : AIZombieState
 
             zombieStateMachine.NavAgent.SetDestination(newWayoint.position);
         }
-    }    
+    }
+
+    public override void OnDestinationtReached(bool isReached)
+    {
+        if (zombieStateMachine == null || !isReached)
+            return;
+
+        if (zombieStateMachine.TargetType == AITargetType.Waypoint)
+            NextWaipoint();
+    }
 }
