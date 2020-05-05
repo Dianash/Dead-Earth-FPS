@@ -13,6 +13,8 @@ public abstract class AIStateMachine : MonoBehaviour
     public Animator Animator { get => animator; }
     public NavMeshAgent NavAgent { get => navAgent; }
 
+    public bool InMeleeRange { get; set; }
+
     public Vector3 SensorPosition
     {
         get
