@@ -161,4 +161,13 @@ public class AIZombieStatePatrol1 : AIZombieState
         if (zombieStateMachine.TargetType == AITargetType.Waypoint)
             NextWaipoint();
     }
+
+    public override void OnAnimatorIKUpdated()
+    {
+        if (zombieStateMachine == null) return;
+
+        zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition);
+        zombieStateMachine.Animator.SetLookAtWeight(0.55f);
+
+    }
 }

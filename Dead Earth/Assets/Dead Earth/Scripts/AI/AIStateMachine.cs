@@ -65,6 +65,14 @@ public abstract class AIStateMachine : MonoBehaviour
             return target.Type;
         }
     }
+    
+    public Vector3 TargetPosition
+    {
+        get
+        {
+            return target.Position;
+        }
+    }
 
     protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
     protected AITarget target = new AITarget();
