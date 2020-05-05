@@ -166,8 +166,7 @@ public class AIZombieStatePatrol1 : AIZombieState
     {
         if (zombieStateMachine == null) return;
 
-        zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition);
+        zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition + Vector3.up);
         zombieStateMachine.Animator.SetLookAtWeight(0.55f);
-
     }
 }
