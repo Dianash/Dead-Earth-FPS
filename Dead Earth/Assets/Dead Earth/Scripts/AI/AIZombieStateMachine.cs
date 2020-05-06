@@ -18,13 +18,17 @@ public class AIZombieStateMachine : AIStateMachine
 
     [SerializeField] [Range(0.0f, 1.0f)] float satisfaction = 1f;
 
+    [SerializeField] float replenishRate = 0.5f;
+
+    [SerializeField] float depletionRate = 0.1f;
+
     #endregion
 
     #region Hashes
 
     private int speedHash = Animator.StringToHash("Speed");
     private int seekingHash = Animator.StringToHash("Seeking");
-    // private int feedingHash = Animator.StringToHash("Feeding");
+    private int feedingHash = Animator.StringToHash("Feeding");
     private int attackHash = Animator.StringToHash("Attack");
 
     #endregion
@@ -48,6 +52,8 @@ public class AIZombieStateMachine : AIStateMachine
     public int Seeking { get; set; } = 0;
 
     public float Speed { get; set; } = 0.0f;
+
+    public float ReplenishRate { get => replenishRate; }
 
     public float Satisfaction
     {
