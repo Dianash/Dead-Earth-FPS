@@ -113,7 +113,7 @@ public class AIZombieStatePursuit1 : AIZombieState
                 }
             }
 
-            stateMachine.SetTarget(zombieStateMachine.visualThreat);
+            zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
             return AIStateType.Pursuit;
         }
 
@@ -152,7 +152,39 @@ public class AIZombieStatePursuit1 : AIZombieState
                 }
             }
         }
+        else if (zombieStateMachine.audioThreat.Type == AITargetType.Audio)
+        {
+            if (zombieStateMachine.TargetType == AITargetType.VisualFood)
+            {
+                zombieStateMachine.SetTarget(zombieStateMachine.audioThreat);
+                return AIStateType.Alerted;
+            }
+            else if (zombieStateMachine.TargetType == AITargetType.Audio)
+            {
+                int currentID = zombieStateMachine.TargetColliderID;
 
+                // If this is the same light
+                if (currentID == zombieStateMachine.audioThreat.Collider.GetInstanceID())
+                {
+                    if (zombieStateMachine.TargetPosition != zombieStateMachine.audioThreat.Position)
+                    {
+                        if (Mathf.Clamp(zombieStateMachine.audioThreat.Distance * repathDistanceMultiplier, repathAudioMinDuration, repathAudioMaxDuration) < repathTimer)
+                        {
+                            zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.audioThreat.Position);
+                            repathTimer = 0.0f;
+                        }
+                    }
+
+                    zombieStateMachine.SetTarget(zombieStateMachine.audioThreat);
+                    return AIStateType.Pursuit;
+                }
+                else
+                {
+                    zombieStateMachine.SetTarget(zombieStateMachine.audioThreat);
+                    return AIStateType.Alerted;
+                }
+            }
+        }
 
         return AIStateType.Pursuit;
     }
