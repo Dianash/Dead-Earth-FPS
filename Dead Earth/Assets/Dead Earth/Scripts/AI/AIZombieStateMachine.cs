@@ -24,7 +24,7 @@ public class AIZombieStateMachine : AIStateMachine
 
     private int speedHash = Animator.StringToHash("Speed");
     private int seekingHash = Animator.StringToHash("Seeking");
-   // private int feedingHash = Animator.StringToHash("Feeding");
+    // private int feedingHash = Animator.StringToHash("Feeding");
     private int attackHash = Animator.StringToHash("Attack");
 
     #endregion
@@ -79,7 +79,7 @@ public class AIZombieStateMachine : AIStateMachine
         if (animator != null)
         {
             animator.SetFloat(speedHash, Speed);
-           // animator.SetBool(feedingHash, Feeding);
+            animator.SetBool(feedingHash, Feeding);
             animator.SetInteger(seekingHash, Seeking);
             animator.SetInteger(attackHash, AttackType);
         }
