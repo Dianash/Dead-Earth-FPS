@@ -117,6 +117,43 @@ public class AIZombieStatePursuit1 : AIZombieState
             return AIStateType.Pursuit;
         }
 
+        if (zombieStateMachine.TargetType == AITargetType.VisualPlayer)
+            return AIStateType.Pursuit;
+
+        if (zombieStateMachine.visualThreat.Type == AITargetType.VisualLight)
+        {
+            if (zombieStateMachine.TargetType == AITargetType.Audio || zombieStateMachine.TargetType == AITargetType.VisualFood)
+            {
+                zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
+                return AIStateType.Alerted;
+            }
+            else if (zombieStateMachine.TargetType == AITargetType.VisualLight)
+            {
+                int currentID = zombieStateMachine.TargetColliderID;
+
+                if (currentID == zombieStateMachine.visualThreat.Collider.GetInstanceID())
+                {
+                    if (zombieStateMachine.TargetPosition != zombieStateMachine.visualThreat.Position)
+                    {
+                        if (Mathf.Clamp(zombieStateMachine.visualThreat.Distance * repathDistanceMultiplier, repathVisualMinDuration, repathVisualMaxDuration) < repathTimer)
+                        {
+                            zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.visualThreat.Position);
+                            repathTimer = 0.0f;
+                        }
+                    }
+
+                    zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
+                    return AIStateType.Pursuit;
+                }
+                else
+                {
+                    zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
+                    return AIStateType.Alerted;
+                }
+            }
+        }
+
+
         return AIStateType.Pursuit;
     }
 }
