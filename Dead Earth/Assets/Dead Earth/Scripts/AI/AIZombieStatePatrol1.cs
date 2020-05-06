@@ -35,7 +35,7 @@ public class AIZombieStatePatrol1 : AIZombieState
         zombieStateMachine.Feeding = false;
         zombieStateMachine.AttackType = 0;
 
-        zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.SetWaypointPosition(false));
+        zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.GetWaypointPosition(false));
 
         zombieStateMachine.NavAgent.isStopped = false;
     }
@@ -106,11 +106,11 @@ public class AIZombieStatePatrol1 : AIZombieState
             zombieStateMachine.GetWaypointPosition(true);
     }
 
-    public override void OnAnimatorIKUpdated()
-    {
-        if (zombieStateMachine == null) return;
+    //public override void OnAnimatorIKUpdated()
+    //{
+    //    if (zombieStateMachine == null) return;
 
-        zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition + Vector3.up);
-        zombieStateMachine.Animator.SetLookAtWeight(0.55f);
-    }
+    //    zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition + Vector3.up);
+    //    zombieStateMachine.Animator.SetLookAtWeight(0.55f);
+    //}
 }

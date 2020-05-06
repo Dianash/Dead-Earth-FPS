@@ -38,8 +38,12 @@ public class AIZombieStateAlerted1 : AIZombieState
     {
         timer -= Time.deltaTime;
 
-        if (timer <= 0.0f) return AIStateType.Alerted;
-
+        if (timer <= 0.0f)
+        {
+            zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.GetWaypointPosition(false));
+            zombieStateMachine.NavAgent.isStopped = false;
+            timer = maxDuration;
+        }
         if (zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer)
         {
             zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
@@ -80,7 +84,7 @@ public class AIZombieStateAlerted1 : AIZombieState
             else
                 zombieStateMachine.Seeking = (int)Mathf.Sign(Random.Range(-1.0f, 1.0f));
         }
-        else if (zombieStateMachine.TargetType == AITargetType.Waypoint)
+        else if (zombieStateMachine.TargetType == AITargetType.Waypoint && !zombieStateMachine.NavAgent.pathPending)
         {
             angle = FindSignedAngle(zombieStateMachine.transform.forward, zombieStateMachine.NavAgent.steeringTarget - zombieStateMachine.transform.position);
 
