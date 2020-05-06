@@ -230,7 +230,7 @@ public abstract class AIStateMachine : MonoBehaviour
     /// <summary>
     /// Clears the current target
     /// </summary>
-    public void Clear()
+    public void ClearTarget()
     {
         target.Clear();
 

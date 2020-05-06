@@ -6,7 +6,7 @@ using UnityEngine.AI;
 /// </summary>
 public class AIZombieStatePursuit1 : AIZombieState
 {
-    [SerializeField] [Range(0, 10)] private float speed = 1.0f;
+    [SerializeField] [Range(0, 10)] private float speed = 3.0f;
     [SerializeField] private float slerpSpeed = 5.0f;
     [SerializeField] private float repathDistanceMultiplier = 0.035f;
     [SerializeField] private float repathVisualMinDuration = 0.05f;
@@ -36,7 +36,7 @@ public class AIZombieStatePursuit1 : AIZombieState
 
         // Configure state machine
         zombieStateMachine.NavAgentControl(true, false);
-        zombieStateMachine.Speed = 0;
+        zombieStateMachine.Speed = speed;
         zombieStateMachine.Seeking = 0;
         zombieStateMachine.Feeding = false;
         zombieStateMachine.AttackType = 0;
@@ -66,7 +66,7 @@ public class AIZombieStatePursuit1 : AIZombieState
             {
                 case AITargetType.Audio:
                 case AITargetType.VisualLight:
-                    stateMachine.Clear();
+                    stateMachine.ClearTarget();
                     return AIStateType.Alerted;
 
                 case AITargetType.VisualFood:
@@ -93,7 +93,7 @@ public class AIZombieStatePursuit1 : AIZombieState
         else if (!stateMachine.UseRootRotation && !targetReached)
         {
             Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
-            zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime);
+            zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
         }
         else if (targetReached)
         {

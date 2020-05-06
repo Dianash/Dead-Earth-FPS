@@ -40,7 +40,7 @@ public class AIZombieStatePatrol1 : AIZombieState
 
         if (zombieStateMachine.TargetType != AITargetType.Waypoint)
         {
-            zombieStateMachine.Clear();
+            zombieStateMachine.ClearTarget();
 
             if (waypointNetwork != null && waypointNetwork.waypoints.Count > 0)
             {

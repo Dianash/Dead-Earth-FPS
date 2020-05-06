@@ -38,7 +38,7 @@ public class AIZombieStateIdle1 : AIZombieState
         zombieStateMachine.Seeking = 0;
         zombieStateMachine.Feeding = false;
         zombieStateMachine.AttackType = 0;
-        zombieStateMachine.Clear();
+        zombieStateMachine.ClearTarget();
     }
 
     public override AIStateType OnUpdate()
