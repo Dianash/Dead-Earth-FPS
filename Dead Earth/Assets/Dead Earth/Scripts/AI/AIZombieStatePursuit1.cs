@@ -100,12 +100,20 @@ public class AIZombieStatePursuit1 : AIZombieState
             return AIStateType.Alerted;
         }
 
-        if (zombieStateMachine.visualThreat.Type == AITargetType.VisualFood)
+        if (zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer)
         {
-            if(zombieStateMachine.TargetPosition != zombieStateMachine.visualThreat.Position)
+            // The position is different - maybe same threat, but it has moved, so repath periodically
+            if (zombieStateMachine.TargetPosition != zombieStateMachine.visualThreat.Position)
             {
-
+                // Repath more frequently as we get to the target (try and save some CPU cycles)
+                if (Mathf.Clamp(zombieStateMachine.visualThreat.Distance * repathDistanceMultiplier, repathVisualMinDuration, repathVisualMaxDuration) < repathTimer)
+                {
+                    zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.visualThreat.Position);
+                    repathTimer = 0.0f;
+                }
             }
+
+            stateMachine.SetTarget(zombieStateMachine.visualThreat);
         }
 
         return AIStateType.Pursuit;
