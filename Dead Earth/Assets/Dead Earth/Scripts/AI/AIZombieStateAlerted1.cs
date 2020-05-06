@@ -5,9 +5,10 @@ public class AIZombieStateAlerted1 : AIZombieState
     [SerializeField] [Range(1, 60)] float maxDuration = 10.0f;
     [SerializeField] float waypointAngleThreshold = 90.0f;
     [SerializeField] float threatAngleThreshold = 10.0f;
-
+    [SerializeField] float directionChangeTime = 1.5f;
 
     private float timer = 0.0f;
+    private float directionChangeTimer = 0.0f;
 
     public override AIStateType GetStateType()
     {
@@ -32,11 +33,13 @@ public class AIZombieStateAlerted1 : AIZombieState
         zombieStateMachine.AttackType = 0;
 
         timer = maxDuration;
+        directionChangeTimer = 0.0f;
     }
 
     public override AIStateType OnUpdate()
     {
         timer -= Time.deltaTime;
+        directionChangeTimer += Time.deltaTime;
 
         if (timer <= 0.0f)
         {
@@ -77,12 +80,17 @@ public class AIZombieStateAlerted1 : AIZombieState
                 return AIStateType.Pursuit;
             }
 
-            if (Random.value < zombieStateMachine.Intelligence)
+            if (directionChangeTimer > directionChangeTime)
             {
-                zombieStateMachine.Seeking = (int)Mathf.Sign(angle);
+                if (Random.value < zombieStateMachine.Intelligence)
+                {
+                    zombieStateMachine.Seeking = (int)Mathf.Sign(angle);
+                }
+                else
+                    zombieStateMachine.Seeking = (int)Mathf.Sign(Random.Range(-1.0f, 1.0f));
+
+                directionChangeTimer = 0.0f;
             }
-            else
-                zombieStateMachine.Seeking = (int)Mathf.Sign(Random.Range(-1.0f, 1.0f));
         }
         else if (zombieStateMachine.TargetType == AITargetType.Waypoint && !zombieStateMachine.NavAgent.pathPending)
         {
