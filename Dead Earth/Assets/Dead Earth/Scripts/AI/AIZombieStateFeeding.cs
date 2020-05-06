@@ -54,6 +54,11 @@ public class AIZombieStateFeeding : AIZombieState
             return AIStateType.Alerted;
         }
 
+        if (zombieStateMachine.Animator.GetCurrentAnimatorStateInfo(eatingLayerIndex).shortNameHash == eatingStateHash)
+        {
+            zombieStateMachine.Satisfaction = Mathf.Min(zombieStateMachine.Satisfaction + (Time.deltaTime * zombieStateMachine.ReplenishRate), 1.0f);
+        }
+
         return AIStateType.Feeding;
     }
 
