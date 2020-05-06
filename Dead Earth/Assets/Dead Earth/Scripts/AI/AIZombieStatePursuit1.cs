@@ -114,6 +114,7 @@ public class AIZombieStatePursuit1 : AIZombieState
             }
 
             stateMachine.SetTarget(zombieStateMachine.visualThreat);
+            return AIStateType.Pursuit;
         }
 
         return AIStateType.Pursuit;

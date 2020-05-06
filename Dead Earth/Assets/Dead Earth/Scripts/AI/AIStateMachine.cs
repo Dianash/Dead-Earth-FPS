@@ -67,12 +67,23 @@ public abstract class AIStateMachine : MonoBehaviour
             return target.Type;
         }
     }
-    
+
     public Vector3 TargetPosition
     {
         get
         {
             return target.Position;
+        }
+    }
+
+    public int TargetColliderID
+    {
+        get
+        {
+            if (target.Collider)
+                return target.Collider.GetInstanceID();
+            else
+                return -1;
         }
     }
 
