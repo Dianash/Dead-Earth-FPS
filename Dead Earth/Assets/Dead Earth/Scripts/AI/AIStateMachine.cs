@@ -10,9 +10,34 @@ public abstract class AIStateMachine : MonoBehaviour
     public AITarget visualThreat = new AITarget();
     public AITarget audioThreat = new AITarget();
 
+    protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
+    protected AITarget target = new AITarget();
+    protected AIState currentState = null;
+
+    protected int rootPositionRefCount = 0;
+    protected int rootRotationRefCount = 0;
+
+    [SerializeField]
+    protected AIStateType currentStateType = AIStateType.Idle;
+
+    [SerializeField]
+    protected SphereCollider targetTrigger = null;
+
+    [SerializeField]
+    protected SphereCollider sensorTrigger = null;
+
+    [SerializeField]
+    [Range(0, 15)]
+    protected float stoppingDistance = 1.0f;
+
+    // Component cache
+    protected Animator animator = null;
+    protected NavMeshAgent navAgent = null;
+    protected Collider objectCollider = null;
+    protected Transform objectTransform = null;
+
     public Animator Animator { get => animator; }
     public NavMeshAgent NavAgent { get => navAgent; }
-
     public bool InMeleeRange { get; set; }
 
     public Vector3 SensorPosition
@@ -87,31 +112,87 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
-    protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
-    protected AITarget target = new AITarget();
-    protected AIState currentState = null;
+    /// <summary>
+    /// Sets the current target and configures the target trigger
+    /// </summary>
+    public void SetTarget(AITargetType type, Collider collider, Vector3 position, float distance)
+    {
+        target.Set(type, collider, position, distance);
 
-    protected int rootPositionRefCount = 0;
-    protected int rootRotationRefCount = 0;
+        // Configure and enable the target trigger at the correct
+        // position and with the correct radius
+        if (targetTrigger != null)
+        {
+            targetTrigger.radius = stoppingDistance;
+            targetTrigger.transform.position = target.Position;
+            targetTrigger.enabled = true;
+        }
+    }
 
-    [SerializeField]
-    protected AIStateType currentStateType = AIStateType.Idle;
+    /// <summary>
+    /// Sets the current target and configures the target trigger.
+    /// This method allows specifying a custom stopping distance.
+    /// </summary>
+    public void SetTarget(AITargetType type, Collider collider, Vector3 position, float distance, float stoppingDistance)
+    {
+        target.Set(type, collider, position, distance);
 
-    [SerializeField]
-    protected SphereCollider targetTrigger = null;
+        if (targetTrigger != null)
+        {
+            targetTrigger.radius = stoppingDistance;
+            targetTrigger.transform.position = target.Position;
+            targetTrigger.enabled = true;
+        }
+    }
 
-    [SerializeField]
-    protected SphereCollider sensorTrigger = null;
+    /// <summary>
+    /// Sets the current target and configures the target trigger
+    /// </summary>
+    public void SetTarget(AITarget type)
+    {
+        target = type;
 
-    [SerializeField]
-    [Range(0, 15)]
-    protected float stoppingDistance = 1.0f;
+        if (targetTrigger != null)
+        {
+            targetTrigger.radius = stoppingDistance;
+            targetTrigger.transform.position = target.Position;
+            targetTrigger.enabled = true;
+        }
+    }
 
-    // Component cache
-    protected Animator animator = null;
-    protected NavMeshAgent navAgent = null;
-    protected Collider objectCollider = null;
-    protected Transform objectTransform = null;
+    public virtual void OnTriggerEvent(AITriggerEventType type, Collider other)
+    {
+        if (currentState)
+            currentState.OnTriggerEvent(type, other);
+    }
+
+    /// <summary>
+    /// Clears the current target
+    /// </summary>
+    public void ClearTarget()
+    {
+        target.Clear();
+
+        if (targetTrigger != null)
+        {
+            targetTrigger.enabled = false;
+        }
+    }
+
+    public void NavAgentControl(bool positionUpdate, bool rotationUpdate)
+    {
+        if (navAgent)
+        {
+            navAgent.updatePosition = positionUpdate;
+            navAgent.updateRotation = rotationUpdate;
+        }
+    }
+
+    public void AddRootMotionRequest(int rootPosition, int rootRotation)
+    {
+        rootPositionRefCount += rootPosition;
+        rootRotationRefCount += rootRotation;
+    }
 
     /// <summary>
     /// Caches Components
@@ -176,67 +257,6 @@ public abstract class AIStateMachine : MonoBehaviour
             {
                 script.StateMachine = this;
             }
-        }
-    }
-
-    /// <summary>
-    /// Sets the current target and configures the target trigger
-    /// </summary>
-    public void SetTarget(AITargetType type, Collider collider, Vector3 position, float distance)
-    {
-        target.Set(type, collider, position, distance);
-
-        // Configure and enable the target trigger at the correct
-        // position and with the correct radius
-        if (targetTrigger != null)
-        {
-            targetTrigger.radius = stoppingDistance;
-            targetTrigger.transform.position = target.Position;
-            targetTrigger.enabled = true;
-        }
-    }
-
-    /// <summary>
-    /// Sets the current target and configures the target trigger.
-    /// This method allows specifying a custom stopping distance.
-    /// </summary>
-    public void SetTarget(AITargetType type, Collider collider, Vector3 position, float distance, float stoppingDistance)
-    {
-        target.Set(type, collider, position, distance);
-
-        if (targetTrigger != null)
-        {
-            targetTrigger.radius = stoppingDistance;
-            targetTrigger.transform.position = target.Position;
-            targetTrigger.enabled = true;
-        }
-    }
-
-    /// <summary>
-    /// Sets the current target and configures the target trigger
-    /// </summary>
-    public void SetTarget(AITarget type)
-    {
-        target = type;
-
-        if (targetTrigger != null)
-        {
-            targetTrigger.radius = stoppingDistance;
-            targetTrigger.transform.position = target.Position;
-            targetTrigger.enabled = true;
-        }
-    }
-
-    /// <summary>
-    /// Clears the current target
-    /// </summary>
-    public void ClearTarget()
-    {
-        target.Clear();
-
-        if (targetTrigger != null)
-        {
-            targetTrigger.enabled = false;
         }
     }
 
@@ -311,12 +331,6 @@ public abstract class AIStateMachine : MonoBehaviour
             currentState.OnDestinationtReached(false);
     }
 
-    public virtual void OnTriggerEvent(AITriggerEventType type, Collider other)
-    {
-        if (currentState)
-            currentState.OnTriggerEvent(type, other);
-    }
-
     protected virtual void OnAnimatorMove()
     {
         if (currentState != null)
@@ -327,20 +341,5 @@ public abstract class AIStateMachine : MonoBehaviour
     {
         if (currentState != null)
             currentState.OnAnimatorIKUpdated();
-    }
-
-    public void NavAgentControl(bool positionUpdate, bool rotationUpdate)
-    {
-        if (navAgent)
-        {
-            navAgent.updatePosition = positionUpdate;
-            navAgent.updateRotation = rotationUpdate;
-        }
-    }
-
-    public void AddRootMotionRequest(int rootPosition, int rootRotation)
-    {
-        rootPositionRefCount += rootPosition;
-        rootRotationRefCount += rootRotation;
     }
 }
