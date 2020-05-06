@@ -17,7 +17,6 @@ public class AIZombieStatePursuit1 : AIZombieState
 
     private float timer = 0.0f;
     private float repathTimer = 0.0f;
-    private bool targetReached = false;
 
     public override AIStateType GetStateType()
     {
@@ -43,7 +42,6 @@ public class AIZombieStatePursuit1 : AIZombieState
 
         timer = 0.0f;
         repathTimer = 0.0f;
-        targetReached = false;
 
         zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.TargetPosition);
         zombieStateMachine.NavAgent.isStopped = false;
@@ -60,7 +58,7 @@ public class AIZombieStatePursuit1 : AIZombieState
         if (stateMachine.TargetType == AITargetType.VisualPlayer && zombieStateMachine.InMeleeRange)
             return AIStateType.Attack;
 
-        if (targetReached)
+        if (zombieStateMachine.IsTargetReached)
         {
             switch (stateMachine.TargetType)
             {
@@ -82,7 +80,7 @@ public class AIZombieStatePursuit1 : AIZombieState
         }
 
         if (!zombieStateMachine.UseRootRotation && zombieStateMachine.TargetType == AITargetType.VisualPlayer
-            && zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer && targetReached)
+            && zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer && zombieStateMachine.IsTargetReached)
         {
             Vector3 targetPos = zombieStateMachine.TargetPosition;
             targetPos.y = zombieStateMachine.transform.position.y;
@@ -90,12 +88,12 @@ public class AIZombieStatePursuit1 : AIZombieState
             zombieStateMachine.transform.rotation = newRot;
         }
 
-        else if (!stateMachine.UseRootRotation && !targetReached)
+        else if (!stateMachine.UseRootRotation && !zombieStateMachine.IsTargetReached)
         {
             Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
             zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
         }
-        else if (targetReached)
+        else if (zombieStateMachine.IsTargetReached)
         {
             return AIStateType.Alerted;
         }

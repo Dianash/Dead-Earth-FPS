@@ -64,7 +64,7 @@ public class AIZombieStateAlerted1 : AIZombieState
 
         float angle;
 
-        if (zombieStateMachine.TargetType == AITargetType.Audio || zombieStateMachine.TargetType == AITargetType.VisualLight)
+        if ((zombieStateMachine.TargetType == AITargetType.Audio || zombieStateMachine.TargetType == AITargetType.VisualLight) && !zombieStateMachine.IsTargetReached)
         {
             angle = FindSignedAngle(zombieStateMachine.transform.forward, zombieStateMachine.TargetPosition - zombieStateMachine.transform.position);
 

@@ -16,6 +16,7 @@ public abstract class AIStateMachine : MonoBehaviour
 
     protected int rootPositionRefCount = 0;
     protected int rootRotationRefCount = 0;
+    protected bool isTargetReached = false;
 
     [SerializeField]
     protected AIStateType currentStateType = AIStateType.Idle;
@@ -109,6 +110,14 @@ public abstract class AIStateMachine : MonoBehaviour
                 return target.Collider.GetInstanceID();
             else
                 return -1;
+        }
+    }
+
+    public bool IsTargetReached
+    {
+        get
+        {
+            return isTargetReached;
         }
     }
 
@@ -272,6 +281,8 @@ public abstract class AIStateMachine : MonoBehaviour
         {
             target.Distance = Vector3.Distance(objectTransform.position, target.Position);
         }
+
+        isTargetReached = false;
     }
 
     /// <summary>
@@ -313,9 +324,19 @@ public abstract class AIStateMachine : MonoBehaviour
         if (targetTrigger == null || other != targetTrigger)
             return;
 
+        isTargetReached = true;
+
         // Notify Child State
         if (currentState)
             currentState.OnDestinationtReached(true);
+    }
+
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        if (targetTrigger == null || other != targetTrigger)
+            return;
+
+        isTargetReached = true;
     }
 
     /// <summary>
