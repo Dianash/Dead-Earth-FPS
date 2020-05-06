@@ -35,7 +35,7 @@ public abstract class AIZombieState : AIState
     /// Examines the threat and stores it in the parent machine Visual or Audio threat members,
     /// if found to be the a higher priority threat
     /// </summary>
-    public virtual void OnTriggerEvent(AITriggerEventType eventType, Collider other)
+    public override void OnTriggerEvent(AITriggerEventType eventType, Collider other)
     {
         if (zombieStateMachine == null)
             return;
