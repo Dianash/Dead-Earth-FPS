@@ -18,18 +18,13 @@ public abstract class AIStateMachine : MonoBehaviour
     protected int rootRotationRefCount = 0;
     protected bool isTargetReached = false;
 
-    [SerializeField]
-    protected AIStateType currentStateType = AIStateType.Idle;
-
-    [SerializeField]
-    protected SphereCollider targetTrigger = null;
-
-    [SerializeField]
-    protected SphereCollider sensorTrigger = null;
-
-    [SerializeField]
-    [Range(0, 15)]
-    protected float stoppingDistance = 1.0f;
+    [SerializeField] protected AIStateType currentStateType = AIStateType.Idle;
+    [SerializeField] protected SphereCollider targetTrigger = null;
+    [SerializeField] protected SphereCollider sensorTrigger = null;
+    [SerializeField] protected AIWaypointNetwork waypointNetwork = null;
+    [SerializeField] protected bool randomPatrol = false;
+    [SerializeField] protected int currentWaypoint = -1;
+    [SerializeField] [Range(0, 15)] protected float stoppingDistance = 1.0f;
 
     // Component cache
     protected Animator animator = null;
@@ -119,6 +114,56 @@ public abstract class AIStateMachine : MonoBehaviour
         {
             return isTargetReached;
         }
+    }
+
+
+    /// <summary>
+    /// Fetches the world space position of the state machine`s currently set waypoint.
+    /// </summary>
+    /// <param name="increment"> 
+    /// Optional increment of waypoint index.
+    /// </param>
+    /// <returns>
+    /// Vector3 world space position of current waypoint.
+    /// </returns>
+    public Vector3 GetWaypointPosition(bool increment)
+    {
+        if (currentWaypoint == -1)
+        {
+            if (randomPatrol)
+                currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
+            else
+                currentWaypoint = 0;
+        }
+        else if (increment)
+            NextWaipoint();
+
+        if (waypointNetwork.waypoints[currentWaypoint] != null)
+        {
+            Transform newWaypoint = waypointNetwork.waypoints[currentWaypoint];
+            SetTarget(AITargetType.Waypoint, null, newWaypoint.position, Vector3.Distance(newWaypoint.position, transform.position));
+
+            return newWaypoint.position;
+        }
+
+        return Vector3.zero;
+    }
+
+
+    private void NextWaipoint()
+    {
+        if (randomPatrol && waypointNetwork.waypoints.Count > 1)
+        {
+            int oldWaypoint = currentWaypoint;
+            while (currentWaypoint == oldWaypoint)
+            {
+                currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
+            }
+        }
+        else
+            currentWaypoint = currentWaypoint == waypointNetwork.waypoints.Count - 1 ? 0 : currentWaypoint + 1;
+
+
     }
 
     /// <summary>

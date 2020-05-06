@@ -6,9 +6,6 @@ using UnityEngine.AI;
 /// </summary>
 public class AIZombieStatePatrol1 : AIZombieState
 {
-    [SerializeField] AIWaypointNetwork waypointNetwork = null;
-    [SerializeField] bool randomPatrol = false;
-    [SerializeField] int currentWaypoint = 0;
     [SerializeField] float turnOnSpotThreshold = 80.0f;
     [SerializeField] float slerpSpeed = 5.0f;
     [SerializeField] [Range(0.0f, 3.0f)] float speed = 1.0f;
@@ -38,33 +35,7 @@ public class AIZombieStatePatrol1 : AIZombieState
         zombieStateMachine.Feeding = false;
         zombieStateMachine.AttackType = 0;
 
-        if (zombieStateMachine.TargetType != AITargetType.Waypoint)
-        {
-            zombieStateMachine.ClearTarget();
-
-            if (waypointNetwork != null && waypointNetwork.waypoints.Count > 0)
-            {
-                if (randomPatrol)
-                {
-                    currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
-                }
-
-                if (currentWaypoint < waypointNetwork.waypoints.Count)
-                {
-                    Transform waypoint = waypointNetwork.waypoints[currentWaypoint];
-
-                    if (waypoint != null)
-                    {
-                        zombieStateMachine.SetTarget(AITargetType.Waypoint,
-                                                     null,
-                                                     waypoint.position,
-                                                     Vector3.Distance(zombieStateMachine.transform.position, waypoint.position));
-
-                        zombieStateMachine.NavAgent.SetDestination(waypoint.position);
-                    }
-                }
-            }
-        }
+        zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.SetWaypointPosition(false));
 
         zombieStateMachine.NavAgent.isStopped = false;
     }
@@ -120,37 +91,10 @@ public class AIZombieStatePatrol1 : AIZombieState
         if (zombieStateMachine.NavAgent.isPathStale || !zombieStateMachine.NavAgent.hasPath
             || zombieStateMachine.NavAgent.pathStatus != NavMeshPathStatus.PathComplete)
         {
-            NextWaipoint();
+            zombieStateMachine.GetWaypointPosition(true);
         }
 
         return AIStateType.Patrol;
-    }
-
-    private void NextWaipoint()
-    {
-        if (randomPatrol && waypointNetwork.waypoints.Count > 1)
-        {
-            int oldWaypoint = currentWaypoint;
-            while (currentWaypoint == oldWaypoint)
-            {
-                currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
-            }
-        }
-        else
-            currentWaypoint = currentWaypoint == waypointNetwork.waypoints.Count - 1 ? 0 : currentWaypoint + 1;
-
-        if (waypointNetwork.waypoints[currentWaypoint] != null)
-        {
-            Transform newWayoint = waypointNetwork.waypoints[currentWaypoint];
-
-            zombieStateMachine.SetTarget(AITargetType.Waypoint,
-                                         null,
-                                         newWayoint.position,
-                                         Vector3.Distance(newWayoint.position,
-                                         zombieStateMachine.transform.position));
-
-            zombieStateMachine.NavAgent.SetDestination(newWayoint.position);
-        }
     }
 
     public override void OnDestinationtReached(bool isReached)
@@ -159,7 +103,7 @@ public class AIZombieStatePatrol1 : AIZombieState
             return;
 
         if (zombieStateMachine.TargetType == AITargetType.Waypoint)
-            NextWaipoint();
+            zombieStateMachine.GetWaypointPosition(true);
     }
 
     public override void OnAnimatorIKUpdated()
