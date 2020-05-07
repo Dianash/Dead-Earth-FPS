@@ -59,6 +59,14 @@ public class AIZombieStateFeeding : AIZombieState
             zombieStateMachine.Satisfaction = Mathf.Min(zombieStateMachine.Satisfaction + (Time.deltaTime * zombieStateMachine.ReplenishRate), 1.0f);
         }
 
+        if (!zombieStateMachine.UseRootRotation)
+        {
+            Vector3 targetPos = zombieStateMachine.TargetPosition;
+            targetPos.y = zombieStateMachine.transform.position.y;
+            Quaternion newRot = Quaternion.LookRotation(targetPos - zombieStateMachine.transform.position);
+            zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
+        }
+
         return AIStateType.Feeding;
     }
 
