@@ -67,7 +67,13 @@ public class AIZombieStateIdle1 : AIZombieState
         }
 
         timer += Time.deltaTime;
-        if (timer > idleTime) return AIStateType.Patrol;
+
+        if (timer > idleTime)
+        {
+            zombieStateMachine.NavAgent.SetDestination(zombieStateMachine.GetWaypointPosition(false));
+            zombieStateMachine.NavAgent.isStopped = false;
+            return AIStateType.Patrol;
+        }
 
         return AIStateType.Idle;
     }

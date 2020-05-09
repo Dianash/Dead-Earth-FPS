@@ -69,7 +69,6 @@ public class AIZombieStatePatrol1 : AIZombieState
                 return AIStateType.Pursuit;
             }
         }
-
         if (zombieStateMachine.NavAgent.pathPending)
         {
             zombieStateMachine.Speed = 0;
@@ -88,11 +87,14 @@ public class AIZombieStatePatrol1 : AIZombieState
 
         if (!zombieStateMachine.UseRootRotation)
         {
-            Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
+            if (zombieStateMachine.NavAgent.desiredVelocity != Vector3.zero)
+            {
+                Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
 
-            zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation,
-                                                                     newRot,
-                                                                     Time.deltaTime * slerpSpeed);
+                zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation,
+                                                                         newRot,
+                                                                         Time.deltaTime * slerpSpeed);
+            }
         }
 
         if (zombieStateMachine.NavAgent.isPathStale || zombieStateMachine.NavAgent.hasPath

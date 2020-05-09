@@ -79,7 +79,9 @@ public class AIZombieStatePursuit1 : AIZombieState
         }
 
         if (zombieStateMachine.NavAgent.pathPending)
+        {
             zombieStateMachine.Speed = 0;
+        }
         else
         {
             zombieStateMachine.Speed = speed;
