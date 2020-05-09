@@ -7,7 +7,7 @@ public class GameSceneManager : MonoBehaviour
 
     private static GameSceneManager instance = null;
 
-    public ParticleSystem BloodParticle
+    public ParticleSystem BloodParticles
     {
         get => bloodParticle;
     }
