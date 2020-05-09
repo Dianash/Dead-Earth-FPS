@@ -88,7 +88,7 @@ public class AIZombieStatePatrol1 : AIZombieState
                                                                      Time.deltaTime * slerpSpeed);
         }
 
-        if (zombieStateMachine.NavAgent.isPathStale || !zombieStateMachine.NavAgent.hasPath
+        if (zombieStateMachine.NavAgent.isPathStale || (!zombieStateMachine.NavAgent.hasPath && !zombieStateMachine.NavAgent.pathPending)
             || zombieStateMachine.NavAgent.pathStatus != NavMeshPathStatus.PathComplete)
         {
             zombieStateMachine.GetWaypointPosition(true);
