@@ -35,7 +35,6 @@ public class AIZombieStatePursuit1 : AIZombieState
 
         // Configure state machine
         zombieStateMachine.NavAgentControl(true, false);
-        zombieStateMachine.Speed = speed;
         zombieStateMachine.Seeking = 0;
         zombieStateMachine.Feeding = false;
         zombieStateMachine.AttackType = 0;
@@ -73,29 +72,35 @@ public class AIZombieStatePursuit1 : AIZombieState
         }
 
         if (zombieStateMachine.NavAgent.isPathStale ||
-            !zombieStateMachine.NavAgent.hasPath ||
+           (!zombieStateMachine.NavAgent.hasPath && !zombieStateMachine.NavAgent.pathPending) ||
             zombieStateMachine.NavAgent.pathStatus != NavMeshPathStatus.PathComplete)
         {
             return AIStateType.Alerted;
         }
 
-        if (!zombieStateMachine.UseRootRotation && zombieStateMachine.TargetType == AITargetType.VisualPlayer
-            && zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer && zombieStateMachine.IsTargetReached)
+        if (zombieStateMachine.NavAgent.pathPending)
+            zombieStateMachine.Speed = 0;
+        else
         {
-            Vector3 targetPos = zombieStateMachine.TargetPosition;
-            targetPos.y = zombieStateMachine.transform.position.y;
-            Quaternion newRot = Quaternion.LookRotation(targetPos - zombieStateMachine.transform.position);
-            zombieStateMachine.transform.rotation = newRot;
-        }
+            zombieStateMachine.Speed = speed;
 
-        else if (!stateMachine.UseRootRotation && !zombieStateMachine.IsTargetReached)
-        {
-            Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
-            zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
-        }
-        else if (zombieStateMachine.IsTargetReached)
-        {
-            return AIStateType.Alerted;
+            if (!zombieStateMachine.UseRootRotation && zombieStateMachine.TargetType == AITargetType.VisualPlayer
+                && zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer && zombieStateMachine.IsTargetReached)
+            {
+                Vector3 targetPos = zombieStateMachine.TargetPosition;
+                targetPos.y = zombieStateMachine.transform.position.y;
+                Quaternion newRot = Quaternion.LookRotation(targetPos - zombieStateMachine.transform.position);
+                zombieStateMachine.transform.rotation = newRot;
+            }
+            else if (!stateMachine.UseRootRotation && !zombieStateMachine.IsTargetReached)
+            {
+                Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
+                zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
+            }
+            else if (zombieStateMachine.IsTargetReached)
+            {
+                return AIStateType.Alerted;
+            }
         }
 
         if (zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer)

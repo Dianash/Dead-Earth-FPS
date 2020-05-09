@@ -30,7 +30,6 @@ public class AIZombieStatePatrol1 : AIZombieState
 
         // Configure state machine
         zombieStateMachine.NavAgentControl(true, false);
-        zombieStateMachine.Speed = speed;
         zombieStateMachine.Seeking = 0;
         zombieStateMachine.Feeding = false;
         zombieStateMachine.AttackType = 0;
@@ -71,6 +70,14 @@ public class AIZombieStatePatrol1 : AIZombieState
             }
         }
 
+        if (zombieStateMachine.NavAgent.pathPending)
+        {
+            zombieStateMachine.Speed = 0;
+            return AIStateType.Patrol;
+        }
+        else
+            zombieStateMachine.Speed = speed;
+
         float angle = Vector3.Angle(zombieStateMachine.transform.forward,
             zombieStateMachine.NavAgent.steeringTarget - zombieStateMachine.transform.position);
 
@@ -88,7 +95,7 @@ public class AIZombieStatePatrol1 : AIZombieState
                                                                      Time.deltaTime * slerpSpeed);
         }
 
-        if (zombieStateMachine.NavAgent.isPathStale || (!zombieStateMachine.NavAgent.hasPath && !zombieStateMachine.NavAgent.pathPending)
+        if (zombieStateMachine.NavAgent.isPathStale || zombieStateMachine.NavAgent.hasPath
             || zombieStateMachine.NavAgent.pathStatus != NavMeshPathStatus.PathComplete)
         {
             zombieStateMachine.GetWaypointPosition(true);
