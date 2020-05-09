@@ -3,7 +3,14 @@ using System.Collections.Generic;
 
 public class GameSceneManager : MonoBehaviour
 {
+    [SerializeField] ParticleSystem bloodParticle = null;
+
     private static GameSceneManager instance = null;
+
+    public ParticleSystem BloodParticle
+    {
+        get => bloodParticle;
+    }
 
     public static GameSceneManager Instance
     {
