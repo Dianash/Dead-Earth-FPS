@@ -33,5 +33,14 @@ public class FPSController : MonoBehaviour
     public float WalkSpeed { get => walkSpeed; }
     public float RunSpeed { get => runSpeed; }
 
+    protected void Start()
+    {
+        characterController = GetComponent<CharacterController>();
+        camera = Camera.main;
+        movementStatus = PlayerMoveStatus.NotMoving;
+        fallingTimer = 0.0f;
+        mouseLook.Init(transform, camera.transform);
+    }
+
 
 }
