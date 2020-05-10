@@ -10,16 +10,17 @@ public class CurveControlledBob
     [SerializeField] float horizontalMultiplier = 0.01f;
     [SerializeField] float verticalMultiplier = 0.02f;
     [SerializeField] float verticalToHorizontalSpeedRation = 2.0f;
+    [SerializeField] float baseInterval = 1.0f;
 
     private float xPlayHead;
     private float yPlayHead;
-    private float baseInterval;
     private float curveEndTime;
 
-    public void Initialize(float bobBaseInterval)
+    public void Initialize()
     {
-        baseInterval = bobBaseInterval;
         curveEndTime = bobCurve[bobCurve.length - 1].time;
+        xPlayHead = 0.0f;
+        yPlayHead = 0.0f;
     }
 
     public Vector3 GetVectorOffset(float speed)
