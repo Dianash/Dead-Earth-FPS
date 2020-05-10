@@ -6001,6 +6001,7 @@ MonoBehaviour:
   jumpSpeed: 7.5
   stickToGroundForce: 5
   gravityMultyplier: 2.5
+  fallingTimerThreshold: 0.5
   mouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -6196,7 +6197,7 @@ GameObject:
   - component: {fileID: 1934627408}
   m_Layer: 11
   m_Name: FPS Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
