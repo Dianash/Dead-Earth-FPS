@@ -14190,7 +14190,7 @@ MonoBehaviour:
   randomPatrol: 0
   currentWaypoint: -1
   stoppingDistance: 1
-  fov: 50
+  fov: 180
   sight: 0.5
   hearing: 50
   aggression: 0.5
