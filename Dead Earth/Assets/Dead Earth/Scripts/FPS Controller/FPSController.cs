@@ -13,6 +13,8 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private float gravityMultyplier = 2.5f;
 
+    [SerializeField] private float fallingTimerThreshold = 0.5f;
+
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.MouseLook mouseLook;
 
     private Camera camera = null;
@@ -40,6 +42,42 @@ public class FPSController : MonoBehaviour
         movementStatus = PlayerMoveStatus.NotMoving;
         fallingTimer = 0.0f;
         mouseLook.Init(transform, camera.transform);
+    }
+
+    protected void Update()
+    {
+        if (characterController.isGrounded)
+            fallingTimer = 0.0f;
+        else
+            fallingTimer += Time.deltaTime;
+
+        // Allow Mouse Look a chance to process mouse and rotate camera
+        if (Time.timeScale > Mathf.Epsilon)
+        {
+            mouseLook.LookRotation(transform, camera.transform);
+        }
+
+        // Process the Jump Button
+        if (!jumpButtonPressed)
+            jumpButtonPressed = Input.GetButtonDown("Jump");
+
+        if (!previouslyGrounded && characterController.isGrounded)
+        {
+            if (fallingTimer > fallingTimerThreshold)
+            {
+                // TODO: Play landing sound
+            }
+
+            moveDirection.y = 0f;
+            isJumping = false;
+            movementStatus = PlayerMoveStatus.Landing;
+        }
+        else if (!characterController.isGrounded)
+            movementStatus = PlayerMoveStatus.NotGrounded;
+        else if (characterController.velocity.sqrMagnitude < 0.01f)
+            movementStatus = PlayerMoveStatus.NotMoving;
+
+        previouslyGrounded = characterController.isGrounded;
     }
 
     protected void FixedUpdate()
@@ -88,6 +126,4 @@ public class FPSController : MonoBehaviour
 
         characterController.Move(moveDirection * Time.fixedDeltaTime);
     }
-
-
 }
