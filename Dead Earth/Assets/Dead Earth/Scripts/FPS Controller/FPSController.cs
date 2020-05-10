@@ -42,5 +42,52 @@ public class FPSController : MonoBehaviour
         mouseLook.Init(transform, camera.transform);
     }
 
+    protected void FixedUpdate()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        bool wasWalking = isWalking;
+        isWalking = !Input.GetKey(KeyCode.LeftShift);
+
+        float speed = isWalking ? walkSpeed : runSpeed;
+        inputVector = new Vector2(horizontal, vertical);
+
+        if (inputVector.sqrMagnitude > 1) inputVector.Normalize();
+
+        // Always move along the camera forward as it is direction that is being aimed at
+        Vector3 desiredMove = transform.forward * inputVector.y + transform.right * inputVector.x;
+
+        // Get a normal for the surface that is being touched to move along it
+        RaycastHit hitInfo;
+        if (Physics.SphereCast(transform.position, characterController.radius, Vector3.down, out hitInfo, characterController.height / 2f, 1))
+        {
+            desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
+        }
+
+        // Scale movement by our current speed (walking or running)
+        moveDirection.x = desiredMove.x * speed;
+        moveDirection.z = desiredMove.z * speed;
+
+        if (characterController.isGrounded)
+        {
+            // Apply severe down force to keep control sticking to floor
+            moveDirection.y = -stickToGroundForce;
+
+            if (jumpButtonPressed)
+            {
+                moveDirection.y = jumpSpeed;
+                jumpButtonPressed = false;
+                isJumping = true;
+            }
+        }
+        else
+        {
+            // Apply standart system gravity multiplied by our gravity modifier
+            moveDirection += Physics.gravity * gravityMultyplier * Time.fixedDeltaTime;
+        }
+
+        characterController.Move(moveDirection * Time.fixedDeltaTime);
+    }
+
 
 }
