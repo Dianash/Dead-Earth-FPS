@@ -63,7 +63,7 @@ public class AIZombieStateAlerted1 : AIZombieState
             timer = maxDuration;
         }
         if (zombieStateMachine.audioThreat.Type == AITargetType.None
-            && zombieStateMachine.visualThreat.Type == AITargetType.VisualFood)
+            && zombieStateMachine.visualThreat.Type == AITargetType.VisualFood && zombieStateMachine.TargetType == AITargetType.None)
         {
             zombieStateMachine.SetTarget(stateMachine.visualThreat);
             return AIStateType.Pursuit;
@@ -100,6 +100,15 @@ public class AIZombieStateAlerted1 : AIZombieState
                 return AIStateType.Patrol;
             zombieStateMachine.Seeking = (int)Mathf.Sign(angle);
         }
+        else
+        {
+            if (directionChangeTimer > directionChangeTime)
+            {
+                zombieStateMachine.Seeking = (int)Mathf.Sign(Random.Range(-1.0f, 1.0f));
+                directionChangeTimer = 0.0f;
+            }
+        }
+
         return AIStateType.Alerted;
     }
 }
