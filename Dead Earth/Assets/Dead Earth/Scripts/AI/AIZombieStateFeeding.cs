@@ -63,7 +63,7 @@ public class AIZombieStateFeeding : AIZombieState
 
         if (zombieStateMachine.Animator.GetCurrentAnimatorStateInfo(eatingLayerIndex).shortNameHash == eatingStateHash)
         {
-            zombieStateMachine.Satisfaction = Mathf.Min(zombieStateMachine.Satisfaction + (Time.deltaTime * zombieStateMachine.ReplenishRate), 1.0f);
+            zombieStateMachine.Satisfaction = Mathf.Min(zombieStateMachine.Satisfaction + (Time.deltaTime * zombieStateMachine.ReplenishRate) / 100.0f, 1.0f);
 
             if (GameSceneManager.Instance && GameSceneManager.Instance.BloodParticles && bloodParticlesMount)
             {
