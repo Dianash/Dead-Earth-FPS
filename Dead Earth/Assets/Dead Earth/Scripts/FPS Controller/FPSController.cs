@@ -3,7 +3,7 @@
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
-    [SerializeField] private float walkSpeed = 1.0f;
+    [SerializeField] private float walkSpeed = 2.0f;
 
     [SerializeField] private float runSpeed = 4.5f;
 
@@ -15,19 +15,21 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private float fallingTimerThreshold = 0.5f;
 
+    [SerializeField] private float runStepLenghten = 0.75f;
+
     [SerializeField] private CurveControlledBob headBob = new CurveControlledBob();
 
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.MouseLook mouseLook;
 
     private Camera camera = null;
-    private Vector3 inputVector = Vector3.zero;
+    private Vector2 inputVector = Vector2.zero;
     private Vector3 moveDirection = Vector3.zero;
 
     private bool jumpButtonPressed = false;
     private bool previouslyGrounded = false;
     private bool isWalking = true;
     private bool isJumping = false;
-    private Vector3 localSpaceCameraPos = Vector3.zero; 
+    private Vector3 localSpaceCameraPos = Vector3.zero;
 
     private float fallingTimer = 0.0f;
 
@@ -39,13 +41,15 @@ public class FPSController : MonoBehaviour
     public float RunSpeed { get => runSpeed; }
 
     protected void Start()
-    {        
+    {
         characterController = GetComponent<CharacterController>();
         camera = Camera.main;
         localSpaceCameraPos = camera.transform.localPosition;
         movementStatus = PlayerMoveStatus.NotMoving;
         fallingTimer = 0.0f;
         mouseLook.Init(transform, camera.transform);
+        headBob.Initialize();
+        //headBob.RegisterEventCallback(1.5f, PlayFootStepSound, CurveControlledBobCallbackType.Vertical);
     }
 
     protected void Update()
@@ -67,7 +71,7 @@ public class FPSController : MonoBehaviour
 
         if (!previouslyGrounded && characterController.isGrounded)
         {
-            if (fallingTimer > fallingTimerThreshold)
+            if (fallingTimer > 0.5f)
             {
                 // TODO: Play landing sound
             }
@@ -129,5 +133,12 @@ public class FPSController : MonoBehaviour
         }
 
         characterController.Move(moveDirection * Time.fixedDeltaTime);
+
+        // Are we moving
+        Vector3 speedXZ = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z);
+        if (speedXZ.magnitude > 0.01f)
+            camera.transform.localPosition = localSpaceCameraPos + headBob.GetVectorOffset(speedXZ.magnitude * (/*isCrouching || */isWalking ? 1.0f : runStepLenghten));
+        else
+            camera.transform.localPosition = localSpaceCameraPos;
     }
 }
