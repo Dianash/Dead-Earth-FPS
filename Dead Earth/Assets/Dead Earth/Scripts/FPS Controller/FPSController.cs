@@ -19,6 +19,8 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private float runStepLenghten = 0.75f;
 
+    [SerializeField] private GameObject flashLight = null;
+
     [SerializeField] private CurveControlledBob headBob = new CurveControlledBob();
 
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.MouseLook mouseLook;
@@ -55,6 +57,9 @@ public class FPSController : MonoBehaviour
         mouseLook.Init(transform, camera.transform);
         headBob.Initialize();
         headBob.RegisterEventCallback(1.5f, PlayFootStepSound, CurveControlledBobCallbackType.Vertical);
+
+        if (flashLight)
+            flashLight.SetActive(false);
     }
 
     protected void Update()
@@ -68,6 +73,12 @@ public class FPSController : MonoBehaviour
         if (Time.timeScale > Mathf.Epsilon)
         {
             mouseLook.LookRotation(transform, camera.transform);
+        }
+
+        if (Input.GetButtonDown("FlashLight"))
+        {
+            if (flashLight)
+                flashLight.SetActive(!flashLight.activeInHierarchy);
         }
 
         // Process the Jump Button

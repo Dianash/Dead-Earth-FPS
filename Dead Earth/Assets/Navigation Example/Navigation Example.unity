@@ -6113,6 +6113,7 @@ MonoBehaviour:
   gravityMultyplier: 2.5
   fallingTimerThreshold: 0.5
   runStepLenghten: 0.65
+  flashLight: {fileID: 848920912}
   headBob:
     bobCurve:
       serializedVersion: 2
