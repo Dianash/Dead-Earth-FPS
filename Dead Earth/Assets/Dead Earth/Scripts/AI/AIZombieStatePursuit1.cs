@@ -7,6 +7,8 @@ using UnityEngine.AI;
 public class AIZombieStatePursuit1 : AIZombieState
 {
     [SerializeField] [Range(0, 10)] private float speed = 3.0f;
+    [SerializeField] [Range(0.0f, 1.0f)] float lookAtWeight = 0.7f;
+    [SerializeField] [Range(0.0f, 90.0f)] float lookAtAngleThreshold = 15.0f;
     [SerializeField] private float slerpSpeed = 5.0f;
     [SerializeField] private float repathDistanceMultiplier = 0.035f;
     [SerializeField] private float repathVisualMinDuration = 0.05f;
@@ -17,6 +19,7 @@ public class AIZombieStatePursuit1 : AIZombieState
 
     private float timer = 0.0f;
     private float repathTimer = 0.0f;
+    private float currentLookAtWeight = 0.0f;
 
     public override AIStateType GetStateType()
     {
@@ -192,5 +195,23 @@ public class AIZombieStatePursuit1 : AIZombieState
         }
 
         return AIStateType.Pursuit;
+    }
+
+    public override void OnAnimatorIKUpdated()
+    {
+        if (zombieStateMachine == null)
+            return;
+
+        if (Vector3.Angle(zombieStateMachine.transform.forward, zombieStateMachine.TargetPosition - zombieStateMachine.transform.position) < lookAtAngleThreshold)
+        {
+            zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition + Vector3.up);
+            currentLookAtWeight = Mathf.Lerp(currentLookAtWeight, lookAtWeight, Time.deltaTime);
+            zombieStateMachine.Animator.SetLookAtWeight(currentLookAtWeight);
+        }
+        else
+        {
+            currentLookAtWeight = Mathf.Lerp(currentLookAtWeight, 0.0f, Time.deltaTime);
+            zombieStateMachine.Animator.SetLookAtWeight(currentLookAtWeight);
+        }
     }
 }
