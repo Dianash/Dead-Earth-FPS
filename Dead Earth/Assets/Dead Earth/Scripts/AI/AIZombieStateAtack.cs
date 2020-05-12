@@ -2,6 +2,7 @@
 
 public class AIZombieStateAtack : AIZombieState
 {
+    [SerializeField] float stoppingDistance = 1.0f;
     [SerializeField] [Range(0, 10)] float speed = 0.0f;
     [SerializeField] [Range(0.0f, 1.0f)] float lookAtWeight = 0.7f;
     [SerializeField] [Range(0.0f, 90.0f)] float lookAtAngleThreshold = 15.0f;
@@ -40,6 +41,13 @@ public class AIZombieStateAtack : AIZombieState
     {
         Vector3 targetPos;
         Quaternion newRot;
+
+        if(Vector3.Distance(zombieStateMachine.transform.position, zombieStateMachine.TargetPosition) < stoppingDistance)
+        {
+            zombieStateMachine.Speed = 0;
+        }
+        else
+            zombieStateMachine.Speed = speed;
 
         if (zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer)
         {
