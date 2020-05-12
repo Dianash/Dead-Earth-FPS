@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 226049610}
   - component: {fileID: 226049611}
   - component: {fileID: 226049612}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mouth Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6440,7 +6440,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 0
-  m_Extents: {x: 0.15, y: 1, z: 0.15}
+  m_Extents: {x: 0.17, y: 1, z: 0.17}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
@@ -10829,7 +10829,7 @@ GameObject:
   - component: {fileID: 180599448745246251}
   - component: {fileID: 942025775983365217}
   - component: {fileID: 942025775983365218}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10844,7 +10844,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 942025775983365216}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.15
@@ -10983,7 +10983,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034452372032558938}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.15

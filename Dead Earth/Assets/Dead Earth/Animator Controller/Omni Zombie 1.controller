@@ -65,10 +65,10 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: Attack
-    m_EventTreshold: 0
+    m_EventTreshold: 2
   - m_ConditionMode: 4
     m_ConditionEvent: Attack
-    m_EventTreshold: 9999
+    m_EventTreshold: 21
   - m_ConditionMode: 2
     m_ConditionEvent: Crawling
     m_EventTreshold: 0
@@ -847,10 +847,10 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 3
     m_ConditionEvent: Attack
-    m_EventTreshold: 90
+    m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: Attack
-    m_EventTreshold: 95
+    m_EventTreshold: 9999
   - m_ConditionMode: 2
     m_ConditionEvent: Crawling
     m_EventTreshold: 0
@@ -863,7 +863,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.75
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -1352,61 +1352,61 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Seeking
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Feeding
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Crawling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: HitType
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: LeftHand
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: RightHand
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Mouth
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1607,31 +1607,31 @@ AnimatorStateMachine:
     m_Position: {x: 320, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6305165608264087859}
-    m_Position: {x: 740, y: -120, z: 0}
+    m_Position: {x: 740, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8650742390658051285}
-    m_Position: {x: 740, y: -60, z: 0}
+    m_Position: {x: 740, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4815619960244701713}
-    m_Position: {x: 740, y: 240, z: 0}
+    m_Position: {x: 740, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 866209981553676873}
     m_Position: {x: 740, y: 300, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 708481114618503335}
-    m_Position: {x: 740, y: 0, z: 0}
+    m_Position: {x: 740, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4390664946296048254}
-    m_Position: {x: 740, y: -180, z: 0}
+    m_Position: {x: 740, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 9144955990601498936}
-    m_Position: {x: 740, y: 120, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3982482100408532756}
     m_Position: {x: 740, y: 180, z: 0}
   - serializedVersion: 1
+    m_State: {fileID: -3982482100408532756}
+    m_Position: {x: 740, y: 240, z: 0}
+  - serializedVersion: 1
     m_State: {fileID: 5936693048337138613}
-    m_Position: {x: 740, y: 60, z: 0}
+    m_Position: {x: 740, y: 120, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

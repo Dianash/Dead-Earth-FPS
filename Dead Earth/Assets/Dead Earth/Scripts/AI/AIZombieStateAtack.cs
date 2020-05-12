@@ -27,14 +27,14 @@ public class AIZombieStateAtack : AIZombieState
         zombieStateMachine.NavAgentControl(true, false);
         zombieStateMachine.Seeking = 0;
         zombieStateMachine.Feeding = false;
-        zombieStateMachine.AttackType = Random.Range(1, 100); ;
+        zombieStateMachine.AttackType = 1; //Random.Range(1, 100); ;
         zombieStateMachine.Speed = speed;
         currentLookAtWeight = 0.0f;
     }
 
     public override void OnExitState()
     {
-        zombieStateMachine.AttackType = 0;
+       // zombieStateMachine.AttackType = 0;
     }
 
     public override AIStateType OnUpdate()
@@ -65,7 +65,7 @@ public class AIZombieStateAtack : AIZombieState
                 zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
             }
 
-            zombieStateMachine.AttackType = Random.Range(1, 100);
+            zombieStateMachine.AttackType = 1; // Random.Range(1, 100);
 
             return AIStateType.Attack;
         }

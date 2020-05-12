@@ -2,6 +2,8 @@
 
 public class AIDamageTrigger : MonoBehaviour
 {
+    [SerializeField] string parameter = null;
+
     private void OnTriggerStay(Collider collider)
     {
         if (collider.gameObject.CompareTag("Player"))
