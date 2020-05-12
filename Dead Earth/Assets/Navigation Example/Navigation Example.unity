@@ -14566,6 +14566,7 @@ GameObject:
   - component: {fileID: 8296172668452520772}
   - component: {fileID: 8296172668452520773}
   - component: {fileID: 8296172668452520774}
+  - component: {fileID: 8296172668452520775}
   m_Layer: 8
   m_Name: AI Entity
   m_TagString: Untagged
@@ -14711,6 +14712,18 @@ MonoBehaviour:
   bloodParticlesMount: {fileID: 614092016}
   bloodParticlesBurstTime: 0.1
   bloodParticlesBurstAmount: 10
+--- !u!114 &8296172668452520775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296172668452520766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a35542e0c19cf04abe88f6b51cbb432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8471817553533271359
 Transform:
   m_ObjectHideFlags: 0
