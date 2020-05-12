@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21303c7efb2f39c47a72b0ce6ef35ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameter: Mouth
 --- !u!4 &228974499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -650382798008282385, guid: ff62139b61548d249be0d968e74b7503,
@@ -10861,6 +10862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21303c7efb2f39c47a72b0ce6ef35ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameter: RightHand
 --- !u!1 &942113147941249202
 GameObject:
   m_ObjectHideFlags: 0
@@ -11000,6 +11002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21303c7efb2f39c47a72b0ce6ef35ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parameter: LeftHand
 --- !u!1 &1086373979852597647
 GameObject:
   m_ObjectHideFlags: 0

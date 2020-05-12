@@ -850,7 +850,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: Attack
-    m_EventTreshold: 9999
+    m_EventTreshold: 21
   - m_ConditionMode: 2
     m_ConditionEvent: Crawling
     m_EventTreshold: 0
