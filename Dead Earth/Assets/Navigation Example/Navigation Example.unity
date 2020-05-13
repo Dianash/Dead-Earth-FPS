@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameter: Mouth
+  bloodParticlesBurstAmount: 10
 --- !u!4 &228974499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -650382798008282385, guid: ff62139b61548d249be0d968e74b7503,
@@ -6632,6 +6633,7 @@ GameObject:
   - component: {fileID: 1934627407}
   - component: {fileID: 1934627408}
   - component: {fileID: 1934627409}
+  - component: {fileID: 1934627410}
   m_Layer: 11
   m_Name: FPS Camera
   m_TagString: MainCamera
@@ -6705,6 +6707,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934627406}
   m_Enabled: 1
+--- !u!114 &1934627410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934627406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591ea6b6df8d28542b521b200b73482d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1944563692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10863,6 +10877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameter: RightHand
+  bloodParticlesBurstAmount: 10
 --- !u!1 &942113147941249202
 GameObject:
   m_ObjectHideFlags: 0
@@ -11003,6 +11018,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameter: LeftHand
+  bloodParticlesBurstAmount: 10
 --- !u!1 &1086373979852597647
 GameObject:
   m_ObjectHideFlags: 0
