@@ -5,6 +5,8 @@
         _MainTex ("Texture", 2D) = "white" {}
 		_BloodTex ("Blood Texture", 2D) = "white" {}
 		_BloodBump ("Blood Normal", 2D) = "bump" {}
+		_BloodAmount ("Blood Amount", Range(0, 1)) = 0
+		_BloodDistortion ("Blood Distortion", Range(0, 1)) = 1
     }
     SubShader
     {
@@ -40,6 +42,11 @@
             }
 
             sampler2D _MainTex;
+            sampler2D _BloodTex;
+            sampler2D _BloodBump;
+			float _BloodAmount;
+			float _BloodDistortion;
+
 
             fixed4 frag (v2f i) : SV_Target
             {
