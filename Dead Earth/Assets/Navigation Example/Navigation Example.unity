@@ -6127,7 +6127,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436352356}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.8549572, z: -0, w: -0.5186984}
   m_LocalPosition: {x: -17.11, y: 0.92, z: 28.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6135,7 +6135,7 @@ Transform:
   - {fileID: 2118993898}
   m_Father: {fileID: 0}
   m_RootOrder: 13
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 242.49, z: 0}
 --- !u!143 &1436352358
 CharacterController:
   m_ObjectHideFlags: 0
@@ -6723,6 +6723,9 @@ MonoBehaviour:
   bloodNormalMap: {fileID: 2800000, guid: 35a02f567451d9a43870eee9298e367e, type: 3}
   bloodAmount: 0
   minBloodAmount: 0
+  distortion: 0.2
+  fadeSpeed: 0.05
+  autoFade: 0
   shader: {fileID: 4800000, guid: bd7972d6737a14e479468636e6139bd1, type: 3}
 --- !u!1001 &1944563692
 PrefabInstance:
