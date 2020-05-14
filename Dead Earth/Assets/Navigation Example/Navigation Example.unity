@@ -6109,6 +6109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1436352357}
   - component: {fileID: 1436352358}
+  - component: {fileID: 1436352363}
   - component: {fileID: 1436352359}
   - component: {fileID: 1436352361}
   - component: {fileID: 1436352360}
@@ -6448,6 +6449,18 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1436352363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436352356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef8f5c529325d734fa745d8116117164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1532470844
 GameObject:
   m_ObjectHideFlags: 0
@@ -6721,11 +6734,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloodTexture: {fileID: 2800000, guid: d9d168ea723eebb488a83362e0409365, type: 3}
   bloodNormalMap: {fileID: 2800000, guid: 35a02f567451d9a43870eee9298e367e, type: 3}
-  bloodAmount: 0
+  bloodAmount: 0.107313424
   minBloodAmount: 0
   distortion: 0.2
   fadeSpeed: 0.05
-  autoFade: 0
+  autoFade: 1
   shader: {fileID: 4800000, guid: bd7972d6737a14e479468636e6139bd1, type: 3}
 --- !u!1001 &1944563692
 PrefabInstance:
