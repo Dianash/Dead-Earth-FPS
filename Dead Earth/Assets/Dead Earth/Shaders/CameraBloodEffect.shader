@@ -3,7 +3,8 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-
+		_BloodTex ("Blood Texture", 2D) = "white" {}
+		_BloodBump ("Blood Normal", 2D) = "bump" {}
     }
     SubShader
     {
