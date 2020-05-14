@@ -10655,7 +10655,7 @@ GameObject:
   - component: {fileID: 279211645893005185}
   m_Layer: 14
   m_Name: LeftLeg
-  m_TagString: Untagged
+  m_TagString: Lower Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11048,7 +11048,7 @@ GameObject:
   - component: {fileID: 1030924278247925578}
   m_Layer: 14
   m_Name: RightUpLeg
-  m_TagString: Untagged
+  m_TagString: Lower Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12315,7 +12315,7 @@ GameObject:
   - component: {fileID: 2774069797309558857}
   m_Layer: 14
   m_Name: RightArm
-  m_TagString: Untagged
+  m_TagString: Upper Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12545,7 +12545,7 @@ GameObject:
   - component: {fileID: 3000541948843673043}
   m_Layer: 14
   m_Name: LeftUpLeg
-  m_TagString: Untagged
+  m_TagString: Lower Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13539,7 +13539,7 @@ GameObject:
   - component: {fileID: 4927210676787077034}
   m_Layer: 14
   m_Name: Spine1
-  m_TagString: Untagged
+  m_TagString: Upper Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14017,7 +14017,7 @@ GameObject:
   - component: {fileID: 5731499938177659694}
   m_Layer: 14
   m_Name: Hips
-  m_TagString: Untagged
+  m_TagString: Lower Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14459,7 +14459,7 @@ GameObject:
   - component: {fileID: 6435513305800494137}
   m_Layer: 14
   m_Name: RightLeg
-  m_TagString: Untagged
+  m_TagString: Lower Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15788,7 +15788,7 @@ GameObject:
   - component: {fileID: 9006365393295729551}
   m_Layer: 14
   m_Name: LeftArm
-  m_TagString: Untagged
+  m_TagString: Upper Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15928,7 +15928,7 @@ GameObject:
   - component: {fileID: 9111962883730957116}
   m_Layer: 14
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Head
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
