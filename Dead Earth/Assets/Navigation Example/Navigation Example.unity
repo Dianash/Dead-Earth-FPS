@@ -6719,6 +6719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 591ea6b6df8d28542b521b200b73482d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: bd7972d6737a14e479468636e6139bd1, type: 3}
 --- !u!1001 &1944563692
 PrefabInstance:
   m_ObjectHideFlags: 0

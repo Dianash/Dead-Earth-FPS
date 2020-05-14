@@ -1,52 +1,52 @@
 ﻿Shader "Hidden/CameraBloodEffect"
 {
-	Properties
-	{
-		_MainTex("Texture", 2D) = "white" {}
-	}
-		SubShader
-	{
-		// No culling or depth
-		Cull Off ZWrite Off ZTest Always
+    Properties
+    {
+        _MainTex ("Texture", 2D) = "white" {}
 
-		Pass
-		{
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
+    }
+    SubShader
+    {
+        // No culling or depth
+        Cull Off ZWrite Off ZTest Always
 
-			#include "UnityCG.cginc"
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
+            #include "UnityCG.cginc"
 
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-			};
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-			v2f vert(appdata v)
-			{
-				v2f o;
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = v.uv;
-				return o;
-			}
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+            };
 
-			sampler2D _MainTex;
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+                return o;
+            }
 
-			fixed4 frag(v2f i) : SV_Target
-			{
-				fixed4 col = tex2D(_MainTex, i.uv);
-			// just invert the colors
-			col.rgb = 1 - col.rgb;
-			return col;
-		}
-		ENDCG
-	}
-	}
+            sampler2D _MainTex;
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                fixed4 col = tex2D(_MainTex, i.uv);
+				half lum = Luminance(col.xyz);
+				return fixed4(lum, lum, lum, 1.0);
+            }
+            ENDCG
+        }
+    }
 }

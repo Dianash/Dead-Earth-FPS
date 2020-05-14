@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 public class CameraBloodEffect : MonoBehaviour
 {
     [SerializeField] private Shader shader = null;
