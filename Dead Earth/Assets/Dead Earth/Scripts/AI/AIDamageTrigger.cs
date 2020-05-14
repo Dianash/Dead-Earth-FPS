@@ -4,10 +4,12 @@ public class AIDamageTrigger : MonoBehaviour
 {
     [SerializeField] string parameter = null;
     [SerializeField] int bloodParticlesBurstAmount = 10;
+    [SerializeField] float damageAmount = 0.1f;
 
     private AIStateMachine stateMachine = null;
     private Animator animator = null;
     private int parameterHash = -1;
+    GameSceneManager gameSceneManager = null;
 
     private void Start()
     {
@@ -17,6 +19,8 @@ public class AIDamageTrigger : MonoBehaviour
             animator = stateMachine.Animator;
 
         parameterHash = Animator.StringToHash(parameter);
+
+        gameSceneManager = GameSceneManager.Instance;
     }
 
     private void OnTriggerStay(Collider collider)
@@ -35,8 +39,16 @@ public class AIDamageTrigger : MonoBehaviour
                 ParticleSystemSimulationSpace spaceMode = system.main.simulationSpace;
                 spaceMode = ParticleSystemSimulationSpace.World;
             }
+        }
 
-            Debug.Log("Player being damaged");
+        if (gameSceneManager != null)
+        {
+            PlayerInfo info = gameSceneManager.GetPlayerInfo(collider.GetInstanceID());
+
+            if (info != null && info.characterManager != null)
+            {
+                info.characterManager.TakeDamage(damageAmount);
+            }
         }
     }
 }

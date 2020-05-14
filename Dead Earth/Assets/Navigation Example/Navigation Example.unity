@@ -303,6 +303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter: Mouth
   bloodParticlesBurstAmount: 10
+  damageAmount: 5
 --- !u!4 &228974499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -650382798008282385, guid: ff62139b61548d249be0d968e74b7503,
@@ -6461,6 +6462,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8f5c529325d734fa745d8116117164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeTrigger: {fileID: 2118993899}
+  cameraBloodEffect: {fileID: 1934627410}
+  cam: {fileID: 1934627408}
+  health: 100
 --- !u!1 &1532470844
 GameObject:
   m_ObjectHideFlags: 0
@@ -6734,7 +6739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloodTexture: {fileID: 2800000, guid: d9d168ea723eebb488a83362e0409365, type: 3}
   bloodNormalMap: {fileID: 2800000, guid: 35a02f567451d9a43870eee9298e367e, type: 3}
-  bloodAmount: 0.107313424
+  bloodAmount: 0
   minBloodAmount: 0
   distortion: 0.2
   fadeSpeed: 0.05
@@ -10899,6 +10904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter: RightHand
   bloodParticlesBurstAmount: 10
+  damageAmount: 50
 --- !u!1 &942113147941249202
 GameObject:
   m_ObjectHideFlags: 0
@@ -11040,6 +11046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter: LeftHand
   bloodParticlesBurstAmount: 10
+  damageAmount: 50
 --- !u!1 &1086373979852597647
 GameObject:
   m_ObjectHideFlags: 0

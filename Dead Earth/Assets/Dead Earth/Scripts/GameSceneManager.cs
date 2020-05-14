@@ -23,6 +23,7 @@ public class GameSceneManager : MonoBehaviour
     }
 
     private Dictionary<int, AIStateMachine> stateMachine = new Dictionary<int, AIStateMachine>();
+    private Dictionary<int, PlayerInfo> playerInfos = new Dictionary<int, PlayerInfo>();
 
     /// <summary>
     /// Stores the passed state machine in the dictionary with the supplied key
@@ -44,6 +45,33 @@ public class GameSceneManager : MonoBehaviour
         if (stateMachine.TryGetValue(key, out machine))
         {
             return machine;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Stores the passed PlayerInfo in the dictionary with the supplied key
+    /// </summary>
+    public void RegisterPlayerInfo(int key, PlayerInfo playerInfo)
+    {
+        if (!playerInfos.ContainsKey(key))
+        {
+            playerInfos[key] = playerInfo;
+        }
+    }
+
+    /// <summary>
+    /// Returns a PlayerInfo reference searched on by the instance ID of an object
+    /// </summary>
+    /// <param name="key">AI State Machine instance ID</param>
+    public PlayerInfo GetPlayerInfo(int key)
+    {
+        PlayerInfo info = null;
+
+        if (playerInfos.TryGetValue(key, out info))
+        {
+            return info;
         }
 
         return null;
