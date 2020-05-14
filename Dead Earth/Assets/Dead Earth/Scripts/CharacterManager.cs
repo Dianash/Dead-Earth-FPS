@@ -34,11 +34,11 @@ public class CharacterManager : MonoBehaviour
 
     internal void TakeDamage(float amount)
     {
-        health = Mathf.Max(health - amount, 0.0f);
+        health = Mathf.Max(health - (amount * Time.deltaTime), 0.0f);
 
         if (cameraBloodEffect != null)
         {
-            cameraBloodEffect.MinBloodAmount = 1.0f - ((health / 100.0f) / 3.0f);
+            cameraBloodEffect.MinBloodAmount = 1.0f - health / 100.0f;
             cameraBloodEffect.BloodAmount = Mathf.Min(cameraBloodEffect.MinBloodAmount + 0.3f, 1.0f);
         }
     }
