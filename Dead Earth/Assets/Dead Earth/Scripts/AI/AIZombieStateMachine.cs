@@ -41,6 +41,8 @@ public class AIZombieStateMachine : AIStateMachine
     private int feedingHash = Animator.StringToHash("Feeding");
     private int attackHash = Animator.StringToHash("Attack");
     private int crawlHash = Animator.StringToHash("Crawling");
+    private int hitTriggerHash = Animator.StringToHash("Hit");
+    private int hitTypeHash = Animator.StringToHash("HitType");
 
     private AIBoneControlType boneControlType = AIBoneControlType.Animated;
 
@@ -171,11 +173,78 @@ public class AIZombieStateMachine : AIStateMachine
             }
         }
 
+        Vector3 attackerLocPos = transform.InverseTransformPoint(character.transform.position);
+        Vector3 hitLocPos = transform.InverseTransformPoint(position);
+
         bool shouldRagDoll = hitStrength > 1.0f;
 
-        if (health <= 0) shouldRagDoll = true;
+        if (bodyPart != null)
+        {
+            if (bodyPart.CompareTag("Head"))
+            {
+                health = Mathf.Max(health - damage, 0);
+                if (health == 0)
+                    shouldRagDoll = true;
+            }
+            else if (bodyPart.CompareTag("Upper Body"))
+            {
+                upperBodyDamage += damage;
+                UpdateAnimatorDamage();
+            }
+            else if (bodyPart.CompareTag("Lower Body"))
+            {
+                lowerBodyDamage += damage;
+                UpdateAnimatorDamage();
+                shouldRagDoll = true;
+            }
+        }
 
-        if (shouldRagDoll)
+        if (health <= 0)
+            shouldRagDoll = true;
+
+        if (boneControlType != AIBoneControlType.Animated || IsCrawling || cinematicEnabled || attackerLocPos.z < 0)
+            shouldRagDoll = true;
+
+        if (!shouldRagDoll)
+        {
+            float angle = 0.0f;
+
+            if (hitDirection == 0)
+            {
+                Vector3 vecToHit = (position - transform.position).normalized;
+                angle = AIState.FindSignedAngle(vecToHit, transform.forward);
+            }
+
+            int hitType = 0;
+
+            if (bodyPart.gameObject.CompareTag("Head"))
+            {
+                if (angle < -10 || hitDirection == -1)
+                    hitType = 1;
+                else if (angle > 10 || hitDirection == 1)
+                    hitType = 3;
+                else
+                    hitType = 2;
+            }
+            else if (bodyPart.gameObject.CompareTag("Upper Body"))
+            {
+                if (angle < -20 || hitDirection == -1)
+                    hitType = 4;
+                else if (angle > 20 || hitDirection == 1)
+                    hitType = 6;
+                else
+                    hitType = 5;
+            }
+
+            if (animator)
+            {
+                animator.SetInteger(hitTypeHash, hitType);
+                animator.SetTrigger(hitTriggerHash);
+            }
+
+            return;
+        }
+        else
         {
             if (currentState)
             {
@@ -199,6 +268,13 @@ public class AIZombieStateMachine : AIStateMachine
             if (hitStrength > 1.0f)
             {
                 bodyPart.AddForce(force, ForceMode.Impulse);
+            }
+
+            boneControlType = AIBoneControlType.Ragdoll;
+
+            if (health > 0)
+            {
+
             }
         }
     }
