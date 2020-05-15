@@ -99,6 +99,7 @@ public class AIZombieStatePursuit1 : AIZombieState
             }
             else if (!stateMachine.UseRootRotation && !zombieStateMachine.IsTargetReached)
             {
+                print(zombieStateMachine.Speed);
                 Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
                 zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
             }

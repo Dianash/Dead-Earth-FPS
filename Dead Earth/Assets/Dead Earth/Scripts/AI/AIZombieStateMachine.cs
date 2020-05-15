@@ -90,7 +90,7 @@ public class AIZombieStateMachine : AIStateMachine
             animator.SetInteger(attackHash, AttackType);
         }
 
-        satisfaction = Mathf.Max(0, satisfaction - ((depletionRate * Time.deltaTime) / 100.0f) * Mathf.Pow(Speed, 3));
+        satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3));
     }
 
     public override void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection)
@@ -104,6 +104,40 @@ public class AIZombieStateMachine : AIStateMachine
                 ParticleSystemSimulationSpace spaceMode = particleSystem.main.simulationSpace;
                 spaceMode = ParticleSystemSimulationSpace.World;
                 particleSystem.Emit(60);
+            }
+        }
+
+        float hitStrenghth = force.magnitude;
+        bool shouldRagDoll = hitStrenghth > 1.0f;
+
+        if (health <= 0) shouldRagDoll = true;
+
+        if (navAgent) navAgent.speed = 0;
+
+        if (shouldRagDoll)
+        {
+            if (currentState)
+            {
+                currentState.OnEnterState();
+                currentState = null;
+                currentStateType = AIStateType.None;
+            }
+
+            if (navAgent) navAgent.enabled = false;
+            if (animator) animator.enabled = false;
+            if (objectCollider) objectCollider.enabled = false;
+
+            InMeleeRange = false;
+
+            foreach (Rigidbody body in bodyParts)
+            {
+                if (body)
+                    body.isKinematic = false;
+            }
+
+            if (hitStrenghth > 1.0f)
+            {
+                bodyPart.AddForce(force, ForceMode.Impulse);
             }
         }
     }
