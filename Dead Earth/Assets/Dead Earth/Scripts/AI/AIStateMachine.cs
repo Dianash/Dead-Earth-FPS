@@ -429,8 +429,5 @@ public abstract class AIStateMachine : MonoBehaviour
             currentState.OnAnimatorIKUpdated();
     }
 
-    public void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection)
-    {
-        Debug.Log("Auch");
-    }
+    public virtual void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection) { }
 }
