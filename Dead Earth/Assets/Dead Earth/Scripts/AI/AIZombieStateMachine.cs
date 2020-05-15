@@ -14,6 +14,10 @@ public class AIZombieStateMachine : AIStateMachine
 
     [SerializeField] [Range(0, 100)] int health = 100;
 
+    [SerializeField] [Range(0, 100)] int lowerBodyDamage = 0;
+
+    [SerializeField] [Range(0, 100)] int upperBodyDamage = 0;
+
     [SerializeField] [Range(0.0f, 1.0f)] float intelligence = 0.5f;
 
     [SerializeField] [Range(0.0f, 1.0f)] float satisfaction = 1f;
@@ -30,6 +34,8 @@ public class AIZombieStateMachine : AIStateMachine
     private int seekingHash = Animator.StringToHash("Seeking");
     private int feedingHash = Animator.StringToHash("Feeding");
     private int attackHash = Animator.StringToHash("Attack");
+
+    private AIBoneControlType boneControlType = AIBoneControlType.Animated;
 
     #endregion
 
