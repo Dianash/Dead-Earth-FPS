@@ -3,11 +3,6 @@
 public class AIStateMachineLink : StateMachineBehaviour
 {
     protected AIStateMachine stateMachine;
-    public AIStateMachine StateMachine
-    {
-        set
-        {
-            stateMachine = value;
-        }
-    }
+
+    public AIStateMachine StateMachine { get => stateMachine; set => stateMachine = value; }
 }

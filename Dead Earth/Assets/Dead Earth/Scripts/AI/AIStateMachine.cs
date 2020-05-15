@@ -19,6 +19,7 @@ public abstract class AIStateMachine : MonoBehaviour
     protected bool isTargetReached = false;
     protected List<Rigidbody> bodyParts = new List<Rigidbody>();
     protected int aiBodyPartLayer = -1;
+    protected bool cinematicEnabled = false;
 
     [SerializeField] protected AIStateType currentStateType = AIStateType.Idle;
     [SerializeField] protected SphereCollider targetTrigger = null;
@@ -28,13 +29,12 @@ public abstract class AIStateMachine : MonoBehaviour
     [SerializeField] protected int currentWaypoint = -1;
     [SerializeField] [Range(0, 15)] protected float stoppingDistance = 1.0f;
 
-
     [SerializeField] private Transform rootBone = null;
 
     // Component cache
     protected Animator animator = null;
     protected NavMeshAgent navAgent = null;
-    protected Collider objectCollider = null;
+    protected Collider coll = null;
     protected Transform objectTransform = null;
 
     public Animator Animator { get => animator; }
@@ -121,6 +121,7 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
+    public bool CinematicEnabled { get => cinematicEnabled; set => cinematicEnabled = value; }
 
     /// <summary>
     /// Fetches the world space position of the state machine`s currently set waypoint.
@@ -262,13 +263,13 @@ public abstract class AIStateMachine : MonoBehaviour
         objectTransform = transform;
         animator = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
-        objectCollider = GetComponent<Collider>();
+        coll = GetComponent<Collider>();
         aiBodyPartLayer = LayerMask.NameToLayer("AI Body Part");
 
         if (GameSceneManager.Instance != null)
         {
-            if (objectCollider)
-                GameSceneManager.Instance.RegisterAIStateMachine(objectCollider.GetInstanceID(), this);
+            if (coll)
+                GameSceneManager.Instance.RegisterAIStateMachine(coll.GetInstanceID(), this);
 
             if (sensorTrigger)
                 GameSceneManager.Instance.RegisterAIStateMachine(sensorTrigger.GetInstanceID(), this);

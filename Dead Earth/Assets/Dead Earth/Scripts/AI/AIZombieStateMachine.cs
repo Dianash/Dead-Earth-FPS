@@ -18,6 +18,12 @@ public class AIZombieStateMachine : AIStateMachine
 
     [SerializeField] [Range(0, 100)] int upperBodyDamage = 0;
 
+    [SerializeField] [Range(0, 100)] int upperBodyThreshold = 30;
+
+    [SerializeField] [Range(0, 100)] int limpThreshold = 30;
+
+    [SerializeField] [Range(0, 100)] int crawlThreshold = 90;
+
     [SerializeField] [Range(0.0f, 1.0f)] float intelligence = 0.5f;
 
     [SerializeField] [Range(0.0f, 1.0f)] float satisfaction = 1f;
@@ -34,6 +40,7 @@ public class AIZombieStateMachine : AIStateMachine
     private int seekingHash = Animator.StringToHash("Seeking");
     private int feedingHash = Animator.StringToHash("Feeding");
     private int attackHash = Animator.StringToHash("Attack");
+    private int crawlHash = Animator.StringToHash("Crawling");
 
     private AIBoneControlType boneControlType = AIBoneControlType.Animated;
 
@@ -79,7 +86,18 @@ public class AIZombieStateMachine : AIStateMachine
         set => health = value;
     }
 
+    public bool IsCrawling
+    {
+        get { return lowerBodyDamage >= crawlThreshold; }
+    }
+
     #endregion
+
+    protected override void Start()
+    {
+        base.Start();
+        UpdateAnimatorDamage();
+    }
 
     /// <summary>
     /// Refreshes the animator with up-to-date values for its parameters 
@@ -99,6 +117,14 @@ public class AIZombieStateMachine : AIStateMachine
         satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3));
     }
 
+    protected void UpdateAnimatorDamage()
+    {
+        if (animator != null)
+        {
+            animator.SetBool(crawlHash, IsCrawling);
+        }
+    }
+
     public override void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection)
     {
         if (GameSceneManager.Instance != null)
@@ -113,12 +139,41 @@ public class AIZombieStateMachine : AIStateMachine
             }
         }
 
-        float hitStrenghth = force.magnitude;
-        bool shouldRagDoll = hitStrenghth > 1.0f;
+        float hitStrength = force.magnitude;
+
+        if (boneControlType == AIBoneControlType.Ragdoll)
+        {
+            if (bodyPart != null)
+            {
+                if (hitStrength > 1.0f)
+                {
+                    bodyPart.AddForce(force, ForceMode.Impulse);
+                }
+                if (bodyPart.CompareTag("Head"))
+                {
+                    health = Mathf.Max(health - damage, 0);
+                }
+                else if (bodyPart.CompareTag("Upper Body"))
+                {
+                    upperBodyDamage += damage;
+                }
+                else if (bodyPart.CompareTag("Lower Body"))
+                {
+                    lowerBodyDamage += damage;
+                }
+
+                UpdateAnimatorDamage();
+
+                if (health > 0)
+                {
+
+                }
+            }
+        }
+
+        bool shouldRagDoll = hitStrength > 1.0f;
 
         if (health <= 0) shouldRagDoll = true;
-
-        if (navAgent) navAgent.speed = 0;
 
         if (shouldRagDoll)
         {
@@ -131,7 +186,7 @@ public class AIZombieStateMachine : AIStateMachine
 
             if (navAgent) navAgent.enabled = false;
             if (animator) animator.enabled = false;
-            if (objectCollider) objectCollider.enabled = false;
+            if (coll) coll.enabled = false;
 
             InMeleeRange = false;
 
@@ -141,7 +196,7 @@ public class AIZombieStateMachine : AIStateMachine
                     body.isKinematic = false;
             }
 
-            if (hitStrenghth > 1.0f)
+            if (hitStrength > 1.0f)
             {
                 bodyPart.AddForce(force, ForceMode.Impulse);
             }

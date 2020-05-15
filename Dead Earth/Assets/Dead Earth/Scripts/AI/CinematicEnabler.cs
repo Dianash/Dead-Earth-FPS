@@ -8,13 +8,13 @@ public class CinematicEnabler : AIStateMachineLink
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (StateMachine)
-            StateMachine.cinematicEnabled = onEnter;      
+            StateMachine.CinematicEnabled = onEnter;      
 
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (StateMachine)
-            StateMachine.cinematicEnabled = onExit;
+            StateMachine.CinematicEnabled = onExit;
     }
 }

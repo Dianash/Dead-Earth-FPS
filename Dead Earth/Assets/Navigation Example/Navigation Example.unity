@@ -5859,7 +5859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &858819578
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15655,6 +15655,11 @@ MonoBehaviour:
   hearing: 50
   aggression: 0.5
   health: 100
+  lowerBodyDamage: 0
+  upperBodyDamage: 0
+  upperBodyThreshold: 0
+  limpThreshold: 30
+  crawlThreshold: 90
   intelligence: 0.5
   satisfaction: 0
   replenishRate: 2
