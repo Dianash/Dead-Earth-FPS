@@ -17,6 +17,8 @@ public abstract class AIStateMachine : MonoBehaviour
     protected int rootPositionRefCount = 0;
     protected int rootRotationRefCount = 0;
     protected bool isTargetReached = false;
+    protected List<Rigidbody> bodyParts = new List<Rigidbody>();
+    protected int aiBodyPartLayer = -1;
 
     [SerializeField] protected AIStateType currentStateType = AIStateType.Idle;
     [SerializeField] protected SphereCollider targetTrigger = null;
@@ -25,6 +27,9 @@ public abstract class AIStateMachine : MonoBehaviour
     [SerializeField] protected bool randomPatrol = false;
     [SerializeField] protected int currentWaypoint = -1;
     [SerializeField] [Range(0, 15)] protected float stoppingDistance = 1.0f;
+
+
+    [SerializeField] private Transform rootBone = null;
 
     // Component cache
     protected Animator animator = null;
@@ -258,6 +263,7 @@ public abstract class AIStateMachine : MonoBehaviour
         animator = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
         objectCollider = GetComponent<Collider>();
+        aiBodyPartLayer = LayerMask.NameToLayer("AI Body Part");
 
         if (GameSceneManager.Instance != null)
         {
@@ -266,6 +272,20 @@ public abstract class AIStateMachine : MonoBehaviour
 
             if (sensorTrigger)
                 GameSceneManager.Instance.RegisterAIStateMachine(sensorTrigger.GetInstanceID(), this);
+        }
+
+        if (rootBone != null)
+        {
+            Rigidbody[] bodies = rootBone.GetComponentsInChildren<Rigidbody>();
+
+            foreach (Rigidbody bodyPart in bodies)
+            {
+                if (bodyPart != null && bodyPart.gameObject.layer == aiBodyPartLayer)
+                {
+                    bodyParts.Add(bodyPart);
+                    GameSceneManager.Instance.RegisterAIStateMachine(bodyPart.GetInstanceID(), this);
+                }
+            }
         }
     }
 
@@ -407,5 +427,10 @@ public abstract class AIStateMachine : MonoBehaviour
     {
         if (currentState != null)
             currentState.OnAnimatorIKUpdated();
+    }
+
+    public void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection)
+    {
+        Debug.Log("Auch");
     }
 }

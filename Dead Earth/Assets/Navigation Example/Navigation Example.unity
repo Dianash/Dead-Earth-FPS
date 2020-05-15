@@ -15649,6 +15649,7 @@ MonoBehaviour:
   randomPatrol: 0
   currentWaypoint: -1
   stoppingDistance: 1
+  rootBone: {fileID: 4341065988059229773}
   fov: 120
   sight: 0.5
   hearing: 50
