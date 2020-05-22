@@ -15650,6 +15650,7 @@ MonoBehaviour:
   currentWaypoint: -1
   stoppingDistance: 1
   rootBone: {fileID: 4341065988059229773}
+  rootBoneAlingment: 2
   fov: 120
   sight: 0.5
   hearing: 50
@@ -15664,6 +15665,11 @@ MonoBehaviour:
   satisfaction: 0
   replenishRate: 2
   depletionRate: 0.1
+  reanimationBlendTime: 0.5
+  reanimationWaitTime: 3
+  geometryLayers:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &8296172668452520770
 MonoBehaviour:
   m_ObjectHideFlags: 0

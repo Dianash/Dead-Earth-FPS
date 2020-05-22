@@ -29,7 +29,8 @@ public abstract class AIStateMachine : MonoBehaviour
     [SerializeField] protected int currentWaypoint = -1;
     [SerializeField] [Range(0, 15)] protected float stoppingDistance = 1.0f;
 
-    [SerializeField] private Transform rootBone = null;
+    [SerializeField] protected Transform rootBone = null;
+    [SerializeField] protected AIBoneAlignmentType rootBoneAlingment = AIBoneAlignmentType.ZAxis;
 
     // Component cache
     protected Animator animator = null;
