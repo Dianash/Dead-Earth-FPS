@@ -6268,6 +6268,64 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1158006823}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1299405218
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1299405219}
+  - component: {fileID: 1299405221}
+  - component: {fileID: 1299405220}
+  m_Layer: 13
+  m_Name: Sound Emitter
+  m_TagString: AI Sound Emitter
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1299405219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299405218}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1436352357}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1299405220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299405218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11fdcc86a710fd54ba978020616c7707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decayRate: 1
+--- !u!135 &1299405221
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1299405218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1319662840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6382,6 +6440,7 @@ Transform:
   m_Children:
   - {fileID: 1934627407}
   - {fileID: 2118993898}
+  - {fileID: 1299405219}
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 242.49, z: 0}
@@ -6713,6 +6772,11 @@ MonoBehaviour:
   cameraBloodEffect: {fileID: 1934627410}
   cam: {fileID: 1934627408}
   health: 100
+  soundEmitter: {fileID: 1299405220}
+  walkRadius: 0
+  runRadius: 7
+  landingRadius: 12
+  bloodRadiusScale: 7
 --- !u!1 &1532470844
 GameObject:
   m_ObjectHideFlags: 0
@@ -15704,7 +15768,7 @@ MonoBehaviour:
   hearing: 50
   aggression: 0.5
   health: 100
-  lowerBodyDamage: 50
+  lowerBodyDamage: 0
   upperBodyDamage: 0
   upperBodyThreshold: 29
   limpThreshold: 30

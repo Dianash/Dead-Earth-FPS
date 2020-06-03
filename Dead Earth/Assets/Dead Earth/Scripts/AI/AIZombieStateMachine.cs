@@ -58,6 +58,8 @@ public class AIZombieStateMachine : AIStateMachine
     private int lowerBodyDamageHash = Animator.StringToHash("Lower Body Damage");
     private int upperBodyDamageHash = Animator.StringToHash("Upper Body Damage");
     private int stateHash = Animator.StringToHash("State");
+    private int upperBodyLayer = -1;
+    private int lowerBodyLayer = -1;
 
     #endregion
 
@@ -121,6 +123,12 @@ public class AIZombieStateMachine : AIStateMachine
     {
         base.Start();
 
+        if (animator != null)
+        {
+            lowerBodyLayer = animator.GetLayerIndex("Lower Body");
+            upperBodyLayer = animator.GetLayerIndex("Upper Body");
+        }
+
         if (rootBone != null)
         {
             Transform[] transforms = rootBone.GetComponentsInChildren<Transform>();
@@ -160,6 +168,16 @@ public class AIZombieStateMachine : AIStateMachine
     {
         if (animator != null)
         {
+            if (lowerBodyLayer != -1)
+            {
+                animator.SetLayerWeight(lowerBodyLayer, (lowerBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold) ? 1.0f : 0.0f);
+            }
+
+            if (upperBodyLayer != -1)
+            {
+                animator.SetLayerWeight(upperBodyLayer, (upperBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold) ? 1.0f : 0.0f);
+            }
+
             animator.SetBool(crawlHash, IsCrawling);
             animator.SetInteger(lowerBodyDamageHash, lowerBodyDamage);
             animator.SetInteger(upperBodyDamageHash, upperBodyDamage);

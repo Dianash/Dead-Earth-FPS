@@ -7,6 +7,11 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private CameraBloodEffect cameraBloodEffect = null;
     [SerializeField] private Camera cam = null;
     [SerializeField] private float health = 100.0f;
+    [SerializeField] private AISoundEmitter soundEmitter = null;
+    [SerializeField] private float walkRadius = 0.0f;
+    [SerializeField] private float runRadius = 7.0f;
+    [SerializeField] private float landingRadius = 12.0f;
+    [SerializeField] private float bloodRadiusScale = 6.0f;
 
     private Collider coll = null;
     private FPSController fPSController = null;
@@ -63,7 +68,7 @@ public class CharacterManager : MonoBehaviour
 
             if (stateMachine)
             {
-                stateMachine.TakeDamage(hit.point, ray.direction * 35.0f, 35, hit.rigidbody, this, 0);
+                stateMachine.TakeDamage(hit.point, ray.direction * 1.0f, 50, hit.rigidbody, this, 0);
             }
         }
     }
@@ -73,6 +78,22 @@ public class CharacterManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             DoDamage();
+        }
+
+        if (fPSController && (soundEmitter != null))
+        {
+            float newRadius = Mathf.Max(walkRadius, (100.0f - health) / bloodRadiusScale);
+            switch (fPSController.MovementStatus)
+            {
+                case PlayerMoveStatus.Landing:
+                    newRadius = Mathf.Max(newRadius, landingRadius);
+                    break;
+                case PlayerMoveStatus.Running:
+                    newRadius = Mathf.Max(newRadius, runRadius);
+                    break;
+            }
+
+            soundEmitter.SetRadius(newRadius);
         }
     }
 }
