@@ -60,11 +60,10 @@ public class CharacterManager : MonoBehaviour
         if (isSomethingHit)
         {
             AIStateMachine stateMachine = gameSceneManager.GetAIStateMachine(hit.rigidbody.GetInstanceID());
-            print(stateMachine);
 
             if (stateMachine)
             {
-                stateMachine.TakeDamage(hit.point, ray.direction * 1.0f, 25, hit.rigidbody, this, 0);
+                stateMachine.TakeDamage(hit.point, ray.direction * 35.0f, 35, hit.rigidbody, this, 0);
             }
         }
     }

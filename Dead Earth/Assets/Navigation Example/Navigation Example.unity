@@ -253,6 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 226049610}
   - component: {fileID: 226049612}
+  - component: {fileID: 226049611}
   m_Layer: 10
   m_Name: Mouth Trigger
   m_TagString: Untagged
@@ -274,6 +275,20 @@ Transform:
   m_Father: {fileID: 1707243786845727120}
   m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 14.54, y: 0, z: 0}
+--- !u!136 &226049611
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226049609}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.08
+  m_Height: 0.45
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.24}
 --- !u!114 &226049612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5335,7 +5350,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469063383}
   m_LocalRotation: {x: 0, y: 0.7144727, z: 0, w: 0.6996633}
-  m_LocalPosition: {x: -10.45, y: -0.01, z: 21.07}
+  m_LocalPosition: {x: -9.6, y: 0, z: 21.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5006512735550976301}
@@ -10505,9 +10520,9 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
@@ -11174,6 +11189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 180599448745246251}
   - component: {fileID: 942025775983365218}
+  - component: {fileID: 942025775983365217}
   m_Layer: 10
   m_Name: RightHand
   m_TagString: Untagged
@@ -11181,6 +11197,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &942025775983365217
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942025775983365216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.18
+  m_Center: {x: 0, y: 0.04, z: 0}
 --- !u!114 &942025775983365218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11380,6 +11409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4546963469198395381}
   - component: {fileID: 1034452372032558940}
+  - component: {fileID: 1034452372032558939}
   m_Layer: 10
   m_Name: LeftHand
   m_TagString: Untagged
@@ -11387,6 +11417,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!135 &1034452372032558939
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034452372032558938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.18
+  m_Center: {x: 0, y: 0.04, z: 0}
 --- !u!114 &1034452372032558940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15658,14 +15701,14 @@ MonoBehaviour:
   health: 100
   lowerBodyDamage: 0
   upperBodyDamage: 0
-  upperBodyThreshold: 0
+  upperBodyThreshold: 29
   limpThreshold: 30
   crawlThreshold: 90
   intelligence: 0.5
-  satisfaction: 0
+  satisfaction: 0.484
   replenishRate: 2
   depletionRate: 0.1
-  reanimationBlendTime: 0.5
+  reanimationBlendTime: 1.5
   reanimationWaitTime: 3
   geometryLayers:
     serializedVersion: 2
@@ -15714,6 +15757,7 @@ MonoBehaviour:
   waypointAngleThreshold: 25
   threatAngleThreshold: 10
   directionChangeTime: 1.5
+  slerpSpeed: 45
 --- !u!114 &8296172668452520773
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ public class AIZombieStateAlerted1 : AIZombieState
     [SerializeField] float waypointAngleThreshold = 90.0f;
     [SerializeField] float threatAngleThreshold = 10.0f;
     [SerializeField] float directionChangeTime = 1.5f;
+    [SerializeField] float slerpSpeed = 45.0f;
 
     private float timer = 0.0f;
     private float directionChangeTimer = 0.0f;
@@ -108,6 +109,9 @@ public class AIZombieStateAlerted1 : AIZombieState
                 directionChangeTimer = 0.0f;
             }
         }
+
+        if (!zombieStateMachine.UseRootRotation)
+            zombieStateMachine.transform.Rotate(new Vector3(0.0f, slerpSpeed * zombieStateMachine.Seeking * Time.deltaTime, 0.0f));
 
         return AIStateType.Alerted;
     }

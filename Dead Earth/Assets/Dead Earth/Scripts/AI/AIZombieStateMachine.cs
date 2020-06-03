@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.AI;
+using UnityEditor.Experimental.Rendering;
 
 public class AIZombieStateMachine : AIStateMachine
 {
@@ -53,6 +55,9 @@ public class AIZombieStateMachine : AIStateMachine
     private int hitTypeHash = Animator.StringToHash("HitType");
     private int reanimateFromBackHash = Animator.StringToHash("Reanimate From Back");
     private int reanimateFromFrontHash = Animator.StringToHash("Reanimate From Front");
+    private int lowerBodyDamageHash = Animator.StringToHash("Lower Body Damage");
+    private int upperBodyDamageHash = Animator.StringToHash("Upper Body Damage");
+    private int stateHash = Animator.StringToHash("State");
 
     #endregion
 
@@ -63,7 +68,7 @@ public class AIZombieStateMachine : AIStateMachine
     private Vector3 ragdollFeetPosition;
     private Vector3 ragdollHeadPosition;
     private IEnumerator reanimationCoroutine = null;
-    private float mecanimTransitionTime = -0.1f;
+    private float mecanimTransitionTime = 0.1f;
 
     #region Public properties
 
@@ -145,9 +150,10 @@ public class AIZombieStateMachine : AIStateMachine
             animator.SetBool(feedingHash, Feeding);
             animator.SetInteger(seekingHash, Seeking);
             animator.SetInteger(attackHash, AttackType);
+            animator.SetInteger(stateHash, (int)currentStateType);
         }
 
-        satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3));
+        satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3.0f));
     }
 
     protected void UpdateAnimatorDamage()
@@ -155,6 +161,8 @@ public class AIZombieStateMachine : AIStateMachine
         if (animator != null)
         {
             animator.SetBool(crawlHash, IsCrawling);
+            animator.SetInteger(lowerBodyDamageHash, lowerBodyDamage);
+            animator.SetInteger(upperBodyDamageHash, upperBodyDamage);
         }
     }
 
@@ -203,9 +211,11 @@ public class AIZombieStateMachine : AIStateMachine
                         StopCoroutine(reanimationCoroutine);
 
                     reanimationCoroutine = Reanimate();
-                    StartCoroutine(Reanimate());
+                    StartCoroutine(reanimationCoroutine);
                 }
             }
+
+            return;
         }
 
         Vector3 attackerLocPos = transform.InverseTransformPoint(character.transform.position);
@@ -234,8 +244,8 @@ public class AIZombieStateMachine : AIStateMachine
             }
         }
 
-        if (health <= 0)
-            shouldRagDoll = true;
+        //if (health <= 0)
+        //    shouldRagDoll = true;
 
         if (boneControlType != AIBoneControlType.Animated || IsCrawling || cinematicEnabled || attackerLocPos.z < 0)
             shouldRagDoll = true;
@@ -283,7 +293,7 @@ public class AIZombieStateMachine : AIStateMachine
         {
             if (currentState)
             {
-                currentState.OnEnterState();
+                currentState.OnExitState();
                 currentState = null;
                 currentStateType = AIStateType.None;
             }
@@ -302,7 +312,8 @@ public class AIZombieStateMachine : AIStateMachine
 
             if (hitStrength > 1.0f)
             {
-                bodyPart.AddForce(force, ForceMode.Impulse);
+                if (bodyPart != null)
+                    bodyPart.AddForce(force, ForceMode.Impulse);
             }
 
             boneControlType = AIBoneControlType.Ragdoll;
@@ -313,7 +324,7 @@ public class AIZombieStateMachine : AIStateMachine
                     StopCoroutine(reanimationCoroutine);
 
                 reanimationCoroutine = Reanimate();
-                StartCoroutine(Reanimate());
+                StartCoroutine(reanimationCoroutine);
             }
         }
     }
@@ -341,11 +352,11 @@ public class AIZombieStateMachine : AIStateMachine
         {
             snapShot.position = snapShot.transform.position;
             snapShot.rotation = snapShot.transform.rotation;
-            snapShot.localRotation = snapShot.transform.localRotation;
         }
 
         ragdollHeadPosition = animator.GetBoneTransform(HumanBodyBones.Head).position;
         ragdollFeetPosition = (animator.GetBoneTransform(HumanBodyBones.LeftFoot).position + animator.GetBoneTransform(HumanBodyBones.RightFoot).position) * 0.5f;
+        ragdollHipPosition = rootBone.position;
 
         animator.enabled = true;
 
@@ -366,7 +377,7 @@ public class AIZombieStateMachine : AIStateMachine
                 case AIBoneAlignmentType.XAxis:
                     forwardTest = rootBone.right.y; break;
                 case AIBoneAlignmentType.XAxisInverted:
-                    forwardTest = rootBone.right.y; break;
+                    forwardTest = -rootBone.right.y; break;
                 default:
                     forwardTest = rootBone.forward.y; break;
             }
@@ -388,6 +399,74 @@ public class AIZombieStateMachine : AIStateMachine
             {
                 Vector3 animatedToRagdoll = ragdollHeadPosition - rootBone.position;
                 Vector3 newRootPosition = transform.position + animatedToRagdoll;
+
+                RaycastHit[] hits = Physics.RaycastAll(newRootPosition + (Vector3.up * 0.25f), Vector3.down, float.MaxValue, geometryLayers);
+                newRootPosition.y = float.MinValue;
+
+                foreach (RaycastHit hit in hits)
+                {
+                    if (!hit.transform.IsChildOf(transform))
+                    {
+                        newRootPosition.y = Mathf.Max(hit.point.y, newRootPosition.y);
+                    }
+                }
+
+                NavMeshHit navMeshHit;
+
+                Vector3 baseOffset = Vector3.zero;
+                if (navAgent) baseOffset.y = navAgent.baseOffset;
+
+                if (NavMesh.SamplePosition(newRootPosition, out navMeshHit, 25.0f, NavMesh.AllAreas))
+                {
+                    transform.position = navMeshHit.position + baseOffset;
+                }
+                else
+                {
+                    transform.position = newRootPosition + baseOffset;
+                }
+
+                Vector3 ragdollDirection = ragdollHeadPosition - ragdollFeetPosition;
+                ragdollDirection.y = 0.0f;
+
+                Vector3 meanFeetPosition = 0.5f * (animator.GetBoneTransform(HumanBodyBones.LeftFoot).position + animator.GetBoneTransform(HumanBodyBones.RightFoot).position);
+                Vector3 animatedDirection = animator.GetBoneTransform(HumanBodyBones.Head).position - meanFeetPosition;
+                animatedDirection.y = 0.0f;
+
+                transform.rotation *= Quaternion.FromToRotation(animatedDirection.normalized, ragdollDirection.normalized);
+            }
+
+            float blendAmount = Mathf.Clamp01((Time.time - ragdollEndTime - mecanimTransitionTime) / reanimationBlendTime);
+
+            // Calculate blended bone position by interpolating between ragdoll bone snapshot and animated bone positions
+            foreach (BodyPartSnapshot snapshot in bodyPartSnapshot)
+            {
+                if (snapshot.transform == rootBone)
+                {
+                    snapshot.transform.position = Vector3.Lerp(snapshot.position, snapshot.transform.position, blendAmount);
+                }
+
+                snapshot.transform.rotation = Quaternion.Slerp(snapshot.rotation, snapshot.transform.rotation, blendAmount);
+
+            }
+
+            if (blendAmount == 1.0f)
+            {
+                boneControlType = AIBoneControlType.Animated;
+
+                if (navAgent)
+                    navAgent.enabled = true;
+                if (coll)
+                    coll.enabled = true;
+
+                AIState newState = null;
+                if (states.TryGetValue(AIStateType.Alerted, out newState))
+                {
+                    if (currentState != null)
+                        currentState.OnExitState();
+                    newState.OnEnterState();
+                    currentState = newState;
+                    currentStateType = AIStateType.Alerted;
+                }
             }
         }
     }
