@@ -44,10 +44,4 @@ public class AISoundEmitter : MonoBehaviour
         targetRadius = newRadius;
         interpolator = 0.0f;
     }
-
-    private void Update()
-    {
-        SetRadius(2.0f);
-        if (Input.GetMouseButtonDown(0)) SetRadius(15.0f);
-    }
 }

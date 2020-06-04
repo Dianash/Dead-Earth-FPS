@@ -10720,6 +10720,7 @@ MonoBehaviour:
     verticalMultiplier: 0.03
     verticalToHorizontalSpeedRatio: 2
     baseInterval: 1
+  npcStickiness: 1
   mouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -12005,7 +12006,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934627406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 591ea6b6df8d28542b521b200b73482d, type: 3}
   m_Name: 
@@ -17268,6 +17269,16 @@ PrefabInstance:
         type: 3}
       propertyPath: intelligence
       value: 0.799
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: screamRadius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: screamChance
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9065269708126677590, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}

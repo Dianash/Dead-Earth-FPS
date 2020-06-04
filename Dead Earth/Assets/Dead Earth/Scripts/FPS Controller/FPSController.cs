@@ -23,6 +23,8 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private CurveControlledBob headBob = new CurveControlledBob();
 
+    [SerializeField] [Range(0.0f, 1.0f)] float npcStickiness = 0.5f;
+
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.MouseLook mouseLook;
 
     private Camera camera = null;
@@ -45,6 +47,33 @@ public class FPSController : MonoBehaviour
     public PlayerMoveStatus MovementStatus { get => movementStatus; }
     public float WalkSpeed { get => walkSpeed; }
     public float RunSpeed { get => runSpeed; }
+
+    private float dragMultiplier = 1.0f;
+    private float dragMultiplierLimit = 1.0f;
+
+    public float DragMultiplierLimit
+    {
+        get
+        {
+            return dragMultiplierLimit;
+        }
+        set
+        {
+            dragMultiplierLimit = Mathf.Clamp01(value);
+        }
+    }
+
+    public float DragMultiplier
+    {
+        get
+        {
+            return dragMultiplier;
+        }
+        set
+        {
+            dragMultiplier = Mathf.Min(value, dragMultiplierLimit);
+        }
+    }
 
     protected void Start()
     {
@@ -114,6 +143,8 @@ public class FPSController : MonoBehaviour
             movementStatus = PlayerMoveStatus.Running;
 
         previouslyGrounded = characterController.isGrounded;
+
+        dragMultiplier = Mathf.Min(dragMultiplier + Time.deltaTime, dragMultiplierLimit);
     }
 
     protected void FixedUpdate()
@@ -139,8 +170,8 @@ public class FPSController : MonoBehaviour
         }
 
         // Scale movement by our current speed (walking or running)
-        moveDirection.x = desiredMove.x * speed;
-        moveDirection.z = desiredMove.z * speed;
+        moveDirection.x = desiredMove.x * speed * dragMultiplier;
+        moveDirection.z = desiredMove.z * speed * dragMultiplier;
 
         if (characterController.isGrounded)
         {
@@ -170,9 +201,17 @@ public class FPSController : MonoBehaviour
             camera.transform.localPosition = localSpaceCameraPos;
     }
 
-    void PlayFootStepSound()
+    private void PlayFootStepSound()
     {
         if (isCrouching)
             return;
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (GameSceneManager.Instance.GetAIStateMachine(hit.collider.GetInstanceID()) != null)
+        {
+            dragMultiplier = 1.0f - npcStickiness;
+        }
     }
 }
