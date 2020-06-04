@@ -75,6 +75,11 @@ public class FPSController : MonoBehaviour
         }
     }
 
+    public void DoStickiness()
+    {
+        dragMultiplier = 1.0f - npcStickiness;
+    }
+
     protected void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -205,13 +210,5 @@ public class FPSController : MonoBehaviour
     {
         if (isCrouching)
             return;
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (GameSceneManager.Instance.GetAIStateMachine(hit.collider.GetInstanceID()) != null)
-        {
-            dragMultiplier = 1.0f - npcStickiness;
-        }
     }
 }
