@@ -11,6 +11,8 @@ public class AIZombieStateAlerted1 : AIZombieState
     private float timer = 0.0f;
     private float directionChangeTimer = 0.0f;
     private float screamChance = 0.0f;
+    private float nextScream = 0.0f;
+    private float screamFrequency = 120.0f;
 
     public override AIStateType GetStateType()
     {
@@ -54,12 +56,12 @@ public class AIZombieStateAlerted1 : AIZombieState
         {
             zombieStateMachine.SetTarget(zombieStateMachine.visualThreat);
 
-            if (screamChance > 0.0f)
+            if (screamChance > 0.0f && Time.time > nextScream)
             {
                 if (zombieStateMachine.Scream())
                 {
-                    print("Screaming");
                     screamChance = float.MinValue;
+                    nextScream = Time.time + screamFrequency;
                     return AIStateType.Alerted;
                 }
             }

@@ -75,6 +75,9 @@ public class FPSController : MonoBehaviour
         }
     }
 
+    public CharacterController CharacterController { get => characterController; }
+
+
     public void DoStickiness()
     {
         dragMultiplier = 1.0f - npcStickiness;

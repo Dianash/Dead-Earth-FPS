@@ -124,6 +124,19 @@ public abstract class AIStateMachine : MonoBehaviour
 
     public bool CinematicEnabled { get => cinematicEnabled; set => cinematicEnabled = value; }
 
+    public void SetStateOverride(AIStateType state)
+    {
+        if (state != currentStateType && states.ContainsKey(state))
+        {
+            if (currentState != null)
+                currentState.OnExitState();
+
+            currentState = states[state];
+            currentStateType = state;
+            currentState.OnEnterState();
+        }
+    }
+
     /// <summary>
     /// Fetches the world space position of the state machine`s currently set waypoint.
     /// </summary>

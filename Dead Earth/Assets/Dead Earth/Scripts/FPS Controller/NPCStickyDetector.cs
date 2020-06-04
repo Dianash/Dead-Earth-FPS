@@ -18,6 +18,11 @@ public class NPCStickyDetector : MonoBehaviour
         if (machine != null && controller != null)
         {
             controller.DoStickiness();
+
+            machine.visualThreat.Set(AITargetType.VisualPlayer, controller.CharacterController, controller.transform.position,
+                Vector3.Distance(machine.transform.position, controller.transform.position));
+
+            machine.SetStateOverride(AIStateType.Attack);
         }
     }
 }
