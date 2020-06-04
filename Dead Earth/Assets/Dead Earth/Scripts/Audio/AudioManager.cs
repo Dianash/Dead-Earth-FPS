@@ -37,4 +37,23 @@ public class AudioManager : MonoBehaviour
             tracks[group.name] = trackInfo;
         }
     }
+
+    protected IEnumerator SetTrackVolumeInternal(string track, float volume, float fadeTime)
+    {
+        float startVolume = 0.0f;
+        float timer = 0.0f;
+
+        mixer.GetFloat(track, out startVolume);
+
+        while (timer < fadeTime)
+        {
+            timer += Time.unscaledDeltaTime;
+            mixer.SetFloat(track, Mathf.Lerp(startVolume, volume, timer / fadeTime));
+            yield return null;
+        }
+
+        mixer.SetFloat(track, volume);
+    }
+
+
 }
