@@ -49,7 +49,7 @@ public abstract class AIZombieState : AIState
                 float distance = Vector3.Distance(zombieStateMachine.SensorPosition, other.transform.position);
 
                 if (currentType != AITargetType.VisualPlayer || (currentType == AITargetType.VisualPlayer &&
-                    distance < zombieStateMachine.visualThreat.Distance))
+                    (distance < zombieStateMachine.visualThreat.Distance)))
                 {
                     if (ColliderIsVisible(other, out RaycastHit hitInfo, playerLayerMask))
                     {

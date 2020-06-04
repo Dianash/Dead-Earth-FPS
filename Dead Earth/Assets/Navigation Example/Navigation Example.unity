@@ -6463,7 +6463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &524447306
 Transform:
   m_ObjectHideFlags: 0
@@ -8641,6 +8641,10 @@ MonoBehaviour:
   geometryLayers:
     serializedVersion: 2
     m_Bits: 1
+  screamChance: 1
+  screamRadius: 20
+  screamPosition: 0
+  screamPrefab: {fileID: 0}
 --- !u!54 &1015614743
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8928,6 +8932,10 @@ MonoBehaviour:
   geometryLayers:
     serializedVersion: 2
     m_Bits: 1
+  screamChance: 1
+  screamRadius: 20
+  screamPosition: 0
+  screamPrefab: {fileID: 0}
 --- !u!54 &1054337209
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9918,7 +9926,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1299405219
 Transform:
   m_ObjectHideFlags: 0
@@ -17235,6 +17243,32 @@ PrefabInstance:
       propertyPath: waypointNetwork
       value: 
       objectReference: {fileID: 1915876150}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: screamPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: screamPrefab
+      value: 
+      objectReference: {fileID: 2868587306105620331, guid: 87ed5e1d3719bab429819e326681d8af,
+        type: 3}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: fov
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: sight
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: intelligence
+      value: 0.799
+      objectReference: {fileID: 0}
     - target: {fileID: 9065269708126677590, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_ConnectedAnchor.x

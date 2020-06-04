@@ -9,38 +9,26 @@ public class AIZombieStateMachine : AIStateMachine
     #region Serialized fields
 
     [SerializeField] [Range(10.0f, 360.0f)] float fov = 50.0f;
-
     [SerializeField] [Range(0.0f, 1.0f)] float sight = 0.5f;
-
     [SerializeField] [Range(0.0f, 1.0f)] float hearing = 50.0f;
-
     [SerializeField] [Range(0.0f, 1.0f)] float aggression = 0.5f;
-
     [SerializeField] [Range(0, 100)] int health = 100;
-
     [SerializeField] [Range(0, 100)] int lowerBodyDamage = 0;
-
     [SerializeField] [Range(0, 100)] int upperBodyDamage = 0;
-
     [SerializeField] [Range(0, 100)] int upperBodyThreshold = 30;
-
     [SerializeField] [Range(0, 100)] int limpThreshold = 30;
-
     [SerializeField] [Range(0, 100)] int crawlThreshold = 90;
-
     [SerializeField] [Range(0.0f, 1.0f)] float intelligence = 0.5f;
-
     [SerializeField] [Range(0.0f, 1.0f)] float satisfaction = 1f;
-
     [SerializeField] float replenishRate = 0.5f;
-
     [SerializeField] float depletionRate = 0.1f;
-
     [SerializeField] float reanimationBlendTime = 0.5f;
-
     [SerializeField] float reanimationWaitTime = 3.0f;
-
     [SerializeField] LayerMask geometryLayers = 0;
+    [SerializeField] [Range(0.0f, 1.0f)] float screamChance = 1.0f;
+    [SerializeField] [Range(0.0f, 1.0f)] float screamRadius = 20.0f;
+    [SerializeField] AIScreamPosition screamPosition = AIScreamPosition.Entity;
+    [SerializeField] AISoundEmitter screamPrefab = null;
 
     #endregion
 
@@ -58,6 +46,9 @@ public class AIZombieStateMachine : AIStateMachine
     private int lowerBodyDamageHash = Animator.StringToHash("Lower Body Damage");
     private int upperBodyDamageHash = Animator.StringToHash("Upper Body Damage");
     private int stateHash = Animator.StringToHash("State");
+    private int screamingHash = Animator.StringToHash("Screaming");
+    private int screamHash = Animator.StringToHash("Scream");
+
     private int upperBodyLayer = -1;
     private int lowerBodyLayer = -1;
 
@@ -71,6 +62,7 @@ public class AIZombieStateMachine : AIStateMachine
     private Vector3 ragdollHeadPosition;
     private IEnumerator reanimationCoroutine = null;
     private float mecanimTransitionTime = 0.1f;
+    private float isScreaming = 0.0f;
 
     #region Public properties
 
@@ -92,6 +84,14 @@ public class AIZombieStateMachine : AIStateMachine
 
     public float Speed { get; set; } = 0.0f;
 
+    public bool IsScreaming
+    {
+        get
+        {
+            return isScreaming > 0.1f;
+        }
+    }
+
     public float ReplenishRate { get => replenishRate; }
 
     public float Satisfaction
@@ -106,6 +106,11 @@ public class AIZombieStateMachine : AIStateMachine
         set => aggression = value;
     }
 
+    public float ScreamChance
+    {
+        get => screamChance;
+    }
+
     public int Health
     {
         get => health;
@@ -118,6 +123,22 @@ public class AIZombieStateMachine : AIStateMachine
     }
 
     #endregion
+
+    public bool Scream()
+    {
+        if (IsScreaming) return false;
+
+        if (animator == null || cinematicEnabled || screamPrefab == null) return false;
+
+        animator.SetTrigger(screamHash);
+        Vector3 spawnPosition = screamPosition == AIScreamPosition.Entity ? transform.position : visualThreat.Position;
+        AISoundEmitter screamEmitter = Instantiate(screamPrefab, spawnPosition, Quaternion.identity) as AISoundEmitter;
+
+        if (screamEmitter != null)
+            screamEmitter.SetRadius(screamRadius);
+
+        return true;
+    }
 
     protected override void Start()
     {
@@ -159,6 +180,8 @@ public class AIZombieStateMachine : AIStateMachine
             animator.SetInteger(seekingHash, Seeking);
             animator.SetInteger(attackHash, AttackType);
             animator.SetInteger(stateHash, (int)currentStateType);
+
+            isScreaming = cinematicEnabled ? 0.0f : animator.GetFloat(screamingHash);
         }
 
         satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3.0f));
