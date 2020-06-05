@@ -129,8 +129,23 @@ public class AudioManager : MonoBehaviour
         activePool[idGiver] = poolItem;
 
         return idGiver;
-    }   
+    }
    
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        listenerPosition = FindObjectOfType<AudioListener>().transform;
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
