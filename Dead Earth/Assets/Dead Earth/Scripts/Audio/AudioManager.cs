@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
 public class AudioManager : MonoBehaviour
 {
@@ -53,7 +54,7 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the volume of the AudioMixergroup assigned to the passed track
+    /// Sets the volume of the AudioMixergroup assigned to the passed track.
     /// </summary>
     public void SetTrackVolume(string track, float volume, float fadeTime = 0.0f)
     {
@@ -96,6 +97,40 @@ public class AudioManager : MonoBehaviour
         mixer.SetFloat(track, volume);
     }
 
+    protected ulong ConfigurePoolObject(int poolIndex, string track, AudioClip clip, Vector3 position, float volume, float spatialBlend, float unimportance)
+    {
+        if (poolIndex < 0 || poolIndex >= pool.Count)
+            return 0;
+
+        AudioPoolItem poolItem = pool[poolIndex];
+
+        idGiver++;
+
+        AudioSource source = poolItem.audioSource;
+        source.clip = clip;
+        source.volume = volume;
+        source.spatialBlend = spatialBlend;
+
+        // Asiign to requested audio group
+        source.outputAudioMixerGroup = tracks[track].group;
+
+        // Position source at requested position
+        source.transform.position = position;
+
+        // Enable gameobject and record that it is being played
+        poolItem.unimportance = unimportance;
+        poolItem.id = idGiver;
+        poolItem.gameObject.SetActive(true);
+        source.Play();
+        poolItem.coroutine = StopSoundDelayed(idGiver, source.clip.length);
+        StartCoroutine(poolItem.coroutine);
+
+        // Add this sound to our active pool with its unique id
+        activePool[idGiver] = poolItem;
+
+        return idGiver;
+    }   
+   
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
