@@ -2,13 +2,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] AudioMixer mixer = null;
+    [SerializeField] int maxSounds = 10;
 
     private static AudioManager instance = null;
     private Dictionary<string, TrackInfo> tracks = new Dictionary<string, TrackInfo>();
+    private List<AudioPoolItem> pool = new List<AudioPoolItem>();
+    private Dictionary<ulong, AudioPoolItem> activePool = new Dictionary<ulong, AudioPoolItem>();
+    private ulong idGiver = 0;
+    private Transform listenerPosition = null;
 
     public static AudioManager Instance
     {
@@ -104,6 +110,22 @@ public class AudioManager : MonoBehaviour
             trackInfo.group = group;
             trackInfo.trackFader = null;
             tracks[group.name] = trackInfo;
+        }
+
+        // Generate pool
+        for (int i = 0; i < maxSounds; i++)
+        {
+            GameObject gameObject = new GameObject("Pool Item");
+            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+            gameObject.transform.parent = transform;
+
+            AudioPoolItem poolItem = new AudioPoolItem();
+            poolItem.gameObject = gameObject;
+            poolItem.audioSource = audioSource;
+            poolItem.transform = transform;
+            poolItem.playing = false;
+            gameObject.SetActive(false);
+            pool.Add(poolItem);
         }
     }
 }
