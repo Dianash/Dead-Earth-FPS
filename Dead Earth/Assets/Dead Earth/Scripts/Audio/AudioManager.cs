@@ -21,6 +21,17 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public AudioMixerGroup GetAudioGroupFromTrackName(string name)
+    {
+        TrackInfo trackInfo;
+        if (tracks.TryGetValue(name, out trackInfo))
+        {
+            return trackInfo.group;
+        }
+
+        return null;
+    }
+
     public float GetTrackVolume(string track)
     {
         TrackInfo trackInfo;
