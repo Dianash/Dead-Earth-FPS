@@ -27,7 +27,7 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private UnityStandardAssets.Characters.FirstPerson.MouseLook mouseLook;
 
-    private Camera camera = null;
+    private Camera cam = null;
     private Vector2 inputVector = Vector2.zero;
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 localSpaceCameraPos = Vector3.zero;
@@ -87,11 +87,11 @@ public class FPSController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         controllerHeight = characterController.height;
-        camera = Camera.main;
-        localSpaceCameraPos = camera.transform.localPosition;
+        cam = Camera.main;
+        localSpaceCameraPos = cam.transform.localPosition;
         movementStatus = PlayerMoveStatus.NotMoving;
         fallingTimer = 0.0f;
-        mouseLook.Init(transform, camera.transform);
+        mouseLook.Init(transform, cam.transform);
         headBob.Initialize();
         headBob.RegisterEventCallback(1.5f, PlayFootStepSound, CurveControlledBobCallbackType.Vertical);
 
@@ -109,7 +109,7 @@ public class FPSController : MonoBehaviour
         // Allow Mouse Look a chance to process mouse and rotate camera
         if (Time.timeScale > Mathf.Epsilon)
         {
-            mouseLook.LookRotation(transform, camera.transform);
+            mouseLook.LookRotation(transform, cam.transform);
         }
 
         if (Input.GetButtonDown("FlashLight"))
@@ -204,9 +204,9 @@ public class FPSController : MonoBehaviour
         // Are we moving
         Vector3 speedXZ = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z);
         if (speedXZ.magnitude > 0.01f)
-            camera.transform.localPosition = localSpaceCameraPos + headBob.GetVectorOffset(speedXZ.magnitude * (isCrouching || isWalking ? 1.0f : runStepLenghten));
+            cam.transform.localPosition = localSpaceCameraPos + headBob.GetVectorOffset(speedXZ.magnitude * (isCrouching || isWalking ? 1.0f : runStepLenghten));
         else
-            camera.transform.localPosition = localSpaceCameraPos;
+            cam.transform.localPosition = localSpaceCameraPos;
     }
 
     private void PlayFootStepSound()

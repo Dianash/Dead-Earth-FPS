@@ -4,7 +4,7 @@ public class AISoundEmitter : MonoBehaviour
 {
     [SerializeField] private float decayRate = 1.0f;
 
-    private SphereCollider collider = null;
+    private SphereCollider sphereCollider = null;
     private float sourceRadius = 0.0f;
     private float targetRadius = 0.0f;
     private float interpolator = 0.0f;
@@ -12,10 +12,10 @@ public class AISoundEmitter : MonoBehaviour
 
     void Awake()
     {
-        collider = GetComponent<SphereCollider>();
-        if (!collider) return;
+        sphereCollider = GetComponent<SphereCollider>();
+        if (!sphereCollider) return;
 
-        sourceRadius = targetRadius = collider.radius;
+        sourceRadius = targetRadius = sphereCollider.radius;
 
         interpolator = 0.0f;
 
@@ -27,20 +27,20 @@ public class AISoundEmitter : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!collider) return;
+        if (!sphereCollider) return;
 
         interpolator = Mathf.Clamp01(interpolator + Time.deltaTime * interpolatorSpeed);
-        collider.radius = Mathf.Lerp(sourceRadius, targetRadius, interpolator);
+        sphereCollider.radius = Mathf.Lerp(sourceRadius, targetRadius, interpolator);
 
-        if (collider.radius < Mathf.Epsilon) collider.enabled = false;
-        else collider.enabled = true;
+        if (sphereCollider.radius < Mathf.Epsilon) sphereCollider.enabled = false;
+        else sphereCollider.enabled = true;
     }
 
     public void SetRadius(float newRadius, bool instantResize = false)
     {
-        if (!collider || newRadius == targetRadius) return;
+        if (!sphereCollider || newRadius == targetRadius) return;
 
-        sourceRadius = (instantResize || newRadius > collider.radius) ? newRadius : collider.radius;
+        sourceRadius = (instantResize || newRadius > sphereCollider.radius) ? newRadius : sphereCollider.radius;
         targetRadius = newRadius;
         interpolator = 0.0f;
     }

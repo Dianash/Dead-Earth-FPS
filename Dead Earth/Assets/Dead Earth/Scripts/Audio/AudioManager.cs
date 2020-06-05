@@ -97,6 +97,50 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+
+    public ulong PlayOneShotSound(string track, AudioClip clip, Vector3 position, float volume, float spatialBlend, int priority = 128)
+    {
+        if (!tracks.ContainsKey(track) || clip == null || volume.Equals(0.0f))
+            return 0;
+
+        float unimportance = (listenerPosition.position - position).sqrMagnitude / Mathf.Max(1, priority);
+
+        int leastImportantIndex = -1;
+        float leastImportanceValue = float.MaxValue;
+
+        // Find an available audio source
+        for (int i = 0; i < pool.Count; i++)
+        {
+            AudioPoolItem poolItem = pool[i];
+
+            if (!poolItem.playing)
+            {
+                return ConfigurePoolObject(i, track, clip, position, volume, spatialBlend, unimportance);
+            }
+            else if (poolItem.unimportance > leastImportanceValue)
+            {
+                leastImportanceValue = poolItem.unimportance;
+                leastImportantIndex = i;
+            }
+        }
+
+        if (leastImportanceValue > unimportance)
+        {
+            return ConfigurePoolObject(leastImportantIndex, track, clip, position, volume, spatialBlend, unimportance);
+        }
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Queue a one shot sound to be played after a number of seconds
+    /// </summary>
+    public IEnumerator PlayOneShotSound(string track, AudioClip clip, Vector3 position, float volume, float spatialBlend, float duration, int priority = 128)
+    {
+        yield return new WaitForSeconds(duration);
+        PlayOneShotSound(track, clip, position, volume, spatialBlend, priority);
+    }
+
     protected IEnumerator SetTrackVolumeInternal(string track, float volume, float fadeTime)
     {
         float startVolume = 0.0f;
@@ -135,6 +179,7 @@ public class AudioManager : MonoBehaviour
         source.transform.position = position;
 
         // Enable gameobject and record that it is being played
+        poolItem.playing = true;
         poolItem.unimportance = unimportance;
         poolItem.id = idGiver;
         poolItem.gameObject.SetActive(true);
@@ -194,6 +239,7 @@ public class AudioManager : MonoBehaviour
         foreach (AudioMixerGroup group in groups)
         {
             TrackInfo trackInfo = new TrackInfo();
+            trackInfo.name = group.name;
             trackInfo.group = group;
             trackInfo.trackFader = null;
             tracks[group.name] = trackInfo;
@@ -209,7 +255,7 @@ public class AudioManager : MonoBehaviour
             AudioPoolItem poolItem = new AudioPoolItem();
             poolItem.gameObject = gameObject;
             poolItem.audioSource = audioSource;
-            poolItem.transform = transform;
+            poolItem.transform = gameObject.transform;
             poolItem.playing = false;
             gameObject.SetActive(false);
             pool.Add(poolItem);
