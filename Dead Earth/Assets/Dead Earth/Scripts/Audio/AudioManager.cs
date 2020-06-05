@@ -80,6 +80,23 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void StopOneShotSound(ulong id)
+    {
+        AudioPoolItem activeSound;
+
+        if (activePool.TryGetValue(id, out activeSound))
+        {
+            StopCoroutine(activeSound.coroutine);
+
+            activeSound.audioSource.Stop();
+            activeSound.audioSource.clip = null;
+            activeSound.gameObject.SetActive(false);
+            activePool.Remove(id);
+
+            activeSound.playing = false;
+        }
+    }
+
     protected IEnumerator SetTrackVolumeInternal(string track, float volume, float fadeTime)
     {
         float startVolume = 0.0f;
@@ -130,7 +147,27 @@ public class AudioManager : MonoBehaviour
 
         return idGiver;
     }
-   
+
+    /// <summary>
+    /// Stops a one shot sound from playing after a given time duration.
+    /// </summary>
+    protected IEnumerator StopSoundDelayed(ulong id, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        AudioPoolItem activeSound;
+
+        if (activePool.TryGetValue(id, out activeSound))
+        {
+            activeSound.audioSource.Stop();
+            activeSound.audioSource.clip = null;
+            activeSound.gameObject.SetActive(false);
+            activePool.Remove(id);
+
+            activeSound.playing = false;
+        }
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
