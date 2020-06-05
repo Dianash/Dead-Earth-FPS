@@ -1,13 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
-public class ClipBank
-{
-    public List<AudioClip> clips = new List<AudioClip>();
-}
-
-
 [CreateAssetMenu(fileName = "New Audio Collection")]
 public class AudioCollection : ScriptableObject
 {

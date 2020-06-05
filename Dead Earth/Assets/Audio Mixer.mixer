@@ -93,7 +93,7 @@ AudioMixerController:
   - guid: b2fb98f23f1a9df46a5b00f182a1b612
     name: UI
   - guid: 591195ec6529b6c479c459ca06748297
-    name: MyExposedParam 3
+    name: Zombies
   m_AudioMixerGroupViews:
   - guids:
     - 9bab9ace833d0364494c77225d676e92
