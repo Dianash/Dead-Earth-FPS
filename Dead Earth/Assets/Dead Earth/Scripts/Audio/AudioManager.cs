@@ -21,20 +21,44 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+    public float GetTrackVolume(string track)
     {
-        DontDestroyOnLoad(gameObject);
+        TrackInfo trackInfo;
 
+        if (tracks.TryGetValue(track, out trackInfo))
+        {
+            float volume;
+            mixer.GetFloat(track, out volume);
+            return volume;
+        }
+
+        return float.MinValue;
+    }
+
+    /// <summary>
+    /// Sets the volume of the AudioMixergroup assigned to the passed track
+    /// </summary>
+    public void SetTrackVolume(string track, float volume, float fadeTime = 0.0f)
+    {
         if (!mixer) return;
 
-        AudioMixerGroup[] groups = mixer.FindMatchingGroups(string.Empty);
+        TrackInfo trackInfo;
 
-        foreach (AudioMixerGroup group in groups)
+        if (tracks.TryGetValue(track, out trackInfo))
         {
-            TrackInfo trackInfo = new TrackInfo();
-            trackInfo.group = group;
-            trackInfo.trackFader = null;
-            tracks[group.name] = trackInfo;
+            // Stop any coroutine that might be in the middle of fading this track
+            if (trackInfo.trackFader != null)
+                StopCoroutine(trackInfo.trackFader);
+
+            if (fadeTime == 0.0f)
+            {
+                mixer.SetFloat(track, volume);
+            }
+            else
+            {
+                trackInfo.trackFader = SetTrackVolumeInternal(track, volume, fadeTime);
+                StartCoroutine(trackInfo.trackFader);
+            }
         }
     }
 
@@ -55,5 +79,20 @@ public class AudioManager : MonoBehaviour
         mixer.SetFloat(track, volume);
     }
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
 
+        if (!mixer) return;
+
+        AudioMixerGroup[] groups = mixer.FindMatchingGroups(string.Empty);
+
+        foreach (AudioMixerGroup group in groups)
+        {
+            TrackInfo trackInfo = new TrackInfo();
+            trackInfo.group = group;
+            trackInfo.trackFader = null;
+            tracks[group.name] = trackInfo;
+        }
+    }
 }
