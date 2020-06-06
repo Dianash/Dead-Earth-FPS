@@ -17357,12 +17357,12 @@ PrefabInstance:
     - target: {fileID: 8114239838578199080, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: idleTimeRange.x
-      value: 10000
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8114239838578199080, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: idleTimeRange.y
-      value: 50000
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8114239838578199082, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
