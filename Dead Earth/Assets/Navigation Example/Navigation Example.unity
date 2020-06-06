@@ -17354,6 +17354,16 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.0009767935
       objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199080, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: idleTimeRange.x
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199080, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: idleTimeRange.y
+      value: 50000
+      objectReference: {fileID: 0}
     - target: {fileID: 8114239838578199082, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_Enabled
