@@ -10714,6 +10714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ea95703eb97a54f870b46135fae711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  footsteps: {fileID: 11400000, guid: 49faa78738a3ac04aa8fcdf538eb838e, type: 2}
   walkSpeed: 2
   runSpeed: 4.5
   jumpSpeed: 7.5
@@ -11473,7 +11474,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749690922}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d98c2bc4c7b7e58428be1c4aeb8ed233, type: 3}
   m_Name: 

@@ -3,6 +3,10 @@
 [RequireComponent(typeof(CharacterController))]
 public class FPSController : MonoBehaviour
 {
+    [SerializeField] private AudioCollection footsteps = null;
+
+    [SerializeField] private float crouchAttenuation = 0.2f;
+
     [SerializeField] private float walkSpeed = 2.0f;
 
     [SerializeField] private float runSpeed = 4.5f;
@@ -211,7 +215,17 @@ public class FPSController : MonoBehaviour
 
     private void PlayFootStepSound()
     {
-        if (isCrouching)
-            return;
+        if (AudioManager.Instance != null && footsteps != null)
+        {
+            AudioClip soundToPlay;
+
+            if (isCrouching)
+                soundToPlay = footsteps[1];
+            else
+                soundToPlay = footsteps[0];
+
+            AudioManager.Instance.PlayOneShotSound("Player", soundToPlay, transform.position, isCrouching ? footsteps.Volume * crouchAttenuation : footsteps.Volume,
+                footsteps.SpatialBlend, footsteps.Priority);
+        }
     }
 }
