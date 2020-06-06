@@ -10,6 +10,17 @@ public abstract class AIStateMachine : MonoBehaviour
     public AITarget visualThreat = new AITarget();
     public AITarget audioThreat = new AITarget();
 
+    [SerializeField] protected AIStateType currentStateType = AIStateType.Idle;
+    [SerializeField] protected SphereCollider targetTrigger = null;
+    [SerializeField] protected SphereCollider sensorTrigger = null;
+    [SerializeField] protected AIWaypointNetwork waypointNetwork = null;
+    [SerializeField] protected bool randomPatrol = false;
+    [SerializeField] protected int currentWaypoint = -1;
+    [SerializeField] [Range(0, 15)] protected float stoppingDistance = 1.0f;
+
+    [SerializeField] protected Transform rootBone = null;
+    [SerializeField] protected AIBoneAlignmentType rootBoneAlingment = AIBoneAlignmentType.ZAxis;
+
     protected Dictionary<AIStateType, AIState> states = new Dictionary<AIStateType, AIState>();
     protected AITarget target = new AITarget();
     protected AIState currentState = null;
@@ -22,22 +33,13 @@ public abstract class AIStateMachine : MonoBehaviour
 
     protected Dictionary<string, bool> animLayersActive = new Dictionary<string, bool>();
 
-    [SerializeField] protected AIStateType currentStateType = AIStateType.Idle;
-    [SerializeField] protected SphereCollider targetTrigger = null;
-    [SerializeField] protected SphereCollider sensorTrigger = null;
-    [SerializeField] protected AIWaypointNetwork waypointNetwork = null;
-    [SerializeField] protected bool randomPatrol = false;
-    [SerializeField] protected int currentWaypoint = -1;
-    [SerializeField] [Range(0, 15)] protected float stoppingDistance = 1.0f;
-
-    [SerializeField] protected Transform rootBone = null;
-    [SerializeField] protected AIBoneAlignmentType rootBoneAlingment = AIBoneAlignmentType.ZAxis;
-
     // Component cache
     protected Animator animator = null;
     protected NavMeshAgent navAgent = null;
     protected Collider coll = null;
     protected Transform objectTransform = null;
+
+    protected ILayeredAudioSource layeredAudioSource = null;
 
     public Animator Animator { get => animator; }
     public NavMeshAgent NavAgent { get => navAgent; }
@@ -126,6 +128,29 @@ public abstract class AIStateMachine : MonoBehaviour
     public void SetLayerActive(string layerName, bool active)
     {
         animLayersActive[layerName] = active;
+
+        if (active == false && layeredAudioSource != null)
+            layeredAudioSource.Stop(animator.GetLayerIndex(layerName));
+    }
+
+    public bool PlayAudio(AudioCollection clipPool, int bank, int layer, bool looping = true)
+    {
+        if (layeredAudioSource == null)
+            return false;
+
+        return layeredAudioSource.Play(clipPool, bank, layer, looping);
+    }
+
+    public void StopAudio(int layer)
+    {
+        if (layeredAudioSource != null)
+            layeredAudioSource.Stop(layer);
+    }
+
+    public void MuteAudio(bool mute)
+    {
+        if (layeredAudioSource != null)
+            layeredAudioSource.Mute(mute);
     }
 
     public bool IsLayerActive(string layerName)
@@ -195,8 +220,6 @@ public abstract class AIStateMachine : MonoBehaviour
         }
         else
             currentWaypoint = currentWaypoint == waypointNetwork.waypoints.Count - 1 ? 0 : currentWaypoint + 1;
-
-
     }
 
     /// <summary>
@@ -293,6 +316,8 @@ public abstract class AIStateMachine : MonoBehaviour
         coll = GetComponent<Collider>();
         aiBodyPartLayer = LayerMask.NameToLayer("AI Body Part");
 
+        AudioSource audioSource = GetComponent<AudioSource>();
+
         if (GameSceneManager.Instance != null)
         {
             if (coll)
@@ -314,6 +339,12 @@ public abstract class AIStateMachine : MonoBehaviour
                     GameSceneManager.Instance.RegisterAIStateMachine(bodyPart.GetInstanceID(), this);
                 }
             }
+        }
+
+        // Register the Layered Audio Source
+        if (animator && audioSource && AudioManager.Instance)
+        {
+            layeredAudioSource = AudioManager.Instance.RegisterLayeredAudioSource(audioSource, animator.layerCount);
         }
     }
 
@@ -458,4 +489,15 @@ public abstract class AIStateMachine : MonoBehaviour
     }
 
     public virtual void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection) { }
+
+    /// <summary>
+    /// Unregisters audio sources when destroyed. 
+    /// </summary>
+    protected virtual void OnDestroy()
+    {
+        if (layeredAudioSource != null && AudioManager.Instance)
+        {
+            AudioManager.Instance.UnregisterLayeredAudioSource(layeredAudioSource);
+        }
+    }
 }

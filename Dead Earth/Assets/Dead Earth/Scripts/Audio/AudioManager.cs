@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using System;
 
 public class AudioManager : MonoBehaviour
 {
@@ -14,6 +13,8 @@ public class AudioManager : MonoBehaviour
     private Dictionary<string, TrackInfo> tracks = new Dictionary<string, TrackInfo>();
     private List<AudioPoolItem> pool = new List<AudioPoolItem>();
     private Dictionary<ulong, AudioPoolItem> activePool = new Dictionary<ulong, AudioPoolItem>();
+    private List<LayeredAudioSource> layeredAudio = new List<LayeredAudioSource>();
+
     private ulong idGiver = 0;
     private Transform listenerPosition = null;
 
@@ -141,6 +142,61 @@ public class AudioManager : MonoBehaviour
         PlayOneShotSound(track, clip, position, volume, spatialBlend, priority);
     }
 
+    public ILayeredAudioSource RegisterLayeredAudioSource(AudioSource source, int layers)
+    {
+        if (source != null && layers > 0)
+        {
+            // First check it doesn't exist already and if so just return the source
+            for (int i = 0; i < layeredAudio.Count; i++)
+            {
+                LayeredAudioSource item = layeredAudio[i];
+                if (item != null)
+                {
+                    if (item.AudioSource == source)
+                    {
+                        return item;
+                    }
+                }
+            }
+
+            // Create a new layered audio item and add it to the managed list
+            LayeredAudioSource newLayeredAudio = new LayeredAudioSource(source, layers);
+            layeredAudio.Add(newLayeredAudio);
+
+            return newLayeredAudio;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Unregisters the givem audio source.
+    /// </summary>
+    public void UnregisterLayeredAudioSource(ILayeredAudioSource source)
+    {
+        layeredAudio.Remove((LayeredAudioSource)source);
+    }
+
+    /// <summary>
+    /// Unregisters the givem audio source.
+    /// </summary>
+    public void UnregisterLayeredAudioSource(AudioSource source)
+    {
+        for (int i = 0; i < layeredAudio.Count; i++)
+        {
+            LayeredAudioSource item = layeredAudio[i];
+
+            if (item != null)
+            {
+                if (item.AudioSource == source)
+                {
+                    layeredAudio.Remove(item);
+                    return;
+                }
+            }
+        }
+    }
+
     protected IEnumerator SetTrackVolumeInternal(string track, float volume, float fadeTime)
     {
         float startVolume = 0.0f;
@@ -213,6 +269,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        foreach (LayeredAudioSource layerAudioSource in layeredAudio)
+        {
+            if (layerAudioSource != null) layerAudioSource.Update();
+        }
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -261,4 +325,5 @@ public class AudioManager : MonoBehaviour
             pool.Add(poolItem);
         }
     }
+
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class LayeredAudioSource
+public class LayeredAudioSource : ILayeredAudioSource
 {
     private AudioSource audioSource = null;
     private List<AudioLayer> audioLayers = new List<AudioLayer>();
