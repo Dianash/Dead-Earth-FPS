@@ -1084,7 +1084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &324635520
 Transform:
   m_ObjectHideFlags: 0
@@ -10715,6 +10715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footsteps: {fileID: 11400000, guid: 49faa78738a3ac04aa8fcdf538eb838e, type: 2}
+  crouchAttenuation: 0.2
   walkSpeed: 2
   runSpeed: 4.5
   jumpSpeed: 7.5

@@ -2588,6 +2588,7 @@ AnimatorState:
   - {fileID: 5801454729694521759}
   m_StateMachineBehaviours:
   - {fileID: -6371055711576418772}
+  - {fileID: -298545293489799556}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -3349,6 +3350,20 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-298545293489799556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d915b1faf83b98468a562b7e69504fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commandChannel: 0
+  collection: {fileID: 11400000, guid: cdbb1b43758a9784e8dd0823192ca534, type: 2}
 --- !u!114 &-185788752999262483
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3497,6 +3512,30 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Screaming
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: ComChanel1
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: ComChanel2
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: ComChanel3
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: ComChanel4
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
