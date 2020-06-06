@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865fb6a6af374d459beb46118b6c5ea, type: 3}
   m_Name: Zombie Footsteps
   m_EditorClassIdentifier: 
-  audioGroup: Zombie
+  audioGroup: Zombies
   volume: 0.1
-  spatialBlend: 1
+  spatialBlend: 0
   priority: 128
   audioClipBanks:
   - clips:

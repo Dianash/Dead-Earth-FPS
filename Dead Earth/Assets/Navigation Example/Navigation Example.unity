@@ -17410,6 +17410,16 @@ PrefabInstance:
       propertyPath: screamChance
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: lowerBodyDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: crawlThreshold
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 9065269708126677590, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
