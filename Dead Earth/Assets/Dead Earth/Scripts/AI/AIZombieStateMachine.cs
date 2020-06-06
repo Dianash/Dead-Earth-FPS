@@ -128,7 +128,8 @@ public class AIZombieStateMachine : AIStateMachine
     {
         if (IsScreaming) return false;
 
-        if (animator == null || cinematicEnabled || screamPrefab == null) return false;
+        if (animator == null || IsLayerActive("Cinematic Layer") || screamPrefab == null)
+            return false;
 
         animator.SetTrigger(screamHash);
         Vector3 spawnPosition = screamPosition == AIScreamPosition.Entity ? transform.position : visualThreat.Position;
@@ -181,7 +182,7 @@ public class AIZombieStateMachine : AIStateMachine
             animator.SetInteger(attackHash, AttackType);
             animator.SetInteger(stateHash, (int)currentStateType);
 
-            isScreaming = cinematicEnabled ? 0.0f : animator.GetFloat(screamingHash);
+            isScreaming = IsLayerActive("Cinematic Layer") ? 0.0f : animator.GetFloat(screamingHash);
         }
 
         satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3.0f));
@@ -204,6 +205,17 @@ public class AIZombieStateMachine : AIStateMachine
             animator.SetBool(crawlHash, IsCrawling);
             animator.SetInteger(lowerBodyDamageHash, lowerBodyDamage);
             animator.SetInteger(upperBodyDamageHash, upperBodyDamage);
+
+
+            if (lowerBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold)
+                SetLayerActive("Lower Body", true);
+            else
+                SetLayerActive("Lower Body", false);
+
+            if (upperBodyDamage > upperBodyThreshold && lowerBodyDamage < crawlThreshold)
+                SetLayerActive("Upper Body", true);
+            else
+                SetLayerActive("Upper Body", false);
         }
     }
 
@@ -285,10 +297,7 @@ public class AIZombieStateMachine : AIStateMachine
             }
         }
 
-        //if (health <= 0)
-        //    shouldRagDoll = true;
-
-        if (boneControlType != AIBoneControlType.Animated || IsCrawling || cinematicEnabled || attackerLocPos.z < 0)
+        if (boneControlType != AIBoneControlType.Animated || IsCrawling || IsLayerActive("Cinematic Layer") || attackerLocPos.z < 0)
             shouldRagDoll = true;
 
         if (!shouldRagDoll)

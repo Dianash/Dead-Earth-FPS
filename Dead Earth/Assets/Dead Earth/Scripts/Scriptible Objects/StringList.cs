@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New string list")]
@@ -18,4 +17,6 @@ public class StringList : ScriptableObject
             return null;
         }
     }
+
+    public int Count { get { return stringList.Count; } }
 }

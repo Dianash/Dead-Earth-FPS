@@ -19,7 +19,8 @@ public abstract class AIStateMachine : MonoBehaviour
     protected bool isTargetReached = false;
     protected List<Rigidbody> bodyParts = new List<Rigidbody>();
     protected int aiBodyPartLayer = -1;
-    protected bool cinematicEnabled = false;
+
+    protected Dictionary<string, bool> animLayersActive = new Dictionary<string, bool>();
 
     [SerializeField] protected AIStateType currentStateType = AIStateType.Idle;
     [SerializeField] protected SphereCollider targetTrigger = null;
@@ -122,7 +123,19 @@ public abstract class AIStateMachine : MonoBehaviour
         }
     }
 
-    public bool CinematicEnabled { get => cinematicEnabled; set => cinematicEnabled = value; }
+    public void SetLayerActive(string layerName, bool active)
+    {
+        animLayersActive[layerName] = active;
+    }
+
+    public bool IsLayerActive(string layerName)
+    {
+        if (animLayersActive.TryGetValue(layerName, out bool result))
+        {
+            return result;
+        }
+        return false;
+    }
 
     public void SetStateOverride(AIStateType state)
     {

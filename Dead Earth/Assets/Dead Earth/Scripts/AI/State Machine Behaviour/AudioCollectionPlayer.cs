@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AudioCollectionPlayer : AIStateMachineLink
 {
@@ -19,7 +17,6 @@ public class AudioCollectionPlayer : AIStateMachineLink
         audioManager = AudioManager.Instance;
         previousCommand = 0;
 
-        // TODO: Store hashes in state machine lookup
         if (commandChannelHash == 0)
             commandChannelHash = Animator.StringToHash(commandChannel.ToString());
     }
@@ -32,6 +29,17 @@ public class AudioCollectionPlayer : AIStateMachineLink
 
         if (stateMachine == null)
             return;
+
+        if (layerExclusions != null)
+        {
+            for (int i = 0; i < layerExclusions.Count; i++)
+            {
+                if (stateMachine.IsLayerActive(layerExclusions[i]))
+                {
+                    return;
+                }
+            }
+        }
 
         int customCommand = (customCurve == null) ? 0 : Mathf.FloorToInt(customCurve.Evaluate(animStateInfo.normalizedTime - (long)animStateInfo.normalizedTime));
 
@@ -55,7 +63,4 @@ public class AudioCollectionPlayer : AIStateMachineLink
 
         previousCommand = command;
     }
-
-
-
 }
