@@ -7,7 +7,7 @@ public class AudioCollectionPlayer : AIStateMachineLink
     [SerializeField] ComChannelName commandChannel = ComChannelName.ComChannel1;
     [SerializeField] AudioCollection collection = null;
     [SerializeField] CustomCurve customCurve = null;
-    [SerializeField] List<string> layerExclusions = null;
+    [SerializeField] StringList layerExclusions = null;
 
 
     private int previousCommand = 0;
