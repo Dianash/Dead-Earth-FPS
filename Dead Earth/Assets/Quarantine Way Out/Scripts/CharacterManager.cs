@@ -24,6 +24,8 @@ public class CharacterManager : MonoBehaviour
     private CharacterController characterController = null;
     private GameSceneManager gameSceneManager = null;
     private int aiBodyPartLayer = -1;
+    private int interactiveMask = 0;
+
 
     public float Health { get => health; }
 
@@ -37,6 +39,7 @@ public class CharacterManager : MonoBehaviour
         gameSceneManager = GameSceneManager.Instance;
 
         aiBodyPartLayer = LayerMask.NameToLayer("AI Body Part");
+        interactiveMask = 1 << LayerMask.NameToLayer("Interactive");
 
         if (gameSceneManager != null)
         {
