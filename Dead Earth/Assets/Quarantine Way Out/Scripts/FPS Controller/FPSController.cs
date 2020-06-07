@@ -15,6 +15,10 @@ public class FPSController : MonoBehaviour
 
     [SerializeField] private float crouchSpeed = 1.0f;
 
+    [SerializeField] private float staminaDepletion = 5.0f;
+
+    [SerializeField] private float staminaRecovery = 10;
+
     [SerializeField] private float stickToGroundForce = 5.0f;
 
     [SerializeField] private float gravityMultyplier = 2.5f;
@@ -24,6 +28,8 @@ public class FPSController : MonoBehaviour
     [SerializeField] private float runStepLenghten = 0.75f;
 
     [SerializeField] private GameObject flashLight = null;
+
+    [SerializeField] private bool flashlightOnAtStart = true;
 
     [SerializeField] private CurveControlledBob headBob = new CurveControlledBob();
 
@@ -44,6 +50,9 @@ public class FPSController : MonoBehaviour
 
     private float controllerHeight = 0.0f;
     private float fallingTimer = 0.0f;
+
+    private float stamina = 100;
+    private bool freezeMovement = false;
 
     private CharacterController characterController = null;
     private PlayerMoveStatus movementStatus = PlayerMoveStatus.NotMoving;
@@ -81,6 +90,9 @@ public class FPSController : MonoBehaviour
 
     public CharacterController CharacterController { get => characterController; }
 
+    public float Stamina { get => stamina; }
+
+    public bool FreezeMovement { get => freezeMovement; set => freezeMovement = value; }
 
     public void DoStickiness()
     {
@@ -100,7 +112,7 @@ public class FPSController : MonoBehaviour
         headBob.RegisterEventCallback(1.5f, PlayFootStepSound, CurveControlledBobCallbackType.Vertical);
 
         if (flashLight)
-            flashLight.SetActive(false);
+            flashLight.SetActive(flashlightOnAtStart);
     }
 
     protected void Update()
@@ -156,6 +168,12 @@ public class FPSController : MonoBehaviour
 
         previouslyGrounded = characterController.isGrounded;
 
+        // Calculate Stamina
+        if (movementStatus == PlayerMoveStatus.Running)
+            stamina = Mathf.Max(stamina - staminaDepletion * Time.deltaTime, 0.0f);
+        else
+            stamina = Mathf.Min(stamina + staminaRecovery * Time.deltaTime, 100.0f);
+
         dragMultiplier = Mathf.Min(dragMultiplier + Time.deltaTime, dragMultiplierLimit);
     }
 
@@ -166,7 +184,7 @@ public class FPSController : MonoBehaviour
         bool wasWalking = isWalking;
         isWalking = !Input.GetKey(KeyCode.LeftShift);
 
-        float speed = isCrouching ? crouchSpeed : isWalking ? walkSpeed : runSpeed;
+        float speed = isCrouching ? crouchSpeed : isWalking ? walkSpeed : Mathf.Lerp(walkSpeed, runSpeed, stamina / 100.0f);
         inputVector = new Vector2(horizontal, vertical);
 
         if (inputVector.sqrMagnitude > 1) inputVector.Normalize();
@@ -182,8 +200,8 @@ public class FPSController : MonoBehaviour
         }
 
         // Scale movement by our current speed (walking or running)
-        moveDirection.x = desiredMove.x * speed * dragMultiplier;
-        moveDirection.z = desiredMove.z * speed * dragMultiplier;
+        moveDirection.x = !freezeMovement ? desiredMove.x * speed * dragMultiplier : 0.0f;
+        moveDirection.z = !freezeMovement ? desiredMove.z * speed * dragMultiplier : 0.0f;
 
         if (characterController.isGrounded)
         {
