@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865fb6a6af374d459beb46118b6c5ea, type: 3}
   m_Name: Door Locked Sounds
   m_EditorClassIdentifier: 
-  audioGroup: 
-  volume: 1
+  audioGroup: Scene
+  volume: 0.5
   spatialBlend: 1
   priority: 128
-  audioClipBanks: []
+  audioClipBanks:
+  - clips:
+    - {fileID: 8300000, guid: 04e0eafca578f984a8da1e056d7c1df8, type: 3}
