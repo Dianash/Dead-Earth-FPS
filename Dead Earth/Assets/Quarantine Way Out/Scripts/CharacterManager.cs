@@ -121,6 +121,62 @@ public class CharacterManager : MonoBehaviour
 
     private void Update()
     {
+        Ray ray;
+        RaycastHit hit;
+        RaycastHit[] hits;
+
+        // PROCESS INTERACTIVE OBJECTS
+        // Is the crosshair over a usuable item or descriptive item first get ray from centre of screen
+        ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+
+        // Calculate Ray Length
+        float rayLength = Mathf.Lerp(1.0f, 1.8f, Mathf.Abs(Vector3.Dot(cam.transform.forward, Vector3.up)));
+
+        // Cast Ray and collect ALL hits
+        hits = Physics.RaycastAll(ray, rayLength, interactiveMask);
+
+        // Process the hits for the one with the highest priorty
+        if (hits.Length > 0)
+        {
+            // Used to record the index of the highest priorty
+            int highestPriority = int.MinValue;
+            InteractiveItem priorityObject = null;
+
+            // Iterate through each hit
+            for (int i = 0; i < hits.Length; i++)
+            {
+                // Process next hit
+                hit = hits[i];
+
+                // Fetch its InteractiveItem script from the database
+                InteractiveItem interactiveObject = gameSceneManager.GetInteractiveItem(hit.collider.GetInstanceID());
+
+                // If this is the highest priority object so far then remember it
+                if (interactiveObject != null && interactiveObject.Priority > highestPriority)
+                {
+                    priorityObject = interactiveObject;
+                    highestPriority = priorityObject.Priority;
+                }
+            }
+
+            // If we found an object then display its text and process any possible activation
+            if (priorityObject != null)
+            {
+                if (playerHUD)
+                    playerHUD.SetInteractionText(priorityObject.GetText());
+
+                if (Input.GetButtonDown("Use"))
+                {
+                    priorityObject.Activate(this);
+                }
+            }
+        }
+        else
+        {
+            if (playerHUD)
+                playerHUD.SetInteractionText(null);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             DoDamage();
