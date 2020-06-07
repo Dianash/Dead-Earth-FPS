@@ -52,6 +52,9 @@ public class CharacterManager : MonoBehaviour
             gameSceneManager.RegisterPlayerInfo(coll.GetInstanceID(), info);
         }
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         if (playerHUD)
             playerHUD.Fade(2.0f, ScreenFadeType.FadeIn);
     }
