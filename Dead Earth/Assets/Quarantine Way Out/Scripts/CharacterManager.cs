@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -26,10 +25,11 @@ public class CharacterManager : MonoBehaviour
     private int aiBodyPartLayer = -1;
     private int interactiveMask = 0;
 
-
     public float Health { get => health; }
 
     public float Stamina { get => fPSController != null ? fPSController.Stamina : 0.0f; }
+
+    public FPSController FPSController { get => fPSController; }
 
     private void Start()
     {
