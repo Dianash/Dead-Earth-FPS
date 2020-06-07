@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Zombie Run
   m_EditorClassIdentifier: 
   audioGroup: 
-  volume: 0.2
+  volume: 0.1
   spatialBlend: 1
   priority: 128
   audioClipBanks:

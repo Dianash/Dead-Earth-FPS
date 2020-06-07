@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865fb6a6af374d459beb46118b6c5ea, type: 3}
   m_Name: Zombie Screams
   m_EditorClassIdentifier: 
-  audioGroup: 
-  volume: 1
+  audioGroup: Zombies
+  volume: 0.3
   spatialBlend: 1
   priority: 128
-  audioClipBanks: []
+  audioClipBanks:
+  - clips:
+    - {fileID: 8300000, guid: 90724411c952a4b4396ef3ae3fac3f63, type: 3}
+  - clips:
+    - {fileID: 8300000, guid: d9efca3d82a01404caf33fce494d1e18, type: 3}

@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865fb6a6af374d459beb46118b6c5ea, type: 3}
   m_Name: Player Damage
   m_EditorClassIdentifier: 
-  audioGroup: 
-  volume: 1
+  audioGroup: Player
+  volume: 0.14
   spatialBlend: 1
   priority: 128
-  audioClipBanks: []
+  audioClipBanks:
+  - clips:
+    - {fileID: 8300000, guid: fbab885523412fc41a4b72aadf739754, type: 3}
+    - {fileID: 8300000, guid: d081e49e4b65e7b4185466bc040bca0a, type: 3}
+    - {fileID: 8300000, guid: 8b2809aac5e10774ca6fc56832956728, type: 3}
+    - {fileID: 8300000, guid: e0d5835716e0ba8448f092e1e7e6c049, type: 3}
+    - {fileID: 8300000, guid: bff7c9abd6e4c1f459aded55e17a6faa, type: 3}
+    - {fileID: 8300000, guid: 700945589a63d3c46877b732cdbf8f3a, type: 3}
+    - {fileID: 8300000, guid: ed5a2a77dd9311146aa0827dc9a794ed, type: 3}

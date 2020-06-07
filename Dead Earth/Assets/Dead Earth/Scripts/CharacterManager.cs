@@ -45,7 +45,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool doDamage, bool doPain)
     {
         health = Mathf.Max(health - (amount * Time.deltaTime), 0.0f);
 
@@ -56,8 +56,30 @@ public class CharacterManager : MonoBehaviour
 
         if (cameraBloodEffect != null)
         {
-            cameraBloodEffect.MinBloodAmount = 1.0f - health / 100.0f;
+            cameraBloodEffect.MinBloodAmount = (1.0f - health / 100.0f) * 0.5f;
             cameraBloodEffect.BloodAmount = Mathf.Min(cameraBloodEffect.MinBloodAmount + 0.3f, 1.0f);
+        }
+
+        if (AudioManager.Instance)
+        {
+            if (doDamage && damageSounds != null)
+            {
+                AudioManager.Instance.PlayOneShotSound(damageSounds.AudioGroup, damageSounds.AudioClip, transform.position, damageSounds.Volume,
+                    damageSounds.SpatialBlend, damageSounds.Priority);
+            }
+
+            if (doPain && painSounds != null && nextPainSoundTime < Time.time)
+            {
+                AudioClip painClip = painSounds.AudioClip;
+
+                if (painClip)
+                {
+                    nextPainSoundTime = Time.time + painClip.length;
+
+                    StartCoroutine(AudioManager.Instance.PlayOneShotSoundDelayed(painSounds.AudioGroup, painClip, transform.position, painSounds.Volume,
+                        painSounds.SpatialBlend, painSoundOffset, painSounds.Priority));
+                }
+            }
         }
     }
 

@@ -7153,6 +7153,8 @@ MonoBehaviour:
   parameter: Mouth
   bloodParticlesBurstAmount: 10
   damageAmount: 5
+  doDamageSound: 1
+  doPainSound: 1
 --- !u!1 &668307642
 GameObject:
   m_ObjectHideFlags: 0
@@ -7245,6 +7247,8 @@ MonoBehaviour:
   parameter: Mouth
   bloodParticlesBurstAmount: 10
   damageAmount: 5
+  doDamageSound: 1
+  doPainSound: 1
 --- !u!144 &716385025
 CharacterJoint:
   m_ObjectHideFlags: 0
@@ -10258,7 +10262,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: ff62139b61548d249be0d968e74b7503,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff62139b61548d249be0d968e74b7503, type: 3}
@@ -11118,6 +11122,10 @@ MonoBehaviour:
   runRadius: 7
   landingRadius: 12
   bloodRadiusScale: 7
+  damageSounds: {fileID: 11400000, guid: 0afd0cf5b993b7d4d83754a731b34fed, type: 2}
+  painSounds: {fileID: 11400000, guid: 98a9d97ec81642f4f99e11778e1d7e91, type: 2}
+  nextPainSoundTime: 0
+  painSoundOffset: 0.35
 --- !u!1 &1437366790
 GameObject:
   m_ObjectHideFlags: 0
@@ -12224,7 +12232,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1934627406}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 591ea6b6df8d28542b521b200b73482d, type: 3}
   m_Name: 
@@ -17302,6 +17310,11 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.0009767944
       objectReference: {fileID: 0}
+    - target: {fileID: 268666981309560614, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: doDamageSound
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 268666981469216690, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17740,6 +17753,8 @@ MonoBehaviour:
   parameter: RightHand
   bloodParticlesBurstAmount: 10
   damageAmount: 50
+  doDamageSound: 1
+  doPainSound: 1
 --- !u!1 &942113148870322800
 GameObject:
   m_ObjectHideFlags: 0
@@ -17885,6 +17900,8 @@ MonoBehaviour:
   parameter: LeftHand
   bloodParticlesBurstAmount: 10
   damageAmount: 50
+  doDamageSound: 1
+  doPainSound: 1
 --- !u!1 &1086373977862431565
 GameObject:
   m_ObjectHideFlags: 0
