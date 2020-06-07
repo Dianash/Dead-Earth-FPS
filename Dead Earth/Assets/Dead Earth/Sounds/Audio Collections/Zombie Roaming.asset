@@ -12,8 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4865fb6a6af374d459beb46118b6c5ea, type: 3}
   m_Name: Zombie Roaming
   m_EditorClassIdentifier: 
-  audioGroup: 
-  volume: 1
+  audioGroup: Zombies
+  volume: 0.2
   spatialBlend: 1
   priority: 128
-  audioClipBanks: []
+  audioClipBanks:
+  - clips:
+    - {fileID: 8300000, guid: c8e0b30c9b0e0724ebbe60b681229305, type: 3}
+    - {fileID: 8300000, guid: 1ab87df7fb0521d4a956fbf785ec3ef7, type: 3}
+    - {fileID: 8300000, guid: 36bd57f2ecb623e40a4ba1685e9873b8, type: 3}
+    - {fileID: 8300000, guid: cdef370401fc0fd42997283dfd3f4704, type: 3}
+    - {fileID: 8300000, guid: ce718d05d8da108478c3145adfd7ae5e, type: 3}
+    - {fileID: 8300000, guid: b984645193af0244b8c91771e9f0ce33, type: 3}
+    - {fileID: 8300000, guid: 2adca2fe2ef24184b8c0fe0b8aef2bf5, type: 3}
+    - {fileID: 8300000, guid: e7d87076e3621c24286ce19b9ea275b9, type: 3}
+    - {fileID: 8300000, guid: ed02a64b1531dd84f9d2a249cd9259b1, type: 3}
+    - {fileID: 8300000, guid: b0edb35855777b34db93ad5cb9a70014, type: 3}
+    - {fileID: 8300000, guid: e32d2b450024a5a46ba868c2ee2be003, type: 3}

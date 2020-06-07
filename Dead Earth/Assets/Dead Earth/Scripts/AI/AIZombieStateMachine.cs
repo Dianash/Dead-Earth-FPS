@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
-using UnityEditor.Experimental.Rendering;
 
 public class AIZombieStateMachine : AIStateMachine
 {
@@ -352,6 +351,10 @@ public class AIZombieStateMachine : AIStateMachine
             if (animator) animator.enabled = false;
             if (coll) coll.enabled = false;
 
+            // Mute Audio While Ragdoll is happening
+            if (layeredAudioSource != null)
+                layeredAudioSource.Mute(true);
+
             InMeleeRange = false;
 
             foreach (Rigidbody body in bodyParts)
@@ -447,7 +450,7 @@ public class AIZombieStateMachine : AIStateMachine
         {
             if (Time.time <= ragdollEndTime + mecanimTransitionTime)
             {
-                Vector3 animatedToRagdoll = ragdollHeadPosition - rootBone.position;
+                Vector3 animatedToRagdoll = ragdollHipPosition - rootBone.position;
                 Vector3 newRootPosition = transform.position + animatedToRagdoll;
 
                 RaycastHit[] hits = Physics.RaycastAll(newRootPosition + (Vector3.up * 0.25f), Vector3.down, float.MaxValue, geometryLayers);

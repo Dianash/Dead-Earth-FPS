@@ -10082,7 +10082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1299405219
 Transform:
   m_ObjectHideFlags: 0
@@ -17432,6 +17432,11 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.021257352
       objectReference: {fileID: 0}
+    - target: {fileID: 4497125070950956820, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5177599376503854784, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -17460,7 +17465,12 @@ PrefabInstance:
     - target: {fileID: 8114239838578199080, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: idleTimeRange.y
-      value: 5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199081, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: speed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8114239838578199082, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
@@ -17511,7 +17521,7 @@ PrefabInstance:
     - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: lowerBodyDamage
-      value: 49
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}

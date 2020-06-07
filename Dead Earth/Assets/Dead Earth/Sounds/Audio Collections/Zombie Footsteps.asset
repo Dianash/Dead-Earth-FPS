@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioGroup: Zombies
   volume: 0.1
-  spatialBlend: 0
+  spatialBlend: 1
   priority: 128
   audioClipBanks:
   - clips:

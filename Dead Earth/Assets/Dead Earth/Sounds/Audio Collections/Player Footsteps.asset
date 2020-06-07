@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Footsteps
   m_EditorClassIdentifier: 
   audioGroup: Player
-  volume: 0.1
+  volume: 0.04
   spatialBlend: 1
   priority: 256
   audioClipBanks:

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AudioLayer : MonoBehaviour
+public class AudioLayer
 {
 	public AudioClip clip = null;
 	public AudioCollection collection = null;

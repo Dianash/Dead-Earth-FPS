@@ -13,6 +13,11 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private float landingRadius = 12.0f;
     [SerializeField] private float bloodRadiusScale = 6.0f;
 
+    [SerializeField] private AudioCollection damageSounds = null;
+    [SerializeField] private AudioCollection painSounds = null;
+    [SerializeField] private float nextPainSoundTime = 0.0f;
+    [SerializeField] private float painSoundOffset = 0.35f;
+
     private Collider coll = null;
     private FPSController fPSController = null;
     private CharacterController characterController = null;
