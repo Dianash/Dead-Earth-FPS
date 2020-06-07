@@ -17,12 +17,17 @@ public class CharacterManager : MonoBehaviour
     [SerializeField] private AudioCollection painSounds = null;
     [SerializeField] private float nextPainSoundTime = 0.0f;
     [SerializeField] private float painSoundOffset = 0.35f;
+    [SerializeField] private PlayerHUD playerHUD = null;
 
     private Collider coll = null;
     private FPSController fPSController = null;
     private CharacterController characterController = null;
     private GameSceneManager gameSceneManager = null;
     private int aiBodyPartLayer = -1;
+
+    public float Health { get => health; }
+
+    public float Stamina { get => fPSController != null ? fPSController.Stamina : 0.0f; }
 
     private void Start()
     {
@@ -43,6 +48,9 @@ public class CharacterManager : MonoBehaviour
 
             gameSceneManager.RegisterPlayerInfo(coll.GetInstanceID(), info);
         }
+
+        if (playerHUD)
+            playerHUD.Fade(2.0f, ScreenFadeType.FadeIn);
     }
 
     public void TakeDamage(float amount, bool doDamage, bool doPain)
@@ -128,5 +136,8 @@ public class CharacterManager : MonoBehaviour
             soundEmitter.SetRadius(newRadius);
             fPSController.DragMultiplierLimit = Mathf.Max(health / 100.0f, 0.25f);
         }
+
+        if (playerHUD)
+            playerHUD.Invalidate(this);
     }
 }
