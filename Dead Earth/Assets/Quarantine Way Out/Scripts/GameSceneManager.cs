@@ -25,7 +25,7 @@ public class GameSceneManager : MonoBehaviour
     private Dictionary<int, AIStateMachine> stateMachine = new Dictionary<int, AIStateMachine>();
     private Dictionary<int, PlayerInfo> playerInfos = new Dictionary<int, PlayerInfo>();
     private Dictionary<int, InteractiveItem> interactiveItems = new Dictionary<int, InteractiveItem>();
-
+    private Dictionary<int, MaterialController> materialControllers = new Dictionary<int, MaterialController>();
 
     /// <summary>
     /// Stores the passed state machine in the dictionary with the supplied key
@@ -98,5 +98,21 @@ public class GameSceneManager : MonoBehaviour
         InteractiveItem item = null;
         interactiveItems.TryGetValue(key, out item);
         return item;
+    }
+
+    public void RegisterMaterialController(int key, MaterialController controller)
+    {
+        if (!materialControllers.ContainsKey(key))
+        {
+            materialControllers[key] = controller;
+        }
+    }
+
+    protected void OnDestroy()
+    {
+        foreach (KeyValuePair<int, MaterialController> controller in materialControllers)
+        {
+            controller.Value.OnReset();
+        }
     }
 }
