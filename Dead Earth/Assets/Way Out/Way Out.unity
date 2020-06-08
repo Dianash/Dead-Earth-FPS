@@ -10446,6 +10446,7 @@ MonoBehaviour:
   screamRadius: 20
   screamPosition: 0
   screamPrefab: {fileID: 0}
+  ragdollCollection: {fileID: 0}
 --- !u!54 &1015614743
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10825,7 +10826,9 @@ MonoBehaviour:
   screamChance: 1
   screamRadius: 20
   screamPosition: 0
-  screamPrefab: {fileID: 0}
+  screamPrefab: {fileID: 2868587306105620331, guid: 87ed5e1d3719bab429819e326681d8af,
+    type: 3}
+  ragdollCollection: {fileID: 11400000, guid: 4e679cf0e1d26e84b9871abc03db30c0, type: 2}
 --- !u!54 &1054337209
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14698,9 +14701,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGameStates:
   - Key: POWER
-    Value: TRUE
-  - Key: LOCKDOWN
     Value: FALSE
+  - Key: LOCKDOWN
+    Value: TRUE
   - Key: ACCESSCODE
     Value: FALSE
 --- !u!4 &1790821511
@@ -20783,6 +20786,12 @@ PrefabInstance:
       propertyPath: crawlThreshold
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 8114239838578199083, guid: caca5dfed96a4f04cbc29994af94110c,
+        type: 3}
+      propertyPath: ragdollCollection
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e679cf0e1d26e84b9871abc03db30c0,
+        type: 2}
     - target: {fileID: 9065269708126677590, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_ConnectedAnchor.x

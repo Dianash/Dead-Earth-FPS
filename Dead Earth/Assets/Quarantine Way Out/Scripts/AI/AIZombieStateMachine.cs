@@ -28,6 +28,7 @@ public class AIZombieStateMachine : AIStateMachine
     [SerializeField] [Range(0.0f, 1.0f)] float screamRadius = 20.0f;
     [SerializeField] AIScreamPosition screamPosition = AIScreamPosition.Entity;
     [SerializeField] AISoundEmitter screamPrefab = null;
+    [SerializeField] AudioCollection ragdollCollection = null;
 
     #endregion
 
@@ -62,6 +63,8 @@ public class AIZombieStateMachine : AIStateMachine
     private IEnumerator reanimationCoroutine = null;
     private float mecanimTransitionTime = 0.1f;
     private float isScreaming = 0.0f;
+    private float nextRagdollSoundTime = 0.0f;
+
 
     #region Public properties
 
@@ -233,11 +236,24 @@ public class AIZombieStateMachine : AIStateMachine
         }
 
         float hitStrength = force.magnitude;
+        float prevHealth = health;
 
         if (boneControlType == AIBoneControlType.Ragdoll)
         {
             if (bodyPart != null)
             {
+                if (Time.time > nextRagdollSoundTime && ragdollCollection != null && health > 0)
+                {
+                    AudioClip clip = ragdollCollection[1];
+                    if (clip && AudioManager.Instance)
+                    {
+                        nextRagdollSoundTime = Time.time + clip.length;
+                        AudioManager.Instance.PlayOneShotSound(ragdollCollection.AudioGroup, clip, position, ragdollCollection.Volume,
+                            ragdollCollection.SpatialBlend, ragdollCollection.Priority);
+                    }
+                }
+
+
                 if (hitStrength > 1.0f)
                 {
                     bodyPart.AddForce(force, ForceMode.Impulse);
@@ -354,6 +370,19 @@ public class AIZombieStateMachine : AIStateMachine
             // Mute Audio While Ragdoll is happening
             if (layeredAudioSource != null)
                 layeredAudioSource.Mute(true);
+
+            if (Time.time > nextRagdollSoundTime && ragdollCollection != null && prevHealth > 0)
+            {
+                AudioClip clip = ragdollCollection[0];
+
+                if (clip && AudioManager.Instance)
+                {
+                    nextRagdollSoundTime = Time.time + clip.length;
+
+                    AudioManager.Instance.PlayOneShotSound(ragdollCollection.AudioGroup, clip, position, ragdollCollection.Volume,
+                        ragdollCollection.SpatialBlend, ragdollCollection.Priority);
+                }
+            }
 
             InMeleeRange = false;
 
