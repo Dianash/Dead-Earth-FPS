@@ -7286,6 +7286,7 @@ GameObject:
   - component: {fileID: 412539200}
   - component: {fileID: 412539201}
   - component: {fileID: 412539202}
+  - component: {fileID: 412539203}
   m_Layer: 0
   m_Name: Game Scene Manager
   m_TagString: Untagged
@@ -7337,6 +7338,20 @@ MonoBehaviour:
   - {fileID: 1883211335}
   - {fileID: 1165013430}
   - {fileID: 1332616824}
+--- !u!114 &412539203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412539199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd734dc5f9686a4f808f6b8ba85a820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skyMaterial: {fileID: 2100000, guid: eac2ef371405749e0bd050b4c3272f16, type: 2}
+  speed: 1
 --- !u!1 &431513080
 GameObject:
   m_ObjectHideFlags: 0
