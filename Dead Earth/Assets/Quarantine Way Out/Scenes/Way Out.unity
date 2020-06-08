@@ -13068,8 +13068,10 @@ MonoBehaviour:
   bloodRadiusScale: 7
   damageSounds: {fileID: 11400000, guid: 0afd0cf5b993b7d4d83754a731b34fed, type: 2}
   painSounds: {fileID: 11400000, guid: 98a9d97ec81642f4f99e11778e1d7e91, type: 2}
+  tauntSounds: {fileID: 11400000, guid: df6a08d6d96ff3d4bbfa6e63faa0a6a8, type: 2}
   nextPainSoundTime: 0
   painSoundOffset: 0.35
+  tauntRadius: 10
   playerHUD: {fileID: 1072569110}
 --- !u!1 &1437366790
 GameObject:

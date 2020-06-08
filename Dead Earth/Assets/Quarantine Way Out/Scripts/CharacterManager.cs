@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -14,8 +15,10 @@ public class CharacterManager : MonoBehaviour
 
     [SerializeField] private AudioCollection damageSounds = null;
     [SerializeField] private AudioCollection painSounds = null;
+    [SerializeField] private AudioCollection tauntSounds = null;
     [SerializeField] private float nextPainSoundTime = 0.0f;
     [SerializeField] private float painSoundOffset = 0.35f;
+    [SerializeField] private float tauntRadius = 10.0f;
     [SerializeField] private PlayerHUD playerHUD = null;
 
     private Collider coll = null;
@@ -24,6 +27,8 @@ public class CharacterManager : MonoBehaviour
     private GameSceneManager gameSceneManager = null;
     private int aiBodyPartLayer = -1;
     private int interactiveMask = 0;
+    private float nextAtackTime = 0;
+    private float nextTauntSoundTime = 0.0f;
 
     public float Health { get => health; }
 
@@ -106,7 +111,7 @@ public class CharacterManager : MonoBehaviour
         bool isSomethingHit = false;
 
         ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        isSomethingHit = Physics.Raycast(ray, out hit, 1000.0f, 1 << aiBodyPartLayer);
+        isSomethingHit = Physics.Raycast(ray, out hit, 1.0f, 1 << aiBodyPartLayer);
 
         if (isSomethingHit)
         {
@@ -114,7 +119,8 @@ public class CharacterManager : MonoBehaviour
 
             if (stateMachine)
             {
-                stateMachine.TakeDamage(hit.point, ray.direction * 1.0f, 50, hit.rigidbody, this, 0);
+                stateMachine.TakeDamage(hit.point, ray.direction * 1.0f, 5, hit.rigidbody, this, 0);
+                nextAtackTime = Time.time + 0.3f;
             }
         }
     }
@@ -177,7 +183,7 @@ public class CharacterManager : MonoBehaviour
                 playerHUD.SetInteractionText(null);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Time.time > nextAtackTime)
         {
             DoDamage();
         }
@@ -199,8 +205,29 @@ public class CharacterManager : MonoBehaviour
             fpsController.DragMultiplierLimit = Mathf.Max(health / 100.0f, 0.25f);
         }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            DoTaunt();
+        }
+
         if (playerHUD)
             playerHUD.Invalidate(this);
+    }
+
+    private void DoTaunt()
+    {
+        if (tauntSounds == null || Time.time < nextTauntSoundTime || !AudioManager.Instance)
+            return;
+
+        AudioClip taunt = tauntSounds[0];
+
+        AudioManager.Instance.PlayOneShotSound(tauntSounds.AudioGroup, taunt, transform.position, tauntSounds.Volume,
+            tauntSounds.SpatialBlend, tauntSounds.Priority);
+
+        if (soundEmitter != null)
+            soundEmitter.SetRadius(tauntRadius);
+
+        nextTauntSoundTime = Time.time + taunt.length;
     }
 
     public void DoLevelComplete()
