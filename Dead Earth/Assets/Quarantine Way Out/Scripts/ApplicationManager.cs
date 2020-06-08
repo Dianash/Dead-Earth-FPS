@@ -73,6 +73,8 @@ public class ApplicationManager : MonoBehaviour
 
     public void ResetGamesStates()
     {
+        gameStateDictionary.Clear();
+
         // Copy starting game states into game state dictionary
         for (int i = 0; i < startingGameStates.Count; i++)
         {
