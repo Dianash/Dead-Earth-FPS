@@ -100,6 +100,11 @@ public class CharacterManager : MonoBehaviour
                 }
             }
         }
+
+        if (health <= 0.0f)
+        {
+            DoDeath();
+        }
     }
 
     public void DoDamage(int hitDirection = 0)
@@ -245,10 +250,28 @@ public class CharacterManager : MonoBehaviour
         Invoke("GameOver", 4.0f);
     }
 
-    void GameOver()
+    private void DoDeath()
+    {
+        if (fpsController)
+            fpsController.FreezeMovement = true;
+
+        if (playerHUD)
+        {
+            playerHUD.Fade(3.0f, ScreenFadeType.FadeOut);
+            playerHUD.ShowMissionText("Mission Failed");
+            playerHUD.Invalidate(this);
+        }
+
+        Invoke("GameOver", 3.0f);
+    }
+
+    public void GameOver()
     {
         // Show the cursor again
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (ApplicationManager.Instance)
+            ApplicationManager.Instance.LoadMainMenu();
     }
 }
