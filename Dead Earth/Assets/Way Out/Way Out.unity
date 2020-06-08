@@ -1102,6 +1102,112 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &210704100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210704101}
+  - component: {fileID: 210704103}
+  - component: {fileID: 210704102}
+  m_Layer: 15
+  m_Name: Switch Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &210704101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210704100}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.104, y: 1.359, z: -1.354}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1523216530}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &210704102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210704100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d42ed8171a7fd74baff96a98b6f63c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 0
+  requiredStates: []
+  activateStates:
+  - Key: POWER
+    Value: TRUE
+  deactivateStates:
+  - Key: POWER
+    Value: FALSE
+  - Key: LOCKDOWN
+    Value: TRUE
+  stateNotSetText: 
+  stateSetText: 'Power Generator : Not Running'
+  objectActiveText: 'Power Generator : Running'
+  activationDelay: 4.5
+  deactivationDelay: 1
+  activationSounds: {fileID: 11400000, guid: 13831a41b9badb84d96fe224f335fae6, type: 2}
+  audioSource: {fileID: 266794675}
+  startActivated: 0
+  canToggle: 1
+  animations:
+  - animator: {fileID: 1770109282}
+    animatorParams:
+    - type: 1
+      name: Activate
+      value: true
+  materialControllers:
+  - material: {fileID: 2100000, guid: 611c0ed7d8804fd4193d384ea7f5e3da, type: 2}
+    diffuseTexture: {fileID: 0}
+    diffuseColor: {r: 1, g: 1, b: 1, a: 0}
+    normalMap: {fileID: 0}
+    normalStrength: 0
+    emissiveTexture: {fileID: 0}
+    emissionColor: {r: 0.01713243, g: 0.7264151, b: 0.01713243, a: 0}
+    emissionScale: 1.4
+  - material: {fileID: 2100000, guid: fe5d4bd0953e3044dab441c6734208d3, type: 2}
+    diffuseTexture: {fileID: 0}
+    diffuseColor: {r: 0, g: 0, b: 0, a: 0}
+    normalMap: {fileID: 0}
+    normalStrength: 0
+    emissiveTexture: {fileID: 0}
+    emissionColor: {r: 1, g: 1, b: 1, a: 0}
+    emissionScale: 1.66
+  objectActivators:
+  - {fileID: 1452191525}
+  - {fileID: 106762301}
+  - {fileID: 511696657}
+  - {fileID: 1922318294}
+  objectDeactivators:
+  - {fileID: 1523638256}
+--- !u!65 &210704103
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210704100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.6, y: 0.7, z: 1}
+  m_Center: {x: 0, y: 0, z: 0.3}
 --- !u!1 &211006411
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,7 +1363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &266794674
 Transform:
   m_ObjectHideFlags: 0
@@ -8499,7 +8605,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 254.4, y: -76.9}
+  m_AnchoredPosition: {x: 254.5, y: -77}
   m_SizeDelta: {x: 438.5, y: 105.400024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &767343159
@@ -12637,7 +12743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1523638257
 Transform:
   m_ObjectHideFlags: 0
@@ -13558,9 +13664,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingGameStates:
   - Key: POWER
-    Value: TRUE
-  - Key: LOCKDOWN
     Value: FALSE
+  - Key: LOCKDOWN
+    Value: TRUE
   - Key: ACCESSCODE
     Value: TRUE
 --- !u!4 &1790821511
@@ -13681,7 +13787,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 254.4, y: -125.14}
+  m_AnchoredPosition: {x: 254.5, y: -125.25}
   m_SizeDelta: {x: 438.5, y: 105.400024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!144 &1857192762
@@ -18103,7 +18209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 82.15, y: 20.699951}
+  m_AnchoredPosition: {x: 82.15, y: 20.75}
   m_SizeDelta: {x: 583.52, y: 105.400024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2011609137
@@ -19322,7 +19428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -20, y: -89.3}
+  m_AnchoredPosition: {x: -20, y: -89.25}
   m_SizeDelta: {x: 696.9, y: 105.400024}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!4 &130935083365724557
