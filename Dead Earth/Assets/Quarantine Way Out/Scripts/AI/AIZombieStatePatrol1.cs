@@ -75,7 +75,9 @@ public class AIZombieStatePatrol1 : AIZombieState
             return AIStateType.Patrol;
         }
         else
+        {
             zombieStateMachine.Speed = speed;
+        }
 
         float angle = Vector3.Angle(zombieStateMachine.transform.forward,
             zombieStateMachine.NavAgent.steeringTarget - zombieStateMachine.transform.position);
@@ -91,9 +93,7 @@ public class AIZombieStatePatrol1 : AIZombieState
             {
                 Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
 
-                zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation,
-                                                                         newRot,
-                                                                         Time.deltaTime * slerpSpeed);
+                zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
             }
         }
 
@@ -114,12 +114,4 @@ public class AIZombieStatePatrol1 : AIZombieState
         if (zombieStateMachine.TargetType == AITargetType.Waypoint)
             zombieStateMachine.GetWaypointPosition(true);
     }
-
-    //public override void OnAnimatorIKUpdated()
-    //{
-    //    if (zombieStateMachine == null) return;
-
-    //    zombieStateMachine.Animator.SetLookAtPosition(zombieStateMachine.TargetPosition + Vector3.up);
-    //    zombieStateMachine.Animator.SetLookAtWeight(0.55f);
-    //}
 }
