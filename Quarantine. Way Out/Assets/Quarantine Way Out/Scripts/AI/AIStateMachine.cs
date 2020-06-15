@@ -207,21 +207,6 @@ public abstract class AIStateMachine : MonoBehaviour
         return Vector3.zero;
     }
 
-
-    private void NextWaipoint()
-    {
-        if (randomPatrol && waypointNetwork.waypoints.Count > 1)
-        {
-            int oldWaypoint = currentWaypoint;
-            while (currentWaypoint == oldWaypoint)
-            {
-                currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
-            }
-        }
-        else
-            currentWaypoint = currentWaypoint == waypointNetwork.waypoints.Count - 1 ? 0 : currentWaypoint + 1;
-    }
-
     /// <summary>
     /// Sets the current target and configures the target trigger
     /// </summary>
@@ -303,6 +288,8 @@ public abstract class AIStateMachine : MonoBehaviour
         rootPositionRefCount += rootPosition;
         rootRotationRefCount += rootRotation;
     }
+
+    public virtual void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection) { }
 
     /// <summary>
     /// Caches Components
@@ -486,9 +473,7 @@ public abstract class AIStateMachine : MonoBehaviour
     {
         if (currentState != null)
             currentState.OnAnimatorIKUpdated();
-    }
-
-    public virtual void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection) { }
+    }  
 
     /// <summary>
     /// Unregisters audio sources when destroyed. 
@@ -499,5 +484,19 @@ public abstract class AIStateMachine : MonoBehaviour
         {
             AudioManager.Instance.UnregisterLayeredAudioSource(layeredAudioSource);
         }
+    }
+
+    private void NextWaipoint()
+    {
+        if (randomPatrol && waypointNetwork.waypoints.Count > 1)
+        {
+            int oldWaypoint = currentWaypoint;
+            while (currentWaypoint == oldWaypoint)
+            {
+                currentWaypoint = Random.Range(0, waypointNetwork.waypoints.Count);
+            }
+        }
+        else
+            currentWaypoint = currentWaypoint == waypointNetwork.waypoints.Count - 1 ? 0 : currentWaypoint + 1;
     }
 }
