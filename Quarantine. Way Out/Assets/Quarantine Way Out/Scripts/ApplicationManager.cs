@@ -20,13 +20,7 @@ public class ApplicationManager : MonoBehaviour
 
             return instance;
         }
-    }
-
-    void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-        ResetGamesStates();
-    }
+    }  
 
     /// <summary>
     /// Returns the value of a game state
@@ -81,5 +75,11 @@ public class ApplicationManager : MonoBehaviour
             GameState gameState = startingGameStates[i];
             gameStateDictionary[gameState.Key] = gameState.Value;
         }
+    }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+        ResetGamesStates();
     }
 }

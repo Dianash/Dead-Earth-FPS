@@ -1,5 +1,4 @@
-﻿
-public enum AimType 
+﻿public enum AimType 
 {
    Use, 
    Damage

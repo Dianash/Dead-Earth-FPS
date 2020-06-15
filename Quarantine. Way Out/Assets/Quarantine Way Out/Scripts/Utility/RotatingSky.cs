@@ -10,20 +10,20 @@ public class RotatingSky : MonoBehaviour
     protected float angle = 0;
     protected float originalAngle = 0;
 
-    void OnEnable()
+    private void OnEnable()
     {
         if (skyMaterial)
             originalAngle = angle = skyMaterial.GetFloat("_Rotation");
     }
 
 
-    void OnDisable()
+    private void OnDisable()
     {
         if (skyMaterial)
             skyMaterial.SetFloat("_Rotation", originalAngle);
     }
 
-    void Update()
+    private void Update()
     {
         if (skyMaterial == null)
             return;

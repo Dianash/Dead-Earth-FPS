@@ -45,87 +45,6 @@ public class InteractiveGenericSwitch : InteractiveItem
     protected bool firstUse = false;
 
     /// <summary>
-    /// Registers this objects collider with the Activation Database
-    /// </summary>
-    protected override void Start()
-    {
-        // Call the base class to register the scene with the app database
-        base.Start();
-
-        // Activate Material Controller
-        for (int i = 0; i < materialControllers.Count; i++)
-        {
-
-            if (materialControllers[i] != null)
-            {
-                materialControllers[i].OnStart();
-            }
-        }
-
-        // Turn off all objects that should be activated
-        for (int i = 0; i < objectActivators.Count; i++)
-        {
-            if (objectActivators[i] != null)
-                objectActivators[i].SetActive(false);
-        }
-
-        for (int i = 0; i < objectDeactivators.Count; i++)
-        {
-            if (objectDeactivators[i] != null)
-                objectDeactivators[i].SetActive(true);
-        }
-
-        if (startActivated)
-        {
-            Activate(null);
-            firstUse = false;
-        }
-    }
-
-    protected void SetActivationStates()
-    {
-        ApplicationManager appManager = ApplicationManager.Instance;
-        if (appManager == null) return;
-
-        if (activated)
-        {
-            foreach (GameState state in activateStates)
-            {
-                appManager.SetGameState(state.Key, state.Value);
-            }
-        }
-        else
-        {
-            foreach (GameState state in deactivateStates)
-            {
-                appManager.SetGameState(state.Key, state.Value);
-            }
-        }
-    }
-
-    protected bool AreRequiredStatesSet()
-    {
-        ApplicationManager appManager = ApplicationManager.Instance;
-
-        if (appManager == null)
-            return false;
-
-        // Assume the states are all set and then loop to find a state to disprove this
-        for (int i = 0; i < requiredStates.Count; i++)
-        {
-            GameState state = requiredStates[i];
-
-            // Does the current state exist in the app dictionary?
-            string result = appManager.GetGameState(state.Key);
-
-            if (string.IsNullOrEmpty(result) || !result.Equals(state.Value))
-                return false;
-        }
-
-        return true;
-    }
-
-    /// <summary>
     /// Return different hint text depending on whether the object is currently able to be activated
     /// </summary>
     public override string GetText()
@@ -205,6 +124,87 @@ public class InteractiveGenericSwitch : InteractiveItem
         // Start a new corotuine to do the activation
         coroutine = DoDelayedActivation();
         StartCoroutine(coroutine);
+    }
+
+    /// <summary>
+    /// Registers this objects collider with the Activation Database
+    /// </summary>
+    protected override void Start()
+    {
+        // Call the base class to register the scene with the app database
+        base.Start();
+
+        // Activate Material Controller
+        for (int i = 0; i < materialControllers.Count; i++)
+        {
+
+            if (materialControllers[i] != null)
+            {
+                materialControllers[i].OnStart();
+            }
+        }
+
+        // Turn off all objects that should be activated
+        for (int i = 0; i < objectActivators.Count; i++)
+        {
+            if (objectActivators[i] != null)
+                objectActivators[i].SetActive(false);
+        }
+
+        for (int i = 0; i < objectDeactivators.Count; i++)
+        {
+            if (objectDeactivators[i] != null)
+                objectDeactivators[i].SetActive(true);
+        }
+
+        if (startActivated)
+        {
+            Activate(null);
+            firstUse = false;
+        }
+    }
+
+    protected void SetActivationStates()
+    {
+        ApplicationManager appManager = ApplicationManager.Instance;
+        if (appManager == null) return;
+
+        if (activated)
+        {
+            foreach (GameState state in activateStates)
+            {
+                appManager.SetGameState(state.Key, state.Value);
+            }
+        }
+        else
+        {
+            foreach (GameState state in deactivateStates)
+            {
+                appManager.SetGameState(state.Key, state.Value);
+            }
+        }
+    }
+
+    protected bool AreRequiredStatesSet()
+    {
+        ApplicationManager appManager = ApplicationManager.Instance;
+
+        if (appManager == null)
+            return false;
+
+        // Assume the states are all set and then loop to find a state to disprove this
+        for (int i = 0; i < requiredStates.Count; i++)
+        {
+            GameState state = requiredStates[i];
+
+            // Does the current state exist in the app dictionary?
+            string result = appManager.GetGameState(state.Key);
+
+            if (string.IsNullOrEmpty(result) || !result.Equals(state.Value))
+                return false;
+        }
+
+        return true;
     }
 
     protected virtual IEnumerator DoDelayedActivation()

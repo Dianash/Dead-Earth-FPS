@@ -100,6 +100,23 @@ public class PlayerHUD : MonoBehaviour
         coroutine = FadeInternal(seconds, targetFade);
         StartCoroutine(coroutine);
     }
+  
+    public void SetAim(bool setActive, AimType aimType = AimType.Use)
+    {
+        aim.gameObject.SetActive(setActive);
+
+        if (setActive)
+        {
+            if (aimType == AimType.Use)
+            {
+                aim.color = new Color(200, 0, 0);
+            }
+            else if (aimType == AimType.Damage)
+            {
+                aim.color = new Color(0, 200, 0);
+            }
+        }
+    }
 
     private IEnumerator FadeInternal(float seconds, float targetFade)
     {
@@ -124,22 +141,5 @@ public class PlayerHUD : MonoBehaviour
 
         oldColor.a = currentFadeLevel = targetFade;
         screenFade.color = oldColor;
-    }
-
-    public void SetAim(bool setActive, AimType aimType = AimType.Use)
-    {
-        aim.gameObject.SetActive(setActive);
-
-        if (setActive)
-        {
-            if (aimType == AimType.Use)
-            {
-                aim.color = new Color(200, 0, 0);
-            }
-            else if (aimType == AimType.Damage)
-            {
-                aim.color = new Color(0, 200, 0);
-            }
-        }
     }
 }

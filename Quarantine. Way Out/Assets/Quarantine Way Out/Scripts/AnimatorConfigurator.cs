@@ -7,4 +7,3 @@ public class AnimatorConfigurator
 	[SerializeField] public Animator animator = null;
 	[SerializeField] public List<AnimatorParameter> animatorParams = new List<AnimatorParameter>();
 }
-

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
@@ -35,34 +34,6 @@ public class CharacterManager : MonoBehaviour
     public float Stamina { get => fpsController != null ? fpsController.Stamina : 0.0f; }
 
     public FPSController FPSController { get => fpsController; }
-
-    private void Start()
-    {
-        coll = GetComponent<Collider>();
-        fpsController = GetComponent<FPSController>();
-        characterController = GetComponent<CharacterController>();
-        gameSceneManager = GameSceneManager.Instance;
-
-        aiBodyPartLayer = LayerMask.NameToLayer("AI Body Part");
-        interactiveMask = 1 << LayerMask.NameToLayer("Interactive");
-
-        if (gameSceneManager != null)
-        {
-            PlayerInfo info = new PlayerInfo();
-            info.camera = cam;
-            info.characterManager = this;
-            info.collider = coll;
-            info.meleeTrigger = meleeTrigger;
-
-            gameSceneManager.RegisterPlayerInfo(coll.GetInstanceID(), info);
-        }
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        if (playerHUD)
-            playerHUD.Fade(2.0f, ScreenFadeType.FadeIn);
-    }
 
     public void TakeDamage(float amount, bool doDamage, bool doPain)
     {
@@ -128,6 +99,62 @@ public class CharacterManager : MonoBehaviour
                 nextAtackTime = Time.time + 0.3f;
             }
         }
+    }
+
+    public void DoLevelComplete()
+    {
+        if (fpsController)
+        {
+            fpsController.FreezeMovement = true;
+            fpsController.enabled = false;
+        }
+
+        if (playerHUD)
+        {
+            playerHUD.Fade(3.0f, ScreenFadeType.FadeOut);
+            playerHUD.ShowMissionText("Mission Completed");
+            playerHUD.Invalidate(this);
+        }
+
+        Invoke("GameOver", 3.0f);
+    }
+
+    public void GameOver()
+    {
+        // Show the cursor again
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        if (ApplicationManager.Instance)
+            ApplicationManager.Instance.LoadMainMenu();
+    }
+
+    private void Start()
+    {
+        coll = GetComponent<Collider>();
+        fpsController = GetComponent<FPSController>();
+        characterController = GetComponent<CharacterController>();
+        gameSceneManager = GameSceneManager.Instance;
+
+        aiBodyPartLayer = LayerMask.NameToLayer("AI Body Part");
+        interactiveMask = 1 << LayerMask.NameToLayer("Interactive");
+
+        if (gameSceneManager != null)
+        {
+            PlayerInfo info = new PlayerInfo();
+            info.camera = cam;
+            info.characterManager = this;
+            info.collider = coll;
+            info.meleeTrigger = meleeTrigger;
+
+            gameSceneManager.RegisterPlayerInfo(coll.GetInstanceID(), info);
+        }
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        if (playerHUD)
+            playerHUD.Fade(2.0f, ScreenFadeType.FadeIn);
     }
 
     private void Update()
@@ -235,24 +262,6 @@ public class CharacterManager : MonoBehaviour
         nextTauntSoundTime = Time.time + taunt.length;
     }
 
-    public void DoLevelComplete()
-    {
-        if (fpsController)
-        {
-            fpsController.FreezeMovement = true;
-            fpsController.enabled = false;
-        }
-
-        if (playerHUD)
-        {
-            playerHUD.Fade(3.0f, ScreenFadeType.FadeOut);
-            playerHUD.ShowMissionText("Mission Completed");
-            playerHUD.Invalidate(this);
-        }
-
-        Invoke("GameOver", 3.0f);
-    }
-
     private void DoDeath()
     {
         if (fpsController)
@@ -269,15 +278,5 @@ public class CharacterManager : MonoBehaviour
         }
 
         Invoke("GameOver", 4.0f);
-    }
-
-    public void GameOver()
-    {
-        // Show the cursor again
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        if (ApplicationManager.Instance)
-            ApplicationManager.Instance.LoadMainMenu();
     }
 }
