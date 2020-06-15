@@ -210,7 +210,7 @@ public class CharacterManager : MonoBehaviour
             fpsController.DragMultiplierLimit = Mathf.Max(health / 100.0f, 0.25f);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             DoTaunt();
         }
