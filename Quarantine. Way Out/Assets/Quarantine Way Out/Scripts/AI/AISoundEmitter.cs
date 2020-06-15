@@ -10,7 +10,16 @@ public class AISoundEmitter : MonoBehaviour
     private float interpolator = 0.0f;
     private float interpolatorSpeed = 0.0f;
 
-    void Awake()
+    public void SetRadius(float newRadius, bool instantResize = false)
+    {
+        if (!sphereCollider || newRadius == targetRadius) return;
+
+        sourceRadius = (instantResize || newRadius > sphereCollider.radius) ? newRadius : sphereCollider.radius;
+        targetRadius = newRadius;
+        interpolator = 0.0f;
+    }
+
+    private void Awake()
     {
         sphereCollider = GetComponent<SphereCollider>();
         if (!sphereCollider) return;
@@ -34,14 +43,5 @@ public class AISoundEmitter : MonoBehaviour
 
         if (sphereCollider.radius < Mathf.Epsilon) sphereCollider.enabled = false;
         else sphereCollider.enabled = true;
-    }
-
-    public void SetRadius(float newRadius, bool instantResize = false)
-    {
-        if (!sphereCollider || newRadius == targetRadius) return;
-
-        sourceRadius = (instantResize || newRadius > sphereCollider.radius) ? newRadius : sphereCollider.radius;
-        targetRadius = newRadius;
-        interpolator = 0.0f;
-    }
+    }   
 }
