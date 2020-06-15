@@ -5,7 +5,7 @@ public class AIZombieStateFeeding : AIZombieState
     [SerializeField] float slerpSpeed = 5.0f;
     [SerializeField] Transform bloodParticlesMount = null;
     [SerializeField] [Range(0.01f, 1.0f)] float bloodParticlesBurstTime = 0.1f;
-    [SerializeField] [Range(1, 100)] int bloodParticlesBurstAmount = 10;
+    [SerializeField] [Range(1, 100)] int bloodParticlesBurstAmount = 5;
 
     private int eatingStateHash = Animator.StringToHash("Feeding State");
     private int crawlEatingStateHash = Animator.StringToHash("Crawl Feeding State");

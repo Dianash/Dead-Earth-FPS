@@ -245,12 +245,12 @@ public class CharacterManager : MonoBehaviour
 
         if (playerHUD)
         {
-            playerHUD.Fade(4.0f, ScreenFadeType.FadeOut);
+            playerHUD.Fade(3.0f, ScreenFadeType.FadeOut);
             playerHUD.ShowMissionText("Mission Completed");
             playerHUD.Invalidate(this);
         }
 
-        Invoke("GameOver", 4.0f);
+        Invoke("GameOver", 3.0f);
     }
 
     private void DoDeath()
@@ -263,12 +263,12 @@ public class CharacterManager : MonoBehaviour
 
         if (playerHUD)
         {
-            playerHUD.Fade(3.0f, ScreenFadeType.FadeOut);
+            playerHUD.Fade(4.0f, ScreenFadeType.FadeOut);
             playerHUD.ShowMissionText("Mission Failed");
             playerHUD.Invalidate(this);
         }
 
-        Invoke("GameOver", 3.0f);
+        Invoke("GameOver", 4.0f);
     }
 
     public void GameOver()
