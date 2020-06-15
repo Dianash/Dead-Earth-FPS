@@ -32,7 +32,7 @@ MonoBehaviour:
   antialiasing:
     m_Enabled: 1
     m_Settings:
-      method: 1
+      method: 0
       fxaaSettings:
         preset: 4
       taaSettings:
@@ -43,8 +43,8 @@ MonoBehaviour:
   ambientOcclusion:
     m_Enabled: 1
     m_Settings:
-      intensity: 1.25
-      radius: 4.74
+      intensity: 0.131
+      radius: 2.39
       sampleCount: 16
       downsampling: 1
       forceForwardCompatibility: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
       sampleCount: 10
       frameBlending: 0
   eyeAdaptation:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       lowPercent: 45
       highPercent: 95
@@ -95,20 +95,20 @@ MonoBehaviour:
       adaptationType: 0
       speedUp: 2
       speedDown: 1
-      logMin: -8
-      logMax: 4
+      logMin: -9
+      logMax: 5
   bloom:
     m_Enabled: 1
     m_Settings:
       bloom:
-        intensity: 2.01
+        intensity: 0.58
         threshold: 1.03
-        softKnee: 0.412
-        radius: 2.19
-        antiFlicker: 0
+        softKnee: 0.083
+        radius: 3.02
+        antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
-        intensity: 3
+        intensity: 2
   colorGrading:
     m_Enabled: 0
     m_Settings:
