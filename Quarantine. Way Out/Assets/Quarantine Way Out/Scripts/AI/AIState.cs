@@ -5,6 +5,8 @@
 /// </summary>
 public abstract class AIState : MonoBehaviour
 {
+    protected AIStateMachine stateMachine;
+
     /// <summary>
     /// Called by the parent state machine to assign its reference
     /// </summary>
@@ -35,8 +37,6 @@ public abstract class AIState : MonoBehaviour
     public abstract AIStateType GetStateType();
 
     public abstract AIStateType OnUpdate();
-
-    protected AIStateMachine stateMachine;
 
     /// <summary>
     /// Converts the passed sphere collider`s position and radius into world space taking into acount
