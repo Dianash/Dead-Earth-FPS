@@ -114,7 +114,12 @@ public class AIZombieStateAlerted1 : AIZombieState
 
             if (Mathf.Abs(angle) < waypointAngleThreshold)
                 return AIStateType.Patrol;
-            zombieStateMachine.Seeking = (int)Mathf.Sign(angle);
+
+            if (directionChangeTimer > directionChangeTime)
+            {
+                zombieStateMachine.Seeking = (int)Mathf.Sign(angle);
+                directionChangeTimer = 0.0f;
+            }
         }
         else
         {

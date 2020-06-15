@@ -9514,8 +9514,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0.8387954, g: 0.8396226, b: 0.6693218, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 0.9433962, g: 0.9433962, b: 0.8232467, a: 1}
+  m_Intensity: 4.93
   m_Range: 20
   m_SpotAngle: 60
   m_InnerSpotAngle: 6
@@ -10651,7 +10651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1021255895
 Transform:
   m_ObjectHideFlags: 0
@@ -10874,7 +10874,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stoppingDistance: 1.2
-  speed: 3
+  speed: 2
   lookAtWeight: 0.7
   lookAtAngleThreshold: 15
   slerpSpeed: 5
@@ -10906,7 +10906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0650ebeaafe834d88315e73742c42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 2
   lookAtWeight: 0.7
   lookAtAngleThreshold: 15
   slerpSpeed: 5
@@ -10947,7 +10947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnOnSpotThreshold: 90
   slerpSpeed: 5
-  speed: 2
+  speed: 1
 --- !u!114 &1054337207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10960,7 +10960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2efb7dce3c28ad4f9537b2e4460da9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTimeRange: {x: 5, y: 10}
+  idleTimeRange: {x: 2, y: 4}
 --- !u!114 &1054337208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10977,27 +10977,27 @@ MonoBehaviour:
   targetTrigger: {fileID: 1190061366}
   sensorTrigger: {fileID: 2038539946}
   waypointNetwork: {fileID: 1915876150}
-  randomPatrol: 0
+  randomPatrol: 1
   currentWaypoint: -1
   stoppingDistance: 1
   rootBone: {fileID: 4341065989005010063}
   rootBoneAlingment: 2
-  fov: 120
-  sight: 0.5
+  fov: 150
+  sight: 0.7
   hearing: 50
   aggression: 0.5
   health: 100
   lowerBodyDamage: 0
   upperBodyDamage: 0
-  upperBodyThreshold: 29
+  upperBodyThreshold: 60
   limpThreshold: 30
-  crawlThreshold: 90
-  intelligence: 0.5
+  crawlThreshold: 70
+  intelligence: 0.8
   satisfaction: 0.484
   replenishRate: 2
   depletionRate: 0.1
   reanimationBlendTime: 1.5
-  reanimationWaitTime: 3
+  reanimationWaitTime: 1.5
   geometryLayers:
     serializedVersion: 2
     m_Bits: 1
@@ -12065,7 +12065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1260574919
 Transform:
   m_ObjectHideFlags: 0
@@ -14650,7 +14650,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1753806077
 Transform:
   m_ObjectHideFlags: 0
@@ -20813,7 +20813,7 @@ PrefabInstance:
     - target: {fileID: 268666981469216701, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 268666981985492071, guid: caca5dfed96a4f04cbc29994af94110c,
         type: 3}
@@ -21192,7 +21192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameter: RightHand
-  bloodParticlesBurstAmount: 10
+  bloodParticlesBurstAmount: 6
   damageAmount: 50
   doDamageSound: 1
   doPainSound: 1
@@ -21339,7 +21339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameter: LeftHand
-  bloodParticlesBurstAmount: 10
+  bloodParticlesBurstAmount: 6
   damageAmount: 50
   doDamageSound: 1
   doPainSound: 1

@@ -89,7 +89,7 @@ public class AIZombieStatePursuit1 : AIZombieState
         {
             zombieStateMachine.Speed = speed;
 
-            if (!zombieStateMachine.UseRootRotation && zombieStateMachine.TargetType == AITargetType.VisualPlayer
+            if (/*!zombieStateMachine.UseRootRotation &&*/ zombieStateMachine.TargetType == AITargetType.VisualPlayer
                 && zombieStateMachine.visualThreat.Type == AITargetType.VisualPlayer && zombieStateMachine.IsTargetReached)
             {
                 Vector3 targetPos = zombieStateMachine.TargetPosition;
@@ -97,7 +97,7 @@ public class AIZombieStatePursuit1 : AIZombieState
                 Quaternion newRot = Quaternion.LookRotation(targetPos - zombieStateMachine.transform.position);
                 zombieStateMachine.transform.rotation = newRot;
             }
-            else if (!stateMachine.UseRootRotation && !zombieStateMachine.IsTargetReached)
+            else if (/*!stateMachine.UseRootRotation &&*/ !zombieStateMachine.IsTargetReached)
             {
                 Quaternion newRot = Quaternion.LookRotation(zombieStateMachine.NavAgent.desiredVelocity);
                 zombieStateMachine.transform.rotation = Quaternion.Slerp(zombieStateMachine.transform.rotation, newRot, Time.deltaTime * slerpSpeed);
