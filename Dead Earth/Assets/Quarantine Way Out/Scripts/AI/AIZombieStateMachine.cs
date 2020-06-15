@@ -223,18 +223,6 @@ public class AIZombieStateMachine : AIStateMachine
 
     public override void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection)
     {
-        if (GameSceneManager.Instance != null)
-        {
-            if (GameSceneManager.Instance.BloodParticles != null)
-            {
-                ParticleSystem particleSystem = GameSceneManager.Instance.BloodParticles;
-                particleSystem.transform.position = position;
-                ParticleSystemSimulationSpace spaceMode = particleSystem.main.simulationSpace;
-                spaceMode = ParticleSystemSimulationSpace.World;
-                particleSystem.Emit(60);
-            }
-        }
-
         float hitStrength = force.magnitude;
         float prevHealth = health;
 

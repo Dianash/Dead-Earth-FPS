@@ -10,6 +10,7 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Text staminaText = null;
     [SerializeField] private Text interactionText = null;
     [SerializeField] private Image screenFade = null;
+    [SerializeField] private Text aim = null;
     [SerializeField] private Text missionText = null;
     [SerializeField] private float missionTextDisplayTime = 3.0f;
 
@@ -109,7 +110,7 @@ public class PlayerHUD : MonoBehaviour
 
         Color oldColor = screenFade.color;
 
-        if (seconds < 0.1f) 
+        if (seconds < 0.1f)
             seconds = 0.1f;
 
         while (timer < seconds)
@@ -123,5 +124,22 @@ public class PlayerHUD : MonoBehaviour
 
         oldColor.a = currentFadeLevel = targetFade;
         screenFade.color = oldColor;
+    }
+
+    public void SetAim(bool setActive, AimType aimType = AimType.Use)
+    {
+        aim.gameObject.SetActive(setActive);
+
+        if (setActive)
+        {
+            if (aimType == AimType.Use)
+            {
+                aim.color = new Color(200, 0, 0);
+            }
+            else if (aimType == AimType.Damage)
+            {
+                aim.color = new Color(0, 200, 0);
+            }
+        }
     }
 }

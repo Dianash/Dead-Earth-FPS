@@ -2,7 +2,7 @@
 
 public class AIDamageTrigger : MonoBehaviour
 {
-    [SerializeField] string parameter = null;
+    [SerializeField] string parameter = string.Empty;
     [SerializeField] int bloodParticlesBurstAmount = 10;
     [SerializeField] float damageAmount = 0.1f;
     [SerializeField] bool doDamageSound = true;
@@ -50,19 +50,20 @@ public class AIDamageTrigger : MonoBehaviour
                 system.transform.rotation = Camera.main.transform.rotation;
                 ParticleSystemSimulationSpace spaceMode = system.main.simulationSpace;
                 spaceMode = ParticleSystemSimulationSpace.World;
+                system.Emit(bloodParticlesBurstAmount);
             }
-        }
 
-        if (gameSceneManager != null)
-        {
-            PlayerInfo info = gameSceneManager.GetPlayerInfo(collider.GetInstanceID());
-
-            if (info != null && info.characterManager != null)
+            if (gameSceneManager != null)
             {
-                info.characterManager.TakeDamage(damageAmount, doDamageSound && firstContact, doPainSound);
-            }
-        }
+                PlayerInfo info = gameSceneManager.GetPlayerInfo(collider.GetInstanceID());
 
-        firstContact = false;
+                if (info != null && info.characterManager != null)
+                {
+                    info.characterManager.TakeDamage(damageAmount, doDamageSound && firstContact, doPainSound);
+                }
+            }
+
+            firstContact = false;
+        }       
     }
 }
