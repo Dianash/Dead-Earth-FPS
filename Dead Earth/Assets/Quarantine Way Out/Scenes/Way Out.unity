@@ -19177,7 +19177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 190214, guid: 22e8e9479d52a604abc938e32f8c8873, type: 3}
       propertyPath: m_Name
-      value: Navigation Example Geometry
+      value: Environment
       objectReference: {fileID: 0}
     - target: {fileID: 190214, guid: 22e8e9479d52a604abc938e32f8c8873, type: 3}
       propertyPath: m_IsActive
