@@ -238,7 +238,10 @@ public class CharacterManager : MonoBehaviour
     public void DoLevelComplete()
     {
         if (fpsController)
+        {
             fpsController.FreezeMovement = true;
+            fpsController.enabled = false;
+        }
 
         if (playerHUD)
         {
@@ -253,7 +256,10 @@ public class CharacterManager : MonoBehaviour
     private void DoDeath()
     {
         if (fpsController)
+        {
             fpsController.FreezeMovement = true;
+        }
+
 
         if (playerHUD)
         {
