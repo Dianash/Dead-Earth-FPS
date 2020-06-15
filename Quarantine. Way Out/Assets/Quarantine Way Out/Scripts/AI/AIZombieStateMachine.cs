@@ -143,84 +143,6 @@ public class AIZombieStateMachine : AIStateMachine
         return true;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-
-        if (animator != null)
-        {
-            lowerBodyLayer = animator.GetLayerIndex("Lower Body");
-            upperBodyLayer = animator.GetLayerIndex("Upper Body");
-        }
-
-        if (rootBone != null)
-        {
-            Transform[] transforms = rootBone.GetComponentsInChildren<Transform>();
-
-            foreach (Transform transform in transforms)
-            {
-                BodyPartSnapshot snapshot = new BodyPartSnapshot();
-                snapshot.transform = transform;
-                bodyPartSnapshot.Add(snapshot);
-            }
-
-        }
-
-        UpdateAnimatorDamage();
-    }
-
-    /// <summary>
-    /// Refreshes the animator with up-to-date values for its parameters 
-    /// </summary>
-    protected override void Update()
-    {
-        base.Update();
-
-        if (animator != null)
-        {
-            animator.SetFloat(speedHash, Speed);
-            animator.SetBool(feedingHash, Feeding);
-            animator.SetInteger(seekingHash, Seeking);
-            animator.SetInteger(attackHash, AttackType);
-            animator.SetInteger(stateHash, (int)currentStateType);
-
-            isScreaming = IsLayerActive("Cinematic Layer") ? 0.0f : animator.GetFloat(screamingHash);
-        }
-
-        satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3.0f));
-    }
-
-    protected void UpdateAnimatorDamage()
-    {
-        if (animator != null)
-        {
-            if (lowerBodyLayer != -1)
-            {
-                animator.SetLayerWeight(lowerBodyLayer, (lowerBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold) ? 1.0f : 0.0f);
-            }
-
-            if (upperBodyLayer != -1)
-            {
-                animator.SetLayerWeight(upperBodyLayer, (upperBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold) ? 1.0f : 0.0f);
-            }
-
-            animator.SetBool(crawlHash, IsCrawling);
-            animator.SetInteger(lowerBodyDamageHash, lowerBodyDamage);
-            animator.SetInteger(upperBodyDamageHash, upperBodyDamage);
-
-
-            if (lowerBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold)
-                SetLayerActive("Lower Body", true);
-            else
-                SetLayerActive("Lower Body", false);
-
-            if (upperBodyDamage > upperBodyThreshold && lowerBodyDamage < crawlThreshold)
-                SetLayerActive("Upper Body", true);
-            else
-                SetLayerActive("Upper Body", false);
-        }
-    }
-
     public override void TakeDamage(Vector3 position, Vector3 force, int damage, Rigidbody bodyPart, CharacterManager character, int hitDirection)
     {
         float hitStrength = force.magnitude;
@@ -396,6 +318,84 @@ public class AIZombieStateMachine : AIStateMachine
                 reanimationCoroutine = Reanimate();
                 StartCoroutine(reanimationCoroutine);
             }
+        }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if (animator != null)
+        {
+            lowerBodyLayer = animator.GetLayerIndex("Lower Body");
+            upperBodyLayer = animator.GetLayerIndex("Upper Body");
+        }
+
+        if (rootBone != null)
+        {
+            Transform[] transforms = rootBone.GetComponentsInChildren<Transform>();
+
+            foreach (Transform transform in transforms)
+            {
+                BodyPartSnapshot snapshot = new BodyPartSnapshot();
+                snapshot.transform = transform;
+                bodyPartSnapshot.Add(snapshot);
+            }
+
+        }
+
+        UpdateAnimatorDamage();
+    }
+
+    /// <summary>
+    /// Refreshes the animator with up-to-date values for its parameters 
+    /// </summary>
+    protected override void Update()
+    {
+        base.Update();
+
+        if (animator != null)
+        {
+            animator.SetFloat(speedHash, Speed);
+            animator.SetBool(feedingHash, Feeding);
+            animator.SetInteger(seekingHash, Seeking);
+            animator.SetInteger(attackHash, AttackType);
+            animator.SetInteger(stateHash, (int)currentStateType);
+
+            isScreaming = IsLayerActive("Cinematic Layer") ? 0.0f : animator.GetFloat(screamingHash);
+        }
+
+        satisfaction = Mathf.Max(0, satisfaction - (depletionRate * Time.deltaTime / 100.0f) * Mathf.Pow(Speed, 3.0f));
+    }
+
+    protected void UpdateAnimatorDamage()
+    {
+        if (animator != null)
+        {
+            if (lowerBodyLayer != -1)
+            {
+                animator.SetLayerWeight(lowerBodyLayer, (lowerBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold) ? 1.0f : 0.0f);
+            }
+
+            if (upperBodyLayer != -1)
+            {
+                animator.SetLayerWeight(upperBodyLayer, (upperBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold) ? 1.0f : 0.0f);
+            }
+
+            animator.SetBool(crawlHash, IsCrawling);
+            animator.SetInteger(lowerBodyDamageHash, lowerBodyDamage);
+            animator.SetInteger(upperBodyDamageHash, upperBodyDamage);
+
+
+            if (lowerBodyDamage > limpThreshold && lowerBodyDamage < crawlThreshold)
+                SetLayerActive("Lower Body", true);
+            else
+                SetLayerActive("Lower Body", false);
+
+            if (upperBodyDamage > upperBodyThreshold && lowerBodyDamage < crawlThreshold)
+                SetLayerActive("Upper Body", true);
+            else
+                SetLayerActive("Upper Body", false);
         }
     }
 
